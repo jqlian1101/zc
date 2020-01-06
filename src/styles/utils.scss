@@ -1,0 +1,38 @@
+.clearfix:after,
+.clearfix:before {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.fll {
+  float: left;
+}
+
+.flr {
+  float: right;
+}
+
+.scroll-touch {
+  -webkit-overflow-scrolling: touch;
+}
+
+.cursor-p {
+  cursor: pointer;
+}
+
+.inp-border {
+  border: 1px solid $border-color_1;
+}
+
+// 三角icon 向下
+.triangle-down-6 {
+  @include triangle-down(6);
+}
+
+.edit-btn {
+  color: #4baed0;
+}

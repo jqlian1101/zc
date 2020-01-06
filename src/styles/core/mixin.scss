@@ -1,0 +1,9 @@
+// mixin
+@mixin triangle-down($width) {
+    width: 0;
+    height: 0;
+    border-width: #{$width}px;
+    border-style: solid;
+    border-color: #7da5d8 transparent transparent transparent;
+  }
+  

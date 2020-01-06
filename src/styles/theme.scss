@@ -1,0 +1,15 @@
+body {
+  .el-input__inner {
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+    border: 1px solid $border-color_1 !important;
+  }
+  .el-select-dropdown__item.selected {
+    color: $highlight-color_1;
+    font-weight: normal;
+  }
+  .el-select-dropdown__item {
+    color: #606266;
+  }
+}

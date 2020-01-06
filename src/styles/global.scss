@@ -1,0 +1,150 @@
+html,
+body {
+  background-color: $body-bg-color !important;
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial,
+    sans-serif;
+  color: #333;
+  overflow: auto;
+}
+
+html {
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+}
+
+.no-select {
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+// #app {
+//   .btn {
+//     width: 100px;
+//     height: 30px;
+//     line-height: 30px;
+//     padding: 0;
+//     font-size: 14px;
+//     background-color: #4badcf;
+//     color: #fff;
+//   }
+// }
+
+.btn {
+  padding: 0;
+  text-align: center;
+  background-color: $highlight-color_1 !important;
+  color: #fff !important;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+body {
+  .btn-mini {
+    @extend .btn;
+    padding: 4px 10px;
+  }
+  .btn-default {
+    @extend .btn;
+    width: 70px;
+    height: 22px;
+    line-height: 22px;
+  }
+  .btn-xl {
+    @extend .btn;
+    // width: 70px;
+    padding: 0 10px;
+    height: 22px;
+    line-height: 22px;
+  }
+
+  .hover-heighlight {
+    &:hover {
+      color: $highlight-color_1;
+    }
+  }
+}
+
+.dropPanel {
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+  :global {
+    .el-input-number.is-without-controls .el-input__inner {
+      padding: $input-pad-s;
+    }
+    .el-form-item__label,
+    .el-form-item__content,
+    .el-input,
+    .el-input__inner {
+      height: 18px;
+      line-height: 18px;
+    }
+    .el-input__inner {
+      padding: 0 5px;
+    }
+    .el-form-item__label,
+    .el-checkbox__label {
+      font-size: 12px;
+      color: $label-color_1;
+    }
+    .el-form-item {
+      margin-bottom: 4px;
+    }
+
+    .el-select {
+      .el-input__inner,
+      .el-select-dropdown__item {
+        height: 18px;
+        line-height: 18px;
+        font-size: 12px;
+      }
+
+      .el-input__icon {
+        line-height: 18px;
+      }
+    }
+  }
+}
+
+.noData {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: #999;
+}
+
+.globalLoading {
+  z-index: 99999999 !important;
+  .el-icon-loading {
+    font-size: 50px;
+  }
+
+  .el-loading-text {
+    font-size: 18px;
+  }
+}
+
+// 禁止选中文本
+// 在 IE < 10 和Opera < 15中，需要在需要禁止选中的元素上面添加一个属性unselectable="on"，
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}

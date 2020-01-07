@@ -34,18 +34,45 @@ import {
 } from "common/constants";
 import msgCenter from "utils/msgCenter";
 
+import switchLJXTId from "common/switchLJXTIdMixin";
+
 export default {
     data() {
         return {
             fileIcon: Icon["file"]
         };
     },
+    mixins: [switchLJXTId],
     computed: {
         ...mapState("models", ["modelsTree", "curTreeNodeId"])
-        // ...mapGetters("models", ["getCarData"]),
+        // ...mapGetters("models", ["getTreeNodeByCarNum"])
     },
+    watch: {},
+
     methods: {
         ...mapActions("models", ["setCurTreeNodeId"]),
+
+        // /**
+        //  * 保存后，车辆连接系统id可能会发生变化
+        //  * 以车辆编号carNum和类型type为条件，查询最新的ID，并返回新的id
+        //  */
+        // switchLJXTId(node = {}) {
+        //     const { type, carNum, id } = node;
+        //     let newId = id;
+
+        //     if (type === MODEL_TREE_TYPE.connect && carNum) {
+        //         const datas = this.getTreeNodeByCarNum(carNum);
+        //         const newCarInfo = datas.find(
+        //             item => item.carNum === carNum && item.type === type
+        //         );
+
+        //         if (newCarInfo && newCarInfo.id !== id) {
+        //             newId = newCarInfo.id;
+        //         }
+        //     }
+
+        //     return newId;
+        // },
 
         nodeClick(nodeData) {
             let { type, id } = nodeData;
@@ -56,6 +83,7 @@ export default {
 
             msgCenter.publish(GLOBAL_MSG_CENTER_TOKEN.page_jump, {
                 success: () => {
+                    id = this.switchLJXTId(nodeData);
                     this.setCurTreeNodeId(id);
                     this.$router.push({
                         path: "/page/model/edit",

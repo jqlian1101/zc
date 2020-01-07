@@ -431,7 +431,7 @@ export default {
         },
 
         getReportExel() {
-            if (!this.allowCreateCharts) return this.$message("请先进行计算");
+            // if (!this.allowCreateCharts) return this.$message("请先进行计算");
             this.showDownReportModel = true;
         },
 

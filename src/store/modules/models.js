@@ -17,32 +17,42 @@ const state = {
 
 // getters
 const getters = {
-    getTreeNodeByType(state) {
+    getTreeNodeByType (state) {
         let { modelTreeCache } = state;
         return (type) => {
             return modelTreeCache.filter((item) => { return item.type === type });
         }
     },
 
-    getTreeNodeById(state) {
+    getTreeNodeById (state) {
         let { modelTreeCache } = state;
         return (id) => {
             return modelTreeCache.find((item) => { return item.id === id }) || {};
         }
     },
 
-    curTreeNodeInfo(state, getter) {
+    /**
+     * 根据车辆编号获取车辆信息，返回数组，包含 车辆参数 和 连接系统
+     */
+    getTreeNodeByCarNum (state) {
+        let { modelTreeCache } = state;
+        return (carNum) => {
+            return modelTreeCache.filter((item) => { return item.carNum === carNum });
+        }
+    },
+
+    curTreeNodeInfo (state, getter) {
         return getter.getTreeNodeById(state.curTreeNodeId);
     },
 
-    curCarNum(state, getter) {
+    curCarNum (state, getter) {
         let curVe = getter.curTreeNodeInfo;
         if (!curVe.row || !curVe.cal) return null;
         return { row: curVe.row, cal: curVe.cal }
     },
 
     // 获取车辆列表数据，包含车辆信息和链接系统信息
-    allCarData(state, getter) {
+    allCarData (state, getter) {
         if (window.__ALL_CAR_DATA__) return window.__ALL_CAR_DATA__;
 
         // 获取车辆参数中的车辆列表
@@ -85,7 +95,7 @@ const getters = {
     },
 
     // 通过车号获取车辆信息
-    getCarDataByNum(state, getter) {
+    getCarDataByNum (state, getter) {
         return (row, cal) => {
             if (!row || !cal) return null;
             let allCarData = getter.allCarData;
@@ -109,30 +119,32 @@ const getters = {
 // actions
 const actions = {
     // 从服务端获取treeData
-    getModelData({ commit, state }, id) {
+    getModelData ({ commit, state }, { id, cb }) {
         id = id || state.curModelId;
         model.getModelTree({ id }).then(res => {
             if (!res) return;
             commit({ type: MODEL_SAVE_TREE_DATA, treeData: res.data || [] })
             commit({ type: MODEL_SET_CUR_MODEL_ID, id })
+
+            typeof cb === 'function' && cb(res.data)
         })
     },
 
     // 保存当前选中的treeData
-    saveModelTreeData({ commit }, treeData) {
+    saveModelTreeData ({ commit }, treeData) {
         commit({ type: MODEL_SAVE_TREE_DATA, treeData })
     },
 
     // 当前选中的model的id
-    setCurModelId({ commit }, id) {
+    setCurModelId ({ commit }, id) {
         commit({ type: MODEL_SET_CUR_MODEL_ID, id })
     },
 
     // 当前选中的treeNode
-    setCurTreeNodeId({ commit }, id) {
+    setCurTreeNodeId ({ commit }, id) {
         commit({ type: MODEL_SET_CUR_MODEL_NODE, id })
     },
-    clearAllDataModels({ commit }) {
+    clearAllDataModels ({ commit }) {
         commit({ type: CLEAR_ALL_DATA_MODELS })
     }
 }
@@ -140,26 +152,26 @@ const actions = {
 // mutations
 const mutations = {
     // 保存当前选中的treeData
-    [MODEL_SAVE_TREE_DATA](state, { treeData }) {
+    [MODEL_SAVE_TREE_DATA] (state, { treeData }) {
         let trees = handleTreeData(treeData);
 
-        state.modelsTree = trees;
-        state.modelTreeCache = treeData;    // 缓存数据
+        state.modelsTree = [...trees];
+        state.modelTreeCache = [...treeData];    // 缓存数据
         window.__ALL_CAR_DATA__ = null;
     },
 
     // 当前选中的model的id
-    [MODEL_SET_CUR_MODEL_ID](state, { id }) {
+    [MODEL_SET_CUR_MODEL_ID] (state, { id }) {
         state.curModelId = id;
     },
 
     // 当前选中的treeNode
-    [MODEL_SET_CUR_MODEL_NODE](state, { id }) {
+    [MODEL_SET_CUR_MODEL_NODE] (state, { id }) {
         state.curTreeNodeId = id;
     },
 
     // 清空数据
-    [CLEAR_ALL_DATA_MODELS](state) {
+    [CLEAR_ALL_DATA_MODELS] (state) {
         state.modelTreeCache = [];
         state.modelsTree = [];
         state.curModelId = '';

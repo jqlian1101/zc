@@ -85,7 +85,9 @@ const initChartsOptions = params => {
                 name: name,
                 type: "line",
                 data: series,
-                showSymbol: false
+                showSymbol: false,
+                symbol: "circle", // 拐点样式
+                symbolSize: 2 // 拐点大小
                 // smooth: true
             }
         ]

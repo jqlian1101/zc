@@ -1,12 +1,7 @@
 <template>
     <div :class="$style.root">
         <div v-if="curModelId">
-            <div
-                :class="$style.close"
-                class="cursor-p"
-                @click="onClickClose"
-                v-if="showClose"
-            >
+            <div :class="$style.close" class="cursor-p" @click="onClickClose" v-if="showClose">
                 <img :src="closeIcon" alt />
             </div>
             <BasicInfo v-if="curTreeNodeType === modelTreetype.basic" :key="curTreeNodeId" />
@@ -71,15 +66,17 @@ export default {
         },
 
         showClose() {
-            const { curTreeNodeType, modelTreetype } = this;
-            return (
-                curTreeNodeType !== modelTreetype.args &&
-                curTreeNodeType !== modelTreetype.circuit &&
-                curTreeNodeType !== modelTreetype.basic
-            );
+            // const { curTreeNodeType, modelTreetype } = this;
+            // return (
+            //     curTreeNodeType !== modelTreetype.args &&
+            //     curTreeNodeType !== modelTreetype.circuit &&
+            //     curTreeNodeType !== modelTreetype.basic
+            // );
+            return false;
         }
     },
-    mounted() {}
+    mounted() {},
+    updated() {}
 };
 </script>
 

@@ -374,9 +374,14 @@ export default {
                     this.showSketch = this.no1.num || this.no2.num;
 
                     // 基本参数变更以后，更新treeData
-                    this.getModelData(this.curModelId);
-                    this.$message.success("保存成功");
-                    typeof params.success === "function" && params.success();
+                    this.getModelData({
+                        id: this.curModelId,
+                        cb: () => {
+                            this.$message.success("保存成功");
+                            typeof params.success === "function" &&
+                                params.success();
+                        }
+                    });
                 });
         },
 

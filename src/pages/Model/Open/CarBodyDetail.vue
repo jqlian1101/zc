@@ -51,7 +51,7 @@
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(backKey, connectEleDict.gzbh)"
+                    v-if="isShowEle(frontKey, connectEleDict.gzbh)"
                     :src="Img['gz']"
                     title="过载保护-前端"
                     :class="[$style.frontGZ,$style.gz,$style.connectEle]"
@@ -170,6 +170,7 @@ import {
     CONNECT_ELE_FIELD_DICT,
     VEHICLE_ELE_FIELD_DICT
 } from "common/constants";
+import switchLJXTId from "common/switchLJXTIdMixin";
 
 import { model, carArg } from "api";
 
@@ -194,6 +195,7 @@ export default {
             tractionData: {}
         };
     },
+    mixins: [switchLJXTId],
     props: {},
     computed: {
         ...mapState("uiState", ["carDetail"]),
@@ -231,13 +233,23 @@ export default {
             let { id, type } = curInfo;
             if (!id || !type) return;
 
+            id = this.switchLJXTId(curInfo);
+
             this.setCurTreeNodeId(id);
+
+            if (
+                id === this.$route.query.id &&
+                type === this.$route.query.type
+            ) {
+                return;
+            }
 
             this.$router.push({
                 path: "/page/model/edit",
                 query: { type, id }
             });
         },
+
         // 判断车辆参数元件是否显示
         vehicleEleIsShow(type, ele) {
             let list = VEHICLE_ELE_FIELD_DICT[ele];

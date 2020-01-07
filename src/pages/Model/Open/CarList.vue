@@ -222,10 +222,18 @@ export default {
             model.resortVehicleOrder({ cas }).then(res => {
                 if (!res) return;
                 // 保存成功后，刷新模型树数据
-                this.getModelData();
+                // this.getModelData("", () => {
+                //     this.isAllowDrag = false;
+                //     this.$message.success("操作成功");
+                // });
 
-                this.isAllowDrag = false;
-                this.$message.success("操作成功");
+                this.getModelData({
+                    id: "",
+                    cb: () => {
+                        this.isAllowDrag = false;
+                        this.$message.success("操作成功");
+                    }
+                });
             });
         },
 

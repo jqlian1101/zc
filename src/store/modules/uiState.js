@@ -11,12 +11,12 @@ const state = {
 // getters
 const getters = {
     // 是否展示车辆明细图
-    isOpenCarDetail(state) {
+    isOpenCarDetail (state) {
         return JSON.stringify(state.carDetail) !== '{}'
     },
 
     // 获取当前大样图车辆的连接系统列表
-    curCarConnectDetail(state) {
+    curCarConnectDetail (state) {
         let connectId = state.carDetail.connectId
         if (connectId) {
             return state.carDetailInfo[connectId] || {};
@@ -25,7 +25,7 @@ const getters = {
     },
 
     // 获取当前car的车号
-    curCarNum(state) {
+    curCarNum (state) {
         let { row, cal } = state.carDetail;
         if (!row || !cal) return null;
         return { row, col: cal }
@@ -35,15 +35,16 @@ const getters = {
 // actions
 const actions = {
     // 保存当前选中的车辆信息
-    saveCurCarDetail({ commit }, data) {
+    saveCurCarDetail ({ commit }, data) {
         commit({ type: OPEN_CAR_DETAIL, data })
     },
 
     // 保存已定义的连接系统 列表
-    saveDefinedConnect({ commit }, data) {
+    saveDefinedConnect ({ commit }, data) {
         commit({ type: MODEL_SAVE_CONNECT_DEFINED, data })
     },
-    clearAllDataUIState({ commit }) {
+
+    clearAllDataUIState ({ commit }) {
         commit({ type: CLEAR_ALL_DATA_UISTATE })
     }
 }
@@ -51,14 +52,14 @@ const actions = {
 // mutations
 const mutations = {
     // 保存当前选中的车辆信息
-    [OPEN_CAR_DETAIL](state, { data }) {
+    [OPEN_CAR_DETAIL] (state, { data }) {
         state.carDetail = data || {};
     },
 
     // 保存已定义的连接系统 列表
     // data: { id, type, eleType元件类型 }
     // id: 车辆编号：1-1，1-2 。。。
-    [MODEL_SAVE_CONNECT_DEFINED](state, { data }) {
+    [MODEL_SAVE_CONNECT_DEFINED] (state, { data }) {
         let carDetailInfo = state.carDetailInfo;
 
         !carDetailInfo[data.id] && (carDetailInfo[data.id] = { front: [], back: [] });
@@ -74,7 +75,7 @@ const mutations = {
     },
 
     // 清空数据
-    [CLEAR_ALL_DATA_UISTATE](state) {
+    [CLEAR_ALL_DATA_UISTATE] (state) {
         state.carDetail = {};
         state.carDetailInfo = {};
     }

@@ -1,107 +1,120 @@
 <template>
-    <div :class="$style.root">
-        <div :class="$style.title">{{curTreeNodeInfo.name}}</div>
-        <div :class="$style.formWrap" class="clearfix">
-            <el-form ref="vehicleForm" :key="formKey" :model="formData" label-width="120px">
-                <el-col :span="10">
-                    <el-form-item label="车辆质量:" prop="m">
-                        <input-number-wrap suffix="kg">
-                            <el-input-number :controls="false" v-model="formData.m" clearable></el-input-number>
-                        </input-number-wrap>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10" :offset="2">
-                    <el-form-item label="车辆长度:" prop="l">
-                        <input-number-wrap suffix="m">
-                            <el-input-number :controls="false" v-model="formData.length" clearable></el-input-number>
-                        </input-number-wrap>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="车体刚度:" prop="kcar">
-                        <input-number-wrap suffix="N/m">
-                            <el-input-number :controls="false" v-model="formData.kcar" clearable></el-input-number>
-                        </input-number-wrap>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10" :offset="2">
-                    <el-form-item label="牵引系统:">
-                        <Traction ref="traction" title="牵引力系统" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="车体强度:" prop="qcar">
-                        <el-input-number :controls="false" v-model="formData.qcar" clearable></el-input-number>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10" :offset="2">
-                    <el-form-item label="制动系统:">
-                        <Brakes ref="brakes" title="制动力系统" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="用户自定义1:">
-                        <Diy
-                            ref="diy1"
-                            title="用户自定义1"
-                            field="diy1Tcsd"
-                            :showCharts="true"
-                            :saveData="(params)=>onSaveDiyData({...params, type:'diy1'})"
-                            :dataSource="{tcsdId: diyData.diy1Tcsd}"
-                            :type="7"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10" :offset="2">
-                    <el-form-item label="用户自定义2:">
-                        <Diy
-                            ref="diy2"
-                            title="用户自定义2"
-                            field="diy2Tcsd"
-                            :showCharts="true"
-                            :saveData="(params)=>onSaveDiyData({...params, type:'diy2'})"
-                            :dataSource="{tcsdId: diyData.diy2Tcsd}"
-                            :type="8"
-                        />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="用户自定义3:">
-                        <Diy
-                            ref="diy3"
-                            title="用户自定义3"
-                            field="diy3Tcsd"
-                            :showCharts="true"
-                            :saveData="(params)=>onSaveDiyData({...params, type:'diy3'})"
-                            :dataSource="{tcsdId: diyData.diy3Tcsd}"
-                            :type="9"
-                        />
-                    </el-form-item>
-                </el-col>
-            </el-form>
-        </div>
-        <el-row>
-            <el-col :span="20" :class="$style.btnWrap">
-                <el-select :class="$style.copySel" v-model="copySource" placeholder="请选择">
-                    <el-option
-                        v-for="item in trainList"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id"
-                        :disabled="item.id === formData.id"
-                    ></el-option>
-                </el-select>
-                <el-button class="btn-xl" :class="$style.copyBtn" @click="copyCar">复制</el-button>
+    <div>
+        <div :class="$style.root">
+            <div :class="$style.title">{{curTreeNodeInfo.name}}</div>
+            <div :class="$style.formWrap" class="clearfix">
+                <el-form ref="vehicleForm" :key="formKey" :model="formData" label-width="120px">
+                    <el-col :span="10">
+                        <el-form-item label="车辆质量:" prop="m">
+                            <input-number-wrap suffix="kg">
+                                <el-input-number :controls="false" v-model="formData.m" clearable></el-input-number>
+                            </input-number-wrap>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10" :offset="2">
+                        <el-form-item label="车辆长度:" prop="l">
+                            <input-number-wrap suffix="m">
+                                <el-input-number
+                                    :controls="false"
+                                    v-model="formData.length"
+                                    clearable
+                                ></el-input-number>
+                            </input-number-wrap>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-form-item label="车体刚度:" prop="kcar">
+                            <input-number-wrap suffix="N/m">
+                                <el-input-number
+                                    :controls="false"
+                                    v-model="formData.kcar"
+                                    clearable
+                                ></el-input-number>
+                            </input-number-wrap>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10" :offset="2">
+                        <el-form-item label="牵引系统:">
+                            <Traction ref="traction" title="牵引力系统" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-form-item label="车体强度:" prop="qcar">
+                            <el-input-number :controls="false" v-model="formData.qcar" clearable></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10" :offset="2">
+                        <el-form-item label="制动系统:">
+                            <Brakes ref="brakes" title="制动力系统" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-form-item label="用户自定义1:">
+                            <Diy
+                                ref="diy1"
+                                title="用户自定义1"
+                                field="diy1Tcsd"
+                                :showCharts="true"
+                                :saveData="(params)=>onSaveDiyData({...params, type:'diy1'})"
+                                :dataSource="{tcsdId: diyData.diy1Tcsd}"
+                                :type="7"
+                            />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10" :offset="2">
+                        <el-form-item label="用户自定义2:">
+                            <Diy
+                                ref="diy2"
+                                title="用户自定义2"
+                                field="diy2Tcsd"
+                                :showCharts="true"
+                                :saveData="(params)=>onSaveDiyData({...params, type:'diy2'})"
+                                :dataSource="{tcsdId: diyData.diy2Tcsd}"
+                                :type="8"
+                            />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-form-item label="用户自定义3:">
+                            <Diy
+                                ref="diy3"
+                                title="用户自定义3"
+                                field="diy3Tcsd"
+                                :showCharts="true"
+                                :saveData="(params)=>onSaveDiyData({...params, type:'diy3'})"
+                                :dataSource="{tcsdId: diyData.diy3Tcsd}"
+                                :type="9"
+                            />
+                        </el-form-item>
+                    </el-col>
+                </el-form>
+            </div>
+            <el-row>
+                <el-col :span="20" :class="$style.btnWrap">
+                    <el-select :class="$style.copySel" v-model="copySource" placeholder="请选择">
+                        <el-option
+                            v-for="item in trainList"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                            :disabled="item.id === formData.id"
+                        ></el-option>
+                    </el-select>
+                    <el-button class="btn-xl" :class="$style.copyBtn" @click="copyCar">复制</el-button>
 
-                <!-- <el-button
+                    <!-- <el-button
                     :class="$style.subBtn"
                     class="btn-xl"
                     type="primary"
                     @click="submitForm"
-                >保存</el-button>-->
-                <el-button class="btn-xl" @click="clearData">清空</el-button>
-            </el-col>
-        </el-row>
+                    >保存</el-button>-->
+                    <el-button class="btn-xl" @click="clearData">清空</el-button>
+                </el-col>
+            </el-row>
+        </div>
+        <div :class="$style.sketchWrap">
+            <Legend />
+        </div>
     </div>
 </template>
 
@@ -118,6 +131,8 @@ import Traction from "./Traction";
 import Brakes from "./Brakes";
 import Diy from "./Diy";
 // import Traction from "./Traction";
+
+import Legend from "../../Open/Legend";
 
 // 自定义验证规则
 // const rules = {
@@ -144,7 +159,8 @@ export default {
     components: {
         Traction,
         Brakes,
-        Diy
+        Diy,
+        Legend
     },
     data() {
         return {
@@ -401,5 +417,11 @@ export default {
             }
         }
     }
+}
+
+.sketchWrap {
+    background: #fff;
+    margin-top: 20px;
+    padding: 30px 20px;
 }
 </style>

@@ -262,7 +262,7 @@ export default {
         },
 
         saveModel(bool) {
-            msgCenter.publish(GLOBAL_MSG_CENTER_TOKEN.page_jump, {
+            msgCenter.publish(GLOBAL_MSG_CENTER_TOKEN.auto_save, {
                 success: () => {},
                 error: () => {
                     // this.$message("数据保存失败");

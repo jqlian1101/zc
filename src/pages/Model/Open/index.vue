@@ -17,7 +17,7 @@ export default {
     mounted() {
         this.setCurTreeNodeId("");
         this.subToken = msgCenter.subscribe(
-            GLOBAL_MSG_CENTER_TOKEN.page_jump,
+            GLOBAL_MSG_CENTER_TOKEN.auto_save,
             (topic, data) => {
                 data.success();
             }

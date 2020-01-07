@@ -103,5 +103,5 @@ export const DIY_XAXIS_OPTIONS = [
 
 
 export const GLOBAL_MSG_CENTER_TOKEN = {
-    page_jump: 'page_jump'
+    auto_save: 'auto_save'
 }

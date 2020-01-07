@@ -81,7 +81,7 @@ export default {
             if (MODEL_TYPE_LINK_LIST.indexOf(type) === -1) return;
             // this.setCurTreeNodeId(id);
 
-            msgCenter.publish(GLOBAL_MSG_CENTER_TOKEN.page_jump, {
+            msgCenter.publish(GLOBAL_MSG_CENTER_TOKEN.auto_save, {
                 success: () => {
                     id = this.switchLJXTId(nodeData);
                     this.setCurTreeNodeId(id);

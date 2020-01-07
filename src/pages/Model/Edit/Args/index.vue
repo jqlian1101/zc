@@ -253,7 +253,7 @@ export default {
     mounted() {
         this.initData();
         this.subToken = msgCenter.subscribe(
-            GLOBAL_MSG_CENTER_TOKEN.page_jump,
+            GLOBAL_MSG_CENTER_TOKEN.auto_save,
             (topic, data) => {
                 data.success();
             }

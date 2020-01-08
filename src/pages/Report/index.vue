@@ -84,7 +84,7 @@
         <div :class="[$style.chartFormWrap, 'clearfix']">
             <div class="fll">显示参数</div>
             <div class="fll">
-                <Cascader @onChange="onArgsChange" />
+                <Cascader @onChange="onArgsChange" :curCalc="curCalcId" />
             </div>
             <span :class="[$style.btn, $style.saveBtn]" @click="createChartsList">生成图表</span>
         </div>
@@ -94,6 +94,7 @@
                     v-for="item in chartsData"
                     :key="item.chartKey"
                     :chartInfo="item"
+                    :curCalc="curCalcId"
                     @onClose="onCloseCharts"
                 />
             </div>
@@ -113,15 +114,17 @@
         >
             <el-form :model="reportTypeFrom" label-width="120px">
                 <el-form-item label="选择报告模版">
-                    <el-select v-model="reportTypeFrom.temp" placeholder>
-                        <el-option label="坡道救援(紧急制动)报告模版" value="temp1"></el-option>
-                        <el-option label="坡道救援(普通制动)报告模版" value="temp2"></el-option>
-                        <el-option label="冲击车挡报告模版" value="temp3"></el-option>
-                        <el-option label="连挂报告模版" value="temp4"></el-option>
+                    <el-select v-model="reportTypeFrom.type" placeholder>
+                        <el-option
+                            :key="item.type"
+                            :label="item.name"
+                            :value="item.type"
+                            v-for="item in reportTempList"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择计算结果">
-                    <el-select v-model="reportTypeFrom.result" placeholder>
+                    <el-select v-model="reportTypeFrom.recordId" placeholder>
                         <el-option
                             v-for="item in calcResultList"
                             :key="item.id"
@@ -215,10 +218,13 @@ export default {
 
             showDownReportModel: false,
 
-            reportTypeFrom: { temp: "", result: "" },
+            reportTypeFrom: { type: "", recordId: "" },
 
             calcResultList: [],
-            calcResultDialogVisible: false
+            calcResultDialogVisible: false,
+
+            reportTempList: [],
+            curCalcId: ""
 
             // chartsLayout: testLayout
         };
@@ -230,6 +236,7 @@ export default {
     methods: {
         initData() {
             this.getCalcList();
+            this.getReportTempList();
         },
 
         /**
@@ -245,6 +252,14 @@ export default {
                     if (!res || res.code !== "200") return;
                     this.calcResultList = res.data || [];
                 });
+        },
+
+        // 获取报告模版列表
+        getReportTempList() {
+            report.getReportTempList({}).then(res => {
+                if (!res || res.code !== "200") return;
+                this.reportTempList = res.data || [];
+            });
         },
 
         onArgsChange(args) {
@@ -320,7 +335,8 @@ export default {
 
         openCalculate(record) {
             if (!record.id) return;
-            report.getRecordInfo({ recordId: record.id }).then(res => {
+            const { userId } = getUserIdAndType();
+            report.getRecordInfo({ recordId: record.id, userId }).then(res => {
                 if (!res || res.code !== "200") return;
                 const { data = {} } = res;
                 this.curCalcId = data.id || "";
@@ -436,12 +452,17 @@ export default {
         },
 
         sureDownReport() {
-            const { temp, result } = this.reportTypeFrom;
-            if (!temp) return this.$message("请先选择模版类型");
-            if (!result) return this.$message("请先选择计算结果");
+            const { type, recordId } = this.reportTypeFrom;
+            if (!type) return this.$message("请先选择模版类型");
+            if (!recordId) return this.$message("请先选择计算结果");
+
+            const { userId } = getUserIdAndType();
 
             const a = document.createElement("a");
-            a.setAttribute("href", `/api/resultrecord/exportReport?modelId=${this.curModelId}`);
+            a.setAttribute(
+                "href",
+                `/api/resultrecord/exportReport?modelId=${this.curModelId}&recordId=${recordId}&type=${type}&userId=${userId}`
+            );
             a.click();
 
             this.showDownReportModel = false;

@@ -139,11 +139,13 @@ import { argConfig } from "api";
 import mixin from "./mixin/mixin";
 import mixinData from "./mixin/mixinData";
 
+import watchHaveDataMixin from "common/watchHaveDataMixin";
+
 const { userId, userType } = getUserIdAndType();
 
 export default {
     name: "ConnectBuffer",
-    mixins: [mixin, mixinData],
+    mixins: [mixin, mixinData, watchHaveDataMixin],
     data() {
         return {
             curveList: [], // 描点list

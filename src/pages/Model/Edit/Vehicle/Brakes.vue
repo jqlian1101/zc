@@ -115,6 +115,7 @@ import DropDown from "components/DropDown.vue";
 import { carArg } from "api";
 
 import Diy from "./Diy";
+import watchHaveDataMixin from "common/watchHaveDataMixin";
 
 const FIELD_LIST = ["brakedef", "brakef", "delayTime", "loadTime", "tcsdId"];
 
@@ -141,6 +142,7 @@ export default {
             WGList
         };
     },
+    mixins: [watchHaveDataMixin],
     components: {
         DropDown,
         Diy

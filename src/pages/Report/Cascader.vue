@@ -53,9 +53,22 @@ export default {
 
         getCarList(params = {}) {
             const { argCode, resolveCb } = params;
+
+            if (!this.$attrs.curCalc) {
+                this.$message.error("请先选择要查看的计算结果");
+                return;
+            }
             if (!argCode) return;
+
+            const { userId } = getUserIdAndType();
+
             report
-                .getCaListBYCode({ modelId: this.curModelId, code: argCode })
+                .getCaListBYCode({
+                    modelId: this.curModelId,
+                    code: argCode,
+                    recordId: this.$attrs.curCalc,
+                    userId
+                })
                 .then(res => {
                     if (!res || res.code !== "200") return;
                     const data = res.data || [];

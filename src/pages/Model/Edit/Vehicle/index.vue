@@ -35,7 +35,12 @@
                     </el-col>
                     <el-col :span="10" :offset="2">
                         <el-form-item label="牵引系统:">
-                            <Traction ref="traction" title="牵引力系统" />
+                            <Traction
+                                ref="traction"
+                                title="牵引力系统"
+                                eleKey="qyxt"
+                                eleParentType="info"
+                            />
                         </el-form-item>
                     </el-col>
                     <el-col :span="10">
@@ -45,7 +50,7 @@
                     </el-col>
                     <el-col :span="10" :offset="2">
                         <el-form-item label="制动系统:">
-                            <Brakes ref="brakes" title="制动力系统" />
+                            <Brakes ref="brakes" title="制动力系统" eleKey="zdxt" eleParentType="info" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="10">
@@ -54,6 +59,8 @@
                                 ref="diy1"
                                 title="用户自定义1"
                                 field="diy1Tcsd"
+                                eleKey="diy1"
+                                eleParentType="info"
                                 :showCharts="true"
                                 :saveData="(params)=>onSaveDiyData({...params, type:'diy1'})"
                                 :dataSource="{tcsdId: diyData.diy1Tcsd}"
@@ -67,6 +74,8 @@
                                 ref="diy2"
                                 title="用户自定义2"
                                 field="diy2Tcsd"
+                                eleKey="diy2"
+                                eleParentType="info"
                                 :showCharts="true"
                                 :saveData="(params)=>onSaveDiyData({...params, type:'diy2'})"
                                 :dataSource="{tcsdId: diyData.diy2Tcsd}"
@@ -80,6 +89,8 @@
                                 ref="diy3"
                                 title="用户自定义3"
                                 field="diy3Tcsd"
+                                eleKey="diy3"
+                                eleParentType="info"
                                 :showCharts="true"
                                 :saveData="(params)=>onSaveDiyData({...params, type:'diy3'})"
                                 :dataSource="{tcsdId: diyData.diy3Tcsd}"

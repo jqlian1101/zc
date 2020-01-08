@@ -184,9 +184,9 @@ export default {
             connectEleDict: CONNECT_ELE_DICT,
             vehicleEleDict: VEHICLE_ELE_DICT,
 
-            frontKey: CAR_ELE_DICT.front.key,
-            backKey: CAR_ELE_DICT.back.key,
-            infoKey: CAR_ELE_DICT.info.key,
+            frontKey: CAR_ELE_DICT.front.label,
+            backKey: CAR_ELE_DICT.back.label,
+            infoKey: CAR_ELE_DICT.info.label,
 
             connectFrontData: {},
             connectBackData: {},
@@ -198,21 +198,27 @@ export default {
     mixins: [switchLJXTId],
     props: {},
     computed: {
-        ...mapState("uiState", ["carDetail"]),
+        ...mapState("uiState", ["carDetail", "carDetailInfo"]),
         ...mapGetters("uiState", ["curCarNum"]),
         ...mapState("models", ["curTreeNodeId", "curModelId"]),
 
         isShowEle() {
             return (type, ele) => {
-                if (type === this.infoKey) {
-                    return this.vehicleEleIsShow(type, ele);
-                }
-                return this.connectEleIsShow(type, ele);
+                const { carDetailInfo } = this;
+                const curCarInfo = carDetailInfo[this.getCarNum()];
+                if (!curCarInfo) return false;
+
+                return curCarInfo[type].indexOf(ele) !== -1;
+                // if (type === this.infoKey) {
+                //     return this.vehicleEleIsShow(type, ele);
+                // }
+                // return this.connectEleIsShow(type, ele);
             };
         }
     },
     methods: {
         ...mapActions("models", ["setCurTreeNodeId"]),
+        ...mapActions("uiState", ["saveDefinedEleStatus"]),
 
         // 双击车身
         onDblclickBody() {
@@ -278,25 +284,46 @@ export default {
 
         // 判断连接系统元件是否显示
         connectEleIsShow(type, ele) {
-            let { connectBackData, connectFrontData } = this;
+            const { carDetailInfo } = this;
+            const curCarInfo = carDetailInfo[this.getCarNum()];
+            if (!curCarInfo) return false;
 
-            let list = CONNECT_ELE_FIELD_DICT[ele];
+            return curCarInfo[type].indexOf(ele) !== -1;
 
-            // 判断是取前端面数据还是后端面数据
-            let data = connectBackData;
-            if (type === this.frontKey) {
-                data = connectFrontData;
-            }
+            // let { connectBackData, connectFrontData } = this;
 
-            for (let i = 0; i < list.length; i++) {
-                let value = data[list[i]];
-                // 如果元件的某个字段的值存在，表示该元件已定义过，0代表未定义
-                if (value) {
-                    return true;
+            // let list = CONNECT_ELE_FIELD_DICT[ele];
+
+            // // 判断是取前端面数据还是后端面数据
+            // let data = connectBackData;
+            // if (type === this.frontKey) {
+            //     data = connectFrontData;
+            // }
+
+            // for (let i = 0; i < list.length; i++) {
+            //     let value = data[list[i]];
+            //     // 如果元件的某个字段的值存在，表示该元件已定义过，0代表未定义
+            //     if (value) {
+            //         return true;
+            //     }
+            // }
+            // return false;
+        },
+
+        getEleStatus(data, dict) {
+            const arr = [];
+            for (let i in dict) {
+                const curEleFields = dict[i];
+
+                for (let j = 0; j < curEleFields.length; j++) {
+                    if (data[curEleFields[j]]) {
+                        arr.push(i);
+                    }
                 }
             }
-            return false;
+            return arr;
         },
+
         getCarNum() {
             let { curCarNum } = this;
             if (!curCarNum) return;
@@ -319,11 +346,34 @@ export default {
                     if (!res) return;
                     let { data = [] } = res;
 
-                    this.connectFrontData =
-                        data.find(item => item.faceType === "1") || {};
+                    // this.connectFrontData =
+                    //     data.find(item => item.faceType === "1") || {};
 
-                    this.connectBackData =
+                    // this.connectBackData =
+                    //     data.find(item => item.faceType === "2") || {};
+
+                    const frontData =
+                        data.find(item => item.faceType === "1") || {};
+                    const backData =
                         data.find(item => item.faceType === "2") || {};
+
+                    this.saveDefinedEleStatus({
+                        id: carNum,
+                        type: "front",
+                        eleKey: this.getEleStatus(
+                            frontData,
+                            CONNECT_ELE_FIELD_DICT
+                        )
+                    });
+
+                    this.saveDefinedEleStatus({
+                        id: carNum,
+                        type: "back",
+                        eleKey: this.getEleStatus(
+                            backData,
+                            CONNECT_ELE_FIELD_DICT
+                        )
+                    });
                 });
         },
 
@@ -333,7 +383,23 @@ export default {
             if (!vehicleId) return;
             return carArg.diyView({ caId: vehicleId }).then(res => {
                 if (!res) return;
-                this.diyData = res.data || {};
+                // this.diyData = res.data || {};
+
+                const { data } = res;
+
+                let eleKey = [];
+                if (data.diy1 || (data.diy1Tcsd && data.diy1Tcsd !== "0")) {
+                    eleKey.push("diy1");
+                }
+                if (data.diy2 || (data.diy2Tcsd && data.diy2Tcsd !== "0")) {
+                    eleKey.push("diy2");
+                }
+                if (data.diy3 || (data.diy3Tcsd && data.diy3Tcsd !== "0")) {
+                    eleKey.push("diy3");
+                }
+                if (eleKey.length > 0) {
+                    this.setVeInfo(eleKey);
+                }
             });
         },
 
@@ -343,7 +409,19 @@ export default {
             if (!vehicleId) return;
             return carArg.brakesView({ caId: vehicleId }).then(res => {
                 if (!res) return;
-                this.brakesData = res.data || {};
+                // this.brakesData = res.data || {};
+
+                const { data } = res;
+                const dict = VEHICLE_ELE_FIELD_DICT["zdxt"];
+                let eleKey = "";
+                for (let i = 0; i < dict.length; i++) {
+                    if (data[dict[i]]) {
+                        eleKey = "zdxt";
+                        break;
+                    }
+                }
+
+                this.setVeInfo(eleKey);
             });
         },
 
@@ -354,6 +432,32 @@ export default {
             return carArg.tractionView({ caId: vehicleId }).then(res => {
                 if (!res) return;
                 this.tractionData = res.data || {};
+
+                const { data } = res;
+                const dict = VEHICLE_ELE_FIELD_DICT["qyxt"];
+                let eleKey = "";
+                for (let i = 0; i < dict.length; i++) {
+                    console.log(dict[i], data[dict[i]]);
+                    if (data[dict[i]]) {
+                        eleKey = "qyxt";
+                        break;
+                    }
+                }
+
+                this.setVeInfo(eleKey);
+            });
+        },
+
+        setVeInfo(eleKey) {
+            if (!eleKey) return;
+            const carNum = this.getCarNum();
+            if (!carNum) return;
+
+            this.saveDefinedEleStatus({
+                id: carNum,
+                type: "info",
+                eleKey,
+                isDefined: true
             });
         }
     },

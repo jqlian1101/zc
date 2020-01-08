@@ -45,9 +45,11 @@ import mixin from "./mixin/mixin";
 import mixinSaveFunc from "./mixin/mixinSaveFunc";
 import mixinData from "./mixin/mixinData";
 
+import watchHaveDataMixin from "common/watchHaveDataMixin";
+
 export default {
     name: "Damper",
-    mixins: [mixin, mixinData, mixinSaveFunc],
+    mixins: [mixin, mixinData, mixinSaveFunc, watchHaveDataMixin],
 
     data() {
         return {

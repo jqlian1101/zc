@@ -22,6 +22,8 @@ const getRecordList = (params) => request(`${config.baseUrl}/resultRecord/getRec
 // 获取记录详情
 const getRecordInfo = (params) => request(`${config.baseUrl}/resultRecord/getRecordInfo`, { ...params });
 
+// 获取报告模板列表
+const getReportTempList = (params) => request(`${config.baseUrl}/resultRecord/getReportTempList`, { ...params });
 
 export default {
     getArgsList,
@@ -31,5 +33,6 @@ export default {
 
     saveResultRecord,
     getRecordList,
-    getRecordInfo
+    getRecordInfo,
+    getReportTempList
 }

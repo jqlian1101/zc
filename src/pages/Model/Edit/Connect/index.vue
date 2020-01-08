@@ -13,6 +13,7 @@
                             <Buffer
                                 title="前端面-缓冲器"
                                 eleKey="hcq"
+                                eleParentType="front"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.hcq })"
                                 :dataSource="frontData"
                             />
@@ -21,6 +22,7 @@
                             <RubberBearing
                                 title="前端面-橡胶轴承"
                                 eleKey="xjzc"
+                                eleParentType="front"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.xjzc})"
                                 :dataSource="frontData"
                             />
@@ -29,6 +31,7 @@
                             <Foldedcollapse
                                 title="前端面-压溃管"
                                 eleKey="ykg"
+                                eleParentType="front"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.ykg})"
                                 :dataSource="frontData"
                             />
@@ -37,6 +40,7 @@
                             <OverloadProtection
                                 title="前端面-过载保护"
                                 eleKey="gzbh"
+                                eleParentType="front"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.gzbh})"
                                 :dataSource="frontData"
                             />
@@ -45,6 +49,7 @@
                             <Anticreeper
                                 title="前端面-防爬器"
                                 eleKey="fpq"
+                                eleParentType="front"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.fpq})"
                                 :dataSource="frontData"
                             />
@@ -54,6 +59,7 @@
                                 ref="damper1"
                                 title="前端面-车间减振器"
                                 eleKey="cjjz"
+                                eleParentType="front"
                                 :type="1"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.cjjz})"
                                 :dataSource="{jzqNum: frontData.jzqNum, tcsdId: frontData.jzqTcsdId}"
@@ -63,6 +69,7 @@
                             <Windshield
                                 title="前端面-风挡系统"
                                 eleKey="fd"
+                                eleParentType="front"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.fd})"
                                 :dataSource="frontData"
                             />
@@ -72,6 +79,7 @@
                                 ref="diy11"
                                 title="前端面-用户自定义"
                                 eleKey="diy1"
+                                eleParentType="front"
                                 field="diy1"
                                 :type="2"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.diy1})"
@@ -83,6 +91,7 @@
                                 ref="diy12"
                                 title="前端面-用户自定义"
                                 eleKey="diy2"
+                                eleParentType="front"
                                 field="diy2"
                                 :type="3"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.diy2})"
@@ -105,6 +114,7 @@
                             <Buffer
                                 title="后端面-缓冲器"
                                 eleKey="hcq"
+                                eleParentType="back"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.hcq})"
                                 :dataSource="backData"
                             />
@@ -113,6 +123,7 @@
                             <RubberBearing
                                 title="后端面-橡胶轴承"
                                 eleKey="xjzc"
+                                eleParentType="back"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.xjzc})"
                                 :dataSource="backData"
                             />
@@ -121,6 +132,7 @@
                             <Foldedcollapse
                                 title="后端面-压溃管"
                                 eleKey="ykg"
+                                eleParentType="back"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.ykg})"
                                 :dataSource="backData"
                             />
@@ -129,6 +141,7 @@
                             <OverloadProtection
                                 title="后端面-过载保护"
                                 eleKey="gzbh"
+                                eleParentType="back"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.gzbh})"
                                 :dataSource="backData"
                             />
@@ -137,6 +150,7 @@
                             <Anticreeper
                                 title="后端面-防爬器"
                                 eleKey="fpq"
+                                eleParentType="back"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.fpq})"
                                 :dataSource="backData"
                             />
@@ -146,6 +160,7 @@
                                 ref="damper2"
                                 title="后端面-车间减振器"
                                 eleKey="cjjz"
+                                eleParentType="back"
                                 :type="1"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.cjjz})"
                                 :dataSource="{jzqNum: backData.jzqNum, tcsdId: backData.jzqTcsdId}"
@@ -155,6 +170,7 @@
                             <Windshield
                                 title="后端面-风挡系统"
                                 eleKey="fd"
+                                eleParentType="back"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.fd})"
                                 :dataSource="backData"
                             />
@@ -164,6 +180,7 @@
                                 ref="diy21"
                                 title="后端面-用户自定义"
                                 eleKey="diy1"
+                                eleParentType="back"
                                 field="diy1"
                                 :type="2"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.diy1})"
@@ -175,6 +192,7 @@
                                 ref="diy22"
                                 title="后端面-用户自定义"
                                 eleKey="diy2"
+                                eleParentType="back"
                                 field="diy2"
                                 :type="3"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.diy2})"
@@ -213,14 +231,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 import Img from "assets/images";
 import {
     MODEL_TREE_TYPE,
     CONNECT_ELE_DICT,
     CONNECT_ELE_FIELD_DICT,
-    CAR_ELE_DICT,
+    // CAR_ELE_DICT,
     GLOBAL_MSG_CENTER_TOKEN
 } from "common/constants";
 import msgCenter from "utils/msgCenter";
@@ -282,7 +300,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions("uiState", ["saveDefinedConnect"]),
+        // ...mapActions("uiState", ["saveDefinedConnect"]),
 
         // 获取页面数据
         async initData(carNameStr, cb) {
@@ -415,17 +433,17 @@ export default {
                 });
             }
 
-            // 保存已定义的元件列表，图形显示使用
-            let faceType = CAR_ELE_DICT.back.key;
-            if (parent === "frontData") {
-                faceType = CAR_ELE_DICT.front.key;
-            }
+            // // 保存已定义的元件列表，图形显示使用
+            // let faceType = CAR_ELE_DICT.back.key;
+            // if (parent === "frontData") {
+            //     faceType = CAR_ELE_DICT.front.key;
+            // }
 
-            this.saveDefinedConnect({
-                id: this.carNameStr,
-                type: faceType,
-                eleType: ele
-            });
+            // this.saveDefinedConnect({
+            //     id: this.carNameStr,
+            //     type: faceType,
+            //     eleType: ele
+            // });
         },
 
         /**

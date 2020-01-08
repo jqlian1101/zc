@@ -106,6 +106,7 @@ import DropDown from "components/DropDown.vue";
 import { carArg } from "api";
 
 import Diy from "./Diy";
+import watchHaveDataMixin from "common/watchHaveDataMixin";
 
 const FIELD_LIST = [
     "tracdef",
@@ -125,6 +126,7 @@ export default {
             isHaveData: false
         };
     },
+    mixins: [watchHaveDataMixin],
     components: {
         DropDown,
         Diy

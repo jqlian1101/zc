@@ -35,6 +35,7 @@ import { report } from "api";
 
 import Charts from "components/Charts";
 import DragResize from "lib/dragResize";
+import { getUserIdAndType } from "utils/util";
 
 import Img from "assets/icon";
 
@@ -148,11 +149,16 @@ export default {
         },
 
         getResultInfo(params = {}) {
+            const { curCalc } = this.$attrs;
+            if (!curCalc) return;
+
             if (this.noData) return;
             const { modelId, ve, ca, code } = this.chartInfo;
 
             const pageSize = 50;
             const currentPage = this.currentPage;
+
+            const { userId } = getUserIdAndType();
 
             report
                 .getResultInfo({
@@ -161,7 +167,9 @@ export default {
                     code,
                     modelId,
                     currentPage,
-                    pageSize
+                    pageSize,
+                    recordId: curCalc,
+                    userId
                 })
                 .then(res => {
                     if (!res || res.code !== "200") return;

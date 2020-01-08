@@ -12,12 +12,12 @@
         <el-form ref="form" label-position="left" :model="formData" label-width="160px">
             <el-form-item label="最大变形">
                 <input-number-wrap suffix="m">
-                <el-input-number :controls="false" v-model="formData.selas" :min="0"></el-input-number>
+                    <el-input-number :controls="false" v-model="formData.selas" :min="0"></el-input-number>
                 </input-number-wrap>
             </el-form-item>
             <el-form-item label="总刚度">
                 <input-number-wrap suffix="N/m">
-                <el-input-number :controls="false" v-model="formData.kelas" :min="0"></el-input-number>
+                    <el-input-number :controls="false" v-model="formData.kelas" :min="0"></el-input-number>
                 </input-number-wrap>
             </el-form-item>
         </el-form>
@@ -29,8 +29,10 @@
 import mixin from "./mixin/mixin";
 import mixinData from "./mixin/mixinData";
 
+import watchHaveDataMixin from "common/watchHaveDataMixin";
+
 export default {
     name: "RubberBearing",
-    mixins: [mixin, mixinData]
+    mixins: [mixin, mixinData, watchHaveDataMixin]
 };
 </script>

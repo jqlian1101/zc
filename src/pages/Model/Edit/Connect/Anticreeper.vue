@@ -33,9 +33,10 @@
 <script>
 import mixin from "./mixin/mixin";
 import mixinData from "./mixin/mixinData";
+import watchHaveDataMixin from "common/watchHaveDataMixin";
 
 export default {
     name: "Anticreeper",
-    mixins: [mixin, mixinData]
+    mixins: [mixin, mixinData, watchHaveDataMixin]
 };
 </script>

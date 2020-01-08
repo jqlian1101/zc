@@ -34,12 +34,13 @@ import mixin from "./mixin/mixin";
 import mixinData from "./mixin/mixinData";
 
 import { getUserIdAndType } from "utils/util";
+import watchHaveDataMixin from "common/watchHaveDataMixin";
 
 const { userId, userType } = getUserIdAndType();
 
 export default {
     name: "FoldedCollapse",
-    mixins: [mixin, mixinData],
+    mixins: [mixin, mixinData, watchHaveDataMixin],
     components: {},
     data() {
         return {

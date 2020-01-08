@@ -53,6 +53,8 @@ import { getObjFromStr } from "utils/util";
 
 import mixinSaveFunc from "./mixin/mixinSaveFunc";
 
+import watchHaveDataMixin from "common/watchHaveDataMixin";
+
 const options = [
     { label: "位移(m)", value: "1" },
     { label: "速度(m/s)", value: "2" },
@@ -61,7 +63,7 @@ const options = [
 
 export default {
     name: "Diy",
-    mixins: [mixinSaveFunc],
+    mixins: [mixinSaveFunc, watchHaveDataMixin],
     data() {
         return {
             options,

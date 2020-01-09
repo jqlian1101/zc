@@ -23,7 +23,7 @@ const getRecordList = (params) => request(`${config.baseUrl}/resultRecord/getRec
 const getRecordInfo = (params) => request(`${config.baseUrl}/resultRecord/getRecordInfo`, { ...params });
 
 // 获取报告模板列表
-const getReportTempList = (params) => request(`${config.baseUrl}/resultRecord/getReportTempList`, { ...params });
+const getReportTempList = (params) => request(`${config.baseUrl}/resultrecord/getReportTempList`, { ...params });
 
 export default {
     getArgsList,

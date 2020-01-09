@@ -24,7 +24,6 @@ import CarList from "./CarList";
 
 import CarBodyDetail from "./CarBodyDetail";
 
-
 export default {
     name: "Open",
     components: {

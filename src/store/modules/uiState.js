@@ -47,6 +47,17 @@ const getters = {
             if (carNum) return state.carDetailInfo;
             return state.carDetailInfo[carNum] || {};
         }
+    },
+
+    isDefinedEle (state) {
+        // const { carDetailInfo } = state;
+        return (carNum, type, ele) => {
+            const curCarInfo = state.carDetailInfo[carNum];
+
+            if (!curCarInfo) return false;
+
+            return curCarInfo[type].indexOf(ele) !== -1;
+        }
     }
 }
 
@@ -64,7 +75,6 @@ const actions = {
 
     // 保存元件定义状态
     saveDefinedEleStatus ({ commit }, data) {
-        console.log('saveDefinedEleStatus : ', data)
         commit({ type: MODEL_SAVE_DEFINED_ELE_STATUS, data })
     },
 
@@ -136,7 +146,7 @@ const mutations = {
 
         carDetailInfo[id][label] = distinct([..._data]);
 
-        state.carDetailInfo = carDetailInfo;
+        state.carDetailInfo = { ...carDetailInfo };
     },
 
     [MODEL_INIT_ELE_STATUS] (state, { data }) {

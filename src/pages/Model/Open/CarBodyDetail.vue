@@ -197,22 +197,32 @@ export default {
     },
     mixins: [switchLJXTId],
     props: {},
+
     computed: {
         ...mapState("uiState", ["carDetail", "carDetailInfo"]),
-        ...mapGetters("uiState", ["curCarNum"]),
+        ...mapGetters("uiState", ["curCarNum", "isDefinedEle"]),
         ...mapState("models", ["curTreeNodeId", "curModelId"]),
 
         isShowEle() {
             return (type, ele) => {
-                const { carDetailInfo } = this;
-                const curCarInfo = carDetailInfo[this.getCarNum()];
-                if (!curCarInfo) return false;
+                return this.isDefinedEle(this.getCarNum(), type, ele);
+                // const { carDetailInfo } = this;
+                // const curCarInfo = carDetailInfo[this.getCarNum()];
 
-                return curCarInfo[type].indexOf(ele) !== -1;
-                // if (type === this.infoKey) {
-                //     return this.vehicleEleIsShow(type, ele);
-                // }
-                // return this.connectEleIsShow(type, ele);
+                // if (!curCarInfo) return false;
+
+                // // console.log(
+                // //     type,
+                // //     curCarInfo,
+                // //     curCarInfo[type],
+                // //     curCarInfo[type].indexOf(ele) !== -1
+                // // );
+
+                // return curCarInfo[type].indexOf(ele) !== -1;
+                // // if (type === this.infoKey) {
+                // //     return this.vehicleEleIsShow(type, ele);
+                // // }
+                // // return this.connectEleIsShow(type, ele);
             };
         }
     },
@@ -437,7 +447,6 @@ export default {
                 const dict = VEHICLE_ELE_FIELD_DICT["qyxt"];
                 let eleKey = "";
                 for (let i = 0; i < dict.length; i++) {
-                    console.log(dict[i], data[dict[i]]);
                     if (data[dict[i]]) {
                         eleKey = "qyxt";
                         break;

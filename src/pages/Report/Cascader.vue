@@ -55,10 +55,14 @@ export default {
             const { argCode, resolveCb } = params;
 
             if (!this.$attrs.curCalc) {
+                resolveCb([]);
                 this.$message.error("请先选择要查看的计算结果");
                 return;
             }
-            if (!argCode) return;
+            if (!argCode) {
+                resolveCb([]);
+                return;
+            }
 
             const { userId } = getUserIdAndType();
 
@@ -85,6 +89,9 @@ export default {
                         };
                     });
                     resolveCb(nodes);
+                })
+                .catch(e => {
+                    resolveCb([]);
                 });
         },
 

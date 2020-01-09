@@ -1,5 +1,11 @@
 
-import { MODEL_SAVE_TREE_DATA, MODEL_SET_CUR_MODEL_ID, MODEL_SET_CUR_MODEL_NODE, CLEAR_ALL_DATA_MODELS } from 'store/mutation-types.js';
+import {
+    MODEL_SAVE_TREE_DATA,
+    MODEL_SET_CUR_MODEL_ID,
+    MODEL_SET_CUR_MODEL_NODE,
+    CLEAR_ALL_DATA_MODELS,
+    CLEAR_ALL_DATA_UISTATE
+} from 'store/mutation-types.js';
 import { MODEL_TREE_TYPE } from 'common/constants';
 
 import { handleTreeData } from 'utils/util';
@@ -126,6 +132,8 @@ const actions = {
             commit({ type: MODEL_SAVE_TREE_DATA, treeData: res.data || [] })
             commit({ type: MODEL_SET_CUR_MODEL_ID, id })
 
+            commit(`uiState/${CLEAR_ALL_DATA_UISTATE}`, null, { root: true })
+
             typeof cb === 'function' && cb(res.data)
         })
     },
@@ -138,6 +146,7 @@ const actions = {
     // 当前选中的model的id
     setCurModelId ({ commit }, id) {
         commit({ type: MODEL_SET_CUR_MODEL_ID, id })
+        commit(`uiState/${CLEAR_ALL_DATA_UISTATE}`, null, { root: true })
     },
 
     // 当前选中的treeNode

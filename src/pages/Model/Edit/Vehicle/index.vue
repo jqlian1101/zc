@@ -259,26 +259,30 @@ export default {
         },
 
         sureCopy(sourceInfo) {
-            // let { row, cal, id, name } = sourceInfo;
-            let { row, cal, id } = sourceInfo;
+            this.submitForm({
+                cb: () => {
+                    // let { row, cal, id, name } = sourceInfo;
+                    let { row, cal, id } = sourceInfo;
 
-            // 默认复制全部
-            // let carNums = "";
+                    // 默认复制全部
+                    // let carNums = "";
 
-            let params = { id: this.curTreeNodeInfo.id };
-            if (id !== "all") params.carNums = `${row}-${cal}`;
+                    let params = { id: this.curTreeNodeInfo.id };
+                    if (id !== "all") params.carNums = `${row}-${cal}`;
 
-            carArg.vehicleCopy({ ...params }).then(res => {
-                if (!res) return;
+                    carArg.vehicleCopy({ ...params }).then(res => {
+                        if (!res) return;
 
-                this.formKey = _util.randomString("vehicleForm_");
+                        this.formKey = _util.randomString("vehicleForm_");
 
-                this.initData().then(resArr => {
-                    this.$message({
-                        message: "操作成功",
-                        type: "success"
+                        this.initData().then(resArr => {
+                            this.$message({
+                                message: "操作成功",
+                                type: "success"
+                            });
+                        });
                     });
-                });
+                }
             });
         },
 
@@ -340,12 +344,16 @@ export default {
             ]).then(res => {
                 if (!res[0] || !res[1]) return;
 
+                if (typeof params.cb === "function") {
+                    return params.cb(res);
+                }
+
                 this.$message({
                     message: "保存成功",
                     type: "success"
                 });
 
-                typeof params.success && params.success();
+                typeof params.success === "function" && params.success();
             });
         },
 

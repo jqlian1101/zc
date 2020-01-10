@@ -91,7 +91,7 @@ export const VEHICLE_ELE_FIELD_DICT = {
     diy2: ['diy2TcsdData'],
     diy3: ['diy3TcsdData'],
     qyxt: ['tracdef', 'emNum', 'tracf', 'delayTime', 'loadTime', 'tcsd'],
-    zdxt: ['brakedef', 'brakef', 'delayTime', 'loadTime', 'tcsd']
+    zdxt: ['brakedef', 'brakef', 'delayTime', 'loadTime', 'tcsd', 'definition']
 }
 
 

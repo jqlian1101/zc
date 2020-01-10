@@ -64,6 +64,7 @@
                     ref="diy"
                     title="制动力用户自定义"
                     field="tcsdId"
+                    :showCharts="true"
                     :saveData="saveDiyData"
                     :disabled="formData.brakedef!==2"
                     :class="$style.diyDown"

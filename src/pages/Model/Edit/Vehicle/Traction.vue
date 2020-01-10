@@ -86,6 +86,7 @@
                 >牵引力用户自定义</el-checkbox>
                 <Diy
                     ref="diy"
+                    :showCharts="true"
                     title="牵引力用户自定义"
                     field="tcsdId"
                     :saveData="saveDiyData"

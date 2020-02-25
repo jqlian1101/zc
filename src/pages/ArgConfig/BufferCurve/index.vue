@@ -111,10 +111,10 @@ export default {
     methods: {
         // 获取模版列表
         getCoupMdfTempList() {
-            const { userId, userType } = getUserIdAndType();
+            const { userId, userTypeCode } = getUserIdAndType();
 
             argConfig
-                .getCoupMdfTempList({ userId, type: userType })
+                .getCoupMdfTempList({ userId, type: userTypeCode })
                 .then(res => {
                     if (!res) return;
                     let data = res.data || [];
@@ -227,11 +227,11 @@ export default {
             }
             this.hideNameDialog();
 
-            const { userId, userType } = getUserIdAndType();
+            const { userId, userTypeCode } = getUserIdAndType();
 
             let fetchParams = {
                 userId,
-                type: userType,
+                type: userTypeCode,
                 name,
                 isSymmetry: this.isSymmetry,
                 ...params

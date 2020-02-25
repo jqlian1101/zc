@@ -102,10 +102,10 @@ export default {
     methods: {
         // 获取模版列表
         getCoupFdhsfTempList() {
-            const { userId, userType } = getUserIdAndType();
+            const { userId, userTypeCode } = getUserIdAndType();
 
             argConfig
-                .getCoupFdhsfTempList({ userId, type: userType })
+                .getCoupFdhsfTempList({ userId, type: userTypeCode })
                 .then(res => {
                     if (!res) return;
                     this.bufferList = res.data || [];
@@ -170,11 +170,11 @@ export default {
             let ysxzInfo = this.$refs.ysxzInfo.saveData();
             let lsxzInfo = this.$refs.lsxzInfo.saveData();
 
-            const { userId, userType } = getUserIdAndType();
+            const { userId, userTypeCode } = getUserIdAndType();
 
             let params = {
                 userId,
-                type: userType,
+                type: userTypeCode,
                 name,
                 ysjzInfo,
                 lsjzInfo,

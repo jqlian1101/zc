@@ -141,7 +141,7 @@ import mixinData from "./mixin/mixinData";
 
 import watchHaveDataMixin from "common/watchHaveDataMixin";
 
-const { userId, userType } = getUserIdAndType();
+// const { userId, userType } = getUserIdAndType();
 
 export default {
     name: "ConnectBuffer",
@@ -175,8 +175,10 @@ export default {
 
         // 查询缓冲器分段函数法模版列表
         getCoupFdhsfTempList() {
+            const { userId, userTypeCode } = getUserIdAndType();
+
             argConfig
-                .getCoupFdhsfTempList({ type: userType, userId })
+                .getCoupFdhsfTempList({ type: userTypeCode, userId })
                 .then(res => {
                     if (!res) return;
                     this.piecewiseLsit = res.data || [];
@@ -185,8 +187,10 @@ export default {
 
         // 查询缓冲器描点法模版列表
         getCoupMdfTempList() {
+            const { userId, userTypeCode } = getUserIdAndType();
+
             argConfig
-                .getCoupMdfTempList({ type: userType, userId })
+                .getCoupMdfTempList({ type: userTypeCode, userId })
                 .then(res => {
                     if (!res) return;
                     this.curveList = res.data || [];

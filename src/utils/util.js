@@ -144,10 +144,15 @@ export const getUserInfo = () => {
     return JSON.parse(userInfoStr);
 }
 
+export const userTypeCodeDict = {
+    corpAdmin: { type: 'corpAdmin', code: '1' },
+    user: { type: 'user', code: '2' }
+}
+
 export const getUserIdAndType = () => {
     let userInfo = getUserInfo();
     let { id, roleCode } = userInfo;
-    return { userId: id, userType: roleCode }
+    return { userId: id, userType: roleCode, userTypeCode: userTypeCodeDict[roleCode].code }
 }
 
 export const getObjFromStr = (str) => {

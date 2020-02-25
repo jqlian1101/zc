@@ -36,7 +36,6 @@ import mixinData from "./mixin/mixinData";
 import { getUserIdAndType } from "utils/util";
 import watchHaveDataMixin from "common/watchHaveDataMixin";
 
-const { userId, userType } = getUserIdAndType();
 
 export default {
     name: "FoldedCollapse",
@@ -49,7 +48,9 @@ export default {
     },
     methods: {
         getYKGTempList() {
-            argConfig.getYKGTempList({ userId, type: userType }).then(res => {
+            const { userId, userTypeCode } = getUserIdAndType();
+
+            argConfig.getYKGTempList({ userId, type: userTypeCode }).then(res => {
                 if (!res) return;
                 this.options = res.data;
             });

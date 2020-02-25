@@ -73,8 +73,6 @@ import NameDialog from "components/NameDialog";
 import { argConfig } from "api";
 import { getUserIdAndType } from "utils/util";
 
-const { userId, userType } = getUserIdAndType();
-
 export default {
     name: "YKGTemp",
     components: {
@@ -105,11 +103,15 @@ export default {
     methods: {
         // 获取压溃管模版列表
         getYKGTempList() {
+            const { userId, userTypeCode } = getUserIdAndType();
+
             // TODO type 根据用户身份确定，管理员：1(公用)，普通用户：2(私有)
-            argConfig.getYKGTempList({ userId, type: userType }).then(res => {
-                if (!res) return;
-                this.ykgList = res.data;
-            });
+            argConfig
+                .getYKGTempList({ userId, type: userTypeCode })
+                .then(res => {
+                    if (!res) return;
+                    this.ykgList = res.data;
+                });
         },
 
         // 点击删除，删除选中项
@@ -137,10 +139,12 @@ export default {
 
         //  保存数据
         saveData(name) {
+            const { userId, userTypeCode } = getUserIdAndType();
+
             let params = {
                 ...this.formData,
                 userId,
-                type: userType,
+                type: userTypeCode,
                 name
             };
 

@@ -68,11 +68,11 @@ import LineCharts from "components/Charts";
 
 let chartsOptions = {
     xAxis: {
-        type: "category"
+        // type: "category"
         // data: []
     },
     yAxis: {
-        type: "value"
+        // type: "value"
     },
     series: [
         {
@@ -85,14 +85,22 @@ let chartsOptions = {
 
 const interList = [{ id: "line", name: "line" }];
 
-const defaultPointData = [
+// const defaultPointData = [
+//     { name: "预加载", value: "", key: "preMount" },
+//     { name: "开始加载", value: "", key: "beforeMount" },
+//     { name: "加载", value: "", key: "mount" },
+//     { name: "开始卸载", value: "", key: "beforeDestory" },
+//     { name: "卸载", value: "", key: "destory" }
+// ];
+let defaultInterId = interList[0].id;
+
+const getDefaultPointData = () => ([
     { name: "预加载", value: "", key: "preMount" },
     { name: "开始加载", value: "", key: "beforeMount" },
     { name: "加载", value: "", key: "mount" },
     { name: "开始卸载", value: "", key: "beforeDestory" },
     { name: "卸载", value: "", key: "destory" }
-];
-let defaultInterId = interList[0].id;
+]);
 
 export default {
     name: "BufferCurve",
@@ -112,7 +120,7 @@ export default {
 
         return {
             // 曲线分段table
-            pointAllotData: pointAllotDataYs || [...defaultPointData],
+            pointAllotData: pointAllotDataYs || getDefaultPointData(),
 
             pointData: pointDataYs || [],
 
@@ -154,7 +162,7 @@ export default {
                 interpolationMethodYs
             } = newData;
 
-            this.pointAllotData = pointAllotDataYs || defaultPointData;
+            this.pointAllotData = pointAllotDataYs || getDefaultPointData();
 
             this.pointData = pointDataYs || [];
 

@@ -138,10 +138,10 @@ const typeList = [{ id: "line", name: "Line" }];
 
 let chartsOptions = {
     xAxis: {
-        type: "category"
+        // type: "category"
     },
     yAxis: {
-        type: "value"
+        // type: "value"
     },
     series: [
         {

@@ -30,7 +30,7 @@
                             </el-col>
                             <el-col :span="10">
                                 <el-form-item label="单位起动基本阻力:" prop="qdf">
-                                    <input-number-wrap suffix="N/k/N">
+                                    <input-number-wrap suffix="N/kN">
                                         <el-input-number
                                             :controls="false"
                                             v-model="no1.qdf"
@@ -128,7 +128,7 @@
                                 </el-col>
                                 <el-col :span="10">
                                     <el-form-item label="单位起动基本阻力:" prop="qdf">
-                                        <input-number-wrap suffix="N/k/N">
+                                        <input-number-wrap suffix="N/kN">
                                             <el-input-number
                                                 :controls="false"
                                                 v-model="no2.qdf"

@@ -40,7 +40,6 @@
                     <el-input-number
                         :controls="false"
                         v-model="scope.row.x"
-                        :min="0"
                         @change="dataChange"
                     ></el-input-number>
                 </template>
@@ -50,7 +49,6 @@
                     <el-input-number
                         v-model="scope.row.f"
                         :controls="false"
-                        :min="0"
                         @change="dataChange"
                     ></el-input-number>
                 </template>
@@ -117,11 +115,11 @@ import LineCharts from "components/Charts";
 
 let chartsOptions = {
     xAxis: {
-        type: "category"
+        // type: "category"
         // data: []
     },
     yAxis: {
-        type: "value"
+        // type: "value"
     },
     series: [
         {

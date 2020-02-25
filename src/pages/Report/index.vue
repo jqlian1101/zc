@@ -273,11 +273,13 @@ export default {
                 return;
             }
 
-            const code = args[0];
-            const vc = args[1].split("-");
+            const [code, ve, ca] = args[1].split("-");
 
-            const ve = vc[0];
-            const ca = vc[1];
+            // const code = args[0];
+            // const vc = args[1].split("-");
+
+            // const ve = vc[0];
+            // const ca = vc[1];
 
             this.searchForm = {
                 ...this.searchForm,

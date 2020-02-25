@@ -45,7 +45,9 @@
                     </el-col>
                     <el-col :span="10">
                         <el-form-item label="车体强度:" prop="qcar">
-                            <el-input-number :controls="false" v-model="formData.qcar" clearable></el-input-number>
+                            <input-number-wrap suffix="N">
+                                <el-input-number :controls="false" v-model="formData.qcar" clearable></el-input-number>
+                            </input-number-wrap>
                         </el-form-item>
                     </el-col>
                     <el-col :span="10" :offset="2">

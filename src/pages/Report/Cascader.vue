@@ -76,15 +76,33 @@ export default {
                 .then(res => {
                     if (!res || res.code !== "200") return;
                     const data = res.data || [];
+                    // const data = [
+                    //     {
+                    //         code: "F_stock",
+                    //         value: "第1列第3辆前端面"
+                    //     },
+                    //     {
+                    //         code: "F_stock_back",
+                    //         value: "第1列第4辆后端面"
+                    //     }
+                    // ];
+
                     const nodes = data.map(item => {
-                        const vc = item.replace("车辆", "");
+                        // const vc = item.replace("车辆", "");
 
-                        const ve = vc.charAt(0);
-                        const ca = vc.substring(1);
+                        const [ve, ca] = item.value.match(/\d+/g);
 
+                        // const ve = vc.charAt(0);
+                        // const ca = vc.substring(1);
+
+                        // return {
+                        //     value: `${ve}-${ca}`,
+                        //     label: `第${ve}列 第${ca}辆`,
+                        //     leaf: true
+                        // };
                         return {
-                            value: `${ve}-${ca}`,
-                            label: `第${ve}列 第${ca}辆`,
+                            value: `${item.code}-${ve}-${ca}`,
+                            label: item.value,
                             leaf: true
                         };
                     });

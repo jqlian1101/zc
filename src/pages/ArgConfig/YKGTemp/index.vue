@@ -20,17 +20,17 @@
                 <el-row :class="$style.row">压溃管1</el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="行程">
+                        <el-form-item label="行程(m)">
                             <el-input-number :controls="false" v-model="formData.sYkg1" :min="0"></el-input-number>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="作用力1">
+                        <el-form-item label="作用力1(N)">
                             <el-input-number :controls="false" v-model="formData.fYkg11" :min="0"></el-input-number>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="作用力2">
+                        <el-form-item label="作用力2(N)">
                             <el-input-number :controls="false" v-model="formData.fYkg12" :min="0"></el-input-number>
                         </el-form-item>
                     </el-col>
@@ -38,17 +38,17 @@
                 <el-row :class="$style.row">压溃管2</el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="行程">
+                        <el-form-item label="行程(m)">
                             <el-input-number :controls="false" v-model="formData.sYkg2" :min="0"></el-input-number>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="作用力1">
+                        <el-form-item label="作用力1(N)">
                             <el-input-number :controls="false" v-model="formData.fYkg21" :min="0"></el-input-number>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="作用力2">
+                        <el-form-item label="作用力2(N)">
                             <el-input-number :controls="false" v-model="formData.fYkg22" :min="0"></el-input-number>
                         </el-form-item>
                     </el-col>
@@ -146,6 +146,10 @@ export default {
 
             if (this.isDiy || !this.curYKGType) {
                 delete params.id;
+            }
+
+            for (let i in params) {
+                if (!params[i]) delete params[i];
             }
 
             argConfig.saveYKGTemp(params).then(res => {

@@ -12,6 +12,7 @@
                 ></el-option>
             </el-select>
             <el-checkbox v-model="isDiy" :class="$style.isDiy">自定义</el-checkbox>
+            <div :class="$style.deleteBtn" class="cursor-p" @click="onClickNew">新建</div>
             <div :class="$style.deleteBtn" class="cursor-p" @click="onClickDel">删除</div>
         </div>
         <div :class="$style.editType">
@@ -95,6 +96,7 @@ export default {
     // },
     watch: {
         curTempId(newId) {
+            if (!newId) return;
             let { isSymmetry, bufferList } = this;
             this.curBufferTemp =
                 bufferList.find(item => item.id === newId) || {};
@@ -140,6 +142,15 @@ export default {
                     type: "success"
                 });
             });
+        },
+
+        // 新建
+        onClickNew() {
+            this.curTempId = '';
+            this.isDiy = true;
+            this.dataSource = {}
+            this.isSymmetry = symmetryTypeList[0].type
+            this.curBufferTemp = {}
         },
 
         // 点击删除，删除选中项

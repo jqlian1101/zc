@@ -6,40 +6,35 @@
         </div>
         <el-table :data="tableData" border max-height="500">
             <el-table-column prop="xInitial" label="起始位置" align="center">
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                     <el-input-number
                         v-model="scope.row.xInitial"
                         :controls="false"
                         :min="0"
                         @change="resetTableData"
                     ></el-input-number>
-                </template>
+                </template> -->
             </el-table-column>
             <el-table-column prop="lInitial" label="长度(m)" align="center">
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                     <el-input-number
                         v-model="scope.row.lInitial"
                         :controls="false"
                         :min="0"
                         @change="resetTableData"
                     ></el-input-number>
-                </template>
+                </template> -->
             </el-table-column>
             <el-table-column prop="gradient" label="坡度(ppt)" align="center">
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                     <el-input-number v-model="scope.row.gradient" :controls="false" :min="0"></el-input-number>
-                </template>
+                </template> -->
             </el-table-column>
             <el-table-column prop="radius" label="过渡曲线半径(m)" align="center">
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                     <el-input-number v-model="scope.row.radius" :controls="false" :min="0"></el-input-number>
-                </template>
+                </template> -->
             </el-table-column>
-            <!-- <el-table-column label="坡道设置" align="center">
-                <template slot-scope="scope">
-                    <Ramp :dataSource="scope.row" />
-                </template>
-            </el-table-column>-->
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <span

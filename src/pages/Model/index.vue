@@ -139,6 +139,7 @@ export default {
                 inputValidator: this.validatorModelname
             })
                 .then(({ value }) => {
+                    // console.log(value)
                     model.createModel({ userId, name: value }).then(res => {
                         if (!res) return;
                         this.getModelTreeData(res.data.id);
@@ -155,6 +156,9 @@ export default {
             if (!value) return "请输入名称";
             if (!verifyModelName(value)) {
                 return "名称为只能包含汉字、数字、字母、_、-";
+            }
+            if (value.indexOf("_") === -1) {
+                return '名称中必须包含"_"';
             }
             return true;
         },

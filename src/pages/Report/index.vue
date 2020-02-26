@@ -114,7 +114,7 @@
         >
             <el-form :model="reportTypeFrom" label-width="120px">
                 <el-form-item label="选择报告模版">
-                    <el-select v-model="reportTypeFrom.type" placeholder>
+                    <el-select v-model="reportTypeFrom.type" placeholder='选择报告模版'>
                         <el-option
                             :key="item.type"
                             :label="item.name"
@@ -124,7 +124,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择计算结果">
-                    <el-select v-model="reportTypeFrom.recordId" placeholder>
+                    <el-select v-model="reportTypeFrom.recordId" placeholder='选择计算结果' multiple>
                         <el-option
                             v-for="item in calcResultList"
                             :key="item.id"

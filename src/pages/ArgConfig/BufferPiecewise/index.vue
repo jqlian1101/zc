@@ -67,7 +67,7 @@ export default {
             // 当前的缓冲器型号
             curTempId: "",
             bufferList: [],
-            isDiy: false,
+            isDiy: true,
 
             // 是否是对称曲线
             globalTypeList,

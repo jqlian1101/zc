@@ -12,6 +12,7 @@
                 ></el-option>
             </el-select>
             <el-checkbox v-model="isDiy" :class="$style.isDiy">自定义</el-checkbox>
+            <div :class="$style.deleteBtn" class="cursor-p" @click="onClickNew">新建</div>
             <div :class="$style.deleteBtn" class="cursor-p" @click="onClickDel">删除</div>
         </div>
         <!-- <div v-if="curTempId || isDiy"> -->
@@ -49,7 +50,6 @@ import { argConfig } from "api";
 import { getUserIdAndType, getObjFromStr } from "utils/util";
 
 import Table from "./Table";
-
 
 const globalTypeList = [
     { type: "symmetry", name: "对称曲线" },
@@ -89,9 +89,10 @@ export default {
         }
     },
     watch: {
-        curTempId() {
+        curTempId(newVal) {
             let curBufferData = this.curBufferTemp;
             let { ysjzInfo, lsjzInfo, ysxzInfo, lsxzInfo } = curBufferData;
+            newVal && (this.isDiy = false);
 
             ysjzInfo && (this.ysjzInfo = getObjFromStr(ysjzInfo));
             lsjzInfo && (this.lsjzInfo = getObjFromStr(lsjzInfo));
@@ -125,6 +126,19 @@ export default {
                     type: "success"
                 });
             });
+        },
+
+        onClickNew() {
+            this.curTempId = "";
+            // bufferList: [],
+            this.isDiy = true;
+
+            this.nameDialogVisible = false;
+
+            this.ysjzInfo = [];
+            this.lsjzInfo = []; // 拉伸加载
+            this.ysxzInfo = []; // 压缩卸载
+            this.lsxzInfo = []; // 拉伸卸载
         },
 
         // 点击删除，删除选中项

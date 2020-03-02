@@ -155,7 +155,7 @@ export default {
             if (this.noData) return;
             const { modelId, ve, ca, code } = this.chartInfo;
 
-            const pageSize = 50;
+            const pageSize = 1000;
             const currentPage = this.currentPage;
 
             const { userId } = getUserIdAndType();

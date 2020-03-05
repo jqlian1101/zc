@@ -114,7 +114,7 @@
         >
             <el-form :model="reportTypeFrom" label-width="120px">
                 <el-form-item label="选择报告模版">
-                    <el-select v-model="reportTypeFrom.type" placeholder='选择报告模版'>
+                    <el-select v-model="reportTypeFrom.type" placeholder="选择报告模版">
                         <el-option
                             :key="item.type"
                             :label="item.name"
@@ -124,7 +124,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择计算结果">
-                    <el-select v-model="reportTypeFrom.recordId" placeholder='选择计算结果' multiple>
+                    <el-select v-model="reportTypeFrom.recordId" placeholder="选择计算结果" multiple>
                         <el-option
                             v-for="item in calcResultList"
                             :key="item.id"
@@ -365,10 +365,24 @@ export default {
                     report.saveResultRecord(params).then(res => {
                         if (!res || res.code !== "200") return;
                         this.$message(res.message || "保存成功");
+
                         this.getCalcList();
+                        // 调用过后端生成图片接口
+                        this.generateEChartIMG({
+                            modelId: this.curModelId,
+                            userId,
+                            recordIds: this.curCalcId
+                        });
                     });
                 }
             });
+        },
+
+        generateEChartIMG(params) {
+            const { modelId, recordIds, userId } = params;
+            report
+                .generateEChartIMG({ modelId, recordIds, userId })
+                .then(res => console.log(res));
         },
 
         /**

@@ -25,6 +25,10 @@ const getRecordInfo = (params) => request(`${config.baseUrl}/resultRecord/getRec
 // 获取报告模板列表
 const getReportTempList = (params) => request(`${config.baseUrl}/resultrecord/getReportTempList`, { ...params });
 
+
+// 后端生成图片，保存计算结果成功后调用
+const generateEChartIMG = (params) => request(`${config.baseUrl}/resultrecord/generateEChartIMG`, { ...params }, { showLoading: false });
+
 export default {
     getArgsList,
     getCaListBYCode,
@@ -34,5 +38,6 @@ export default {
     saveResultRecord,
     getRecordList,
     getRecordInfo,
-    getReportTempList
+    getReportTempList,
+    generateEChartIMG
 }

@@ -5,20 +5,20 @@
             <span class="btn-mini" :class="$style.btn" @click="tableDel">-</span>
         </div>
         <el-table :data="tableData" border max-height="500">
-            <el-table-column prop="xInitial" label="起始位置" align="center">
+            <el-table-column prop="xinitial" label="起始位置" align="center">
                 <!-- <template slot-scope="scope">
                     <el-input-number
-                        v-model="scope.row.xInitial"
+                        v-model="scope.row.xinitial"
                         :controls="false"
                         :min="0"
                         @change="resetTableData"
                     ></el-input-number>
                 </template> -->
             </el-table-column>
-            <el-table-column prop="lInitial" label="长度(m)" align="center">
+            <el-table-column prop="linitial" label="长度(m)" align="center">
                 <!-- <template slot-scope="scope">
                     <el-input-number
-                        v-model="scope.row.lInitial"
+                        v-model="scope.row.linitial"
                         :controls="false"
                         :min="0"
                         @change="resetTableData"
@@ -106,11 +106,11 @@ export default {
                 let cur = tableData[i];
 
                 if (i === 1) {
-                    prev.xInitial = 0;
+                    prev.xinitial = 0;
                 }
 
                 if (cur) {
-                    cur.xInitial = prev.xInitial + prev.lInitial;
+                    cur.xinitial = prev.xinitial + prev.linitial;
                 }
             }
 
@@ -195,7 +195,7 @@ export default {
             circuit.getCircleData({ modelId: this.curModelId }).then(res => {
                 if (!res) return;
                 let data = res.data || [];
-                data.sort((a, b) => a.xInitial - b.xInitial);
+                data.sort((a, b) => a.xinitial - b.xinitial);
                 this.tableData = res.data || [];
             });
         },

@@ -31,7 +31,7 @@
                     <!-- 常规定义法 -->
                     <el-form :model="formData" v-if="rampMethod === 1">
                         <el-form-item label="长度(m)" :label-width="formLabelWidth">
-                            <el-input-number :controls="false" v-model="formData.lInitial"></el-input-number>
+                            <el-input-number :controls="false" v-model="formData.linitial"></el-input-number>
                         </el-form-item>
                         <el-form-item label="坡度(ppt)" :label-width="formLabelWidth">
                             <el-input-number :controls="false" v-model="formData.gradient"></el-input-number>
@@ -151,7 +151,7 @@ let chartsOptions = {
 };
 
 const defaultFormData = {
-    lInitial: 100, // 长度
+    linitial: 100, // 长度
     gradient: 0, // 坡度
     radius: 0 // 过渡曲线半径
 };
@@ -297,7 +297,7 @@ export default {
                 };
 
                 // 长度
-                json.lInitial = next.x - cur.x;
+                json.linitial = next.x - cur.x;
 
                 // 坡度
                 json.gradient = (

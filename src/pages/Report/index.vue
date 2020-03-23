@@ -214,7 +214,7 @@ export default {
             allowCreateCharts: false,
 
             showCalculating: false,
-            calculatingPer: 75,
+            calculatingPer: 0,
 
             showDownReportModel: false,
 
@@ -289,6 +289,41 @@ export default {
             };
         },
 
+        clearCalcTimer() {
+            clearInterval(this.calcProgressTimer);
+            this.calcProgressTimer = null;
+            this.calcProgressNum = 0;
+        },
+
+        showCalcProgress(integralTimes = 1) {
+            this.showCalculating = true;
+
+            let stage = Math.ceil(integralTimes) + 1; // 段数
+
+            if (stage < 4) {
+                // 最小分4段
+                stage = 4;
+            } else if (stage > 20) {
+                // 最大10段
+                stage = 20;
+            }
+
+            const frequently = 3000; // 每段时常3s
+            const step = Math.ceil(100 / stage); // 步距
+
+            this.clearCalcTimer();
+
+            this.calcProgressTimer = setInterval(() => {
+                if (this.calcProgressNum === stage - 1) {
+                    return this.clearCalcTimer();
+                }
+                this.calcProgressNum = this.calcProgressNum + 1;
+                let newPer = this.calculatingPer + step;
+                if (newPer > 99) newPer = 99;
+                this.calculatingPer = newPer;
+            }, frequently);
+        },
+
         getCalculateResults() {
             const { userId } = getUserIdAndType();
             const { searchForm } = this;
@@ -300,12 +335,7 @@ export default {
                 v2 = ""
             } = searchForm;
 
-            this.showCalculating = true;
-
-            // 校验参数不为空
-            // for (let i = 0; i < varifyArgs.length; i++) {
-            //     if (!varifyArgsFns(varifyArgs[i], searchForm)) return;
-            // }
+            this.showCalcProgress(integralTimes);
 
             report
                 .getCalculateResults({
@@ -318,8 +348,10 @@ export default {
                     userID: userId
                 })
                 .then(res => {
+                    this.clearCalcTimer();
                     if (!res || res.code !== "200") {
                         this.showCalculating = false;
+                        this.calculatingPer = 0;
                         return;
                     }
 
@@ -331,6 +363,7 @@ export default {
                     this.calculatingPer = 100;
                     setTimeout(() => {
                         this.showCalculating = false;
+                        this.calculatingPer = 0;
                     }, 500);
                 });
         },
@@ -486,6 +519,9 @@ export default {
     },
     mounted() {
         this.initData();
+    },
+    beforeDestroy() {
+        this.clearCalcTimer();
     }
 };
 </script>

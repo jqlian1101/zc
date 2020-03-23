@@ -35,7 +35,6 @@
                             :controls="false"
                             v-model="item.v"
                             @change="vehicleArgChange"
-                            :min="0"
                         />
                     </div>
                 </div>

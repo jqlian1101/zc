@@ -26,7 +26,7 @@
         </div>
         <div v-if="curTempId || isDiy">
             <div :class="$style.contWrap" v-if="isSymmetry === '1'">
-                <ContentLs ref="contentLs" :dataSource="dataSource" />
+                <ContentYs ref="contentYs" :dataSource="dataSource" />
             </div>
             <div :class="$style.contWrap" v-else>
                 <ContentLs :type="1" typeName="拉伸" ref="contentLs" :dataSource="dataSource" />
@@ -195,7 +195,7 @@ export default {
 
             // 神一样对数据格式
             if (this.isSymmetry === "1") {
-                let data = this.$refs.contentLs.saveData();
+                let data = this.$refs.contentYs.saveData();
                 // 对称曲线
                 params.xProportionYs = params.xProportionLs = data.xProportion;
 
@@ -209,6 +209,19 @@ export default {
                     data.pointAllotData;
 
                 params.pointDataYs = params.pointDataLs = data.pointData;
+
+                // params.xProportionLs = params.xProportionYs = data.xProportion;
+
+                // params.fxProportionLs = params.fxProportionYs =
+                //     data.fxProportion;
+
+                // params.interpolationMethodLs = params.interpolationMethodYs =
+                //     data.interpolationMethod;
+
+                // params.pointAllotDataLs = params.pointAllotDataYs =
+                //     data.pointAllotData;
+
+                // params.pointDataLs = params.pointDataYs = data.pointData;
             } else {
                 // 非对称曲线
                 let dataYs = this.$refs.contentLs.saveData();

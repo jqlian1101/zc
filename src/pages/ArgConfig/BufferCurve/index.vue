@@ -45,7 +45,7 @@
 <script>
 import NameDialog from "components/NameDialog";
 import { argConfig } from "api";
-import { getUserIdAndType, getObjFromStr } from "utils/util";
+import { getUserIdAndType, getObjFromStr, isNil } from "utils/util";
 
 import ContentLs from "./ContentLs";
 import ContentYs from "./ContentYs";
@@ -146,11 +146,11 @@ export default {
 
         // 新建
         onClickNew() {
-            this.curTempId = '';
+            this.curTempId = "";
             this.isDiy = true;
-            this.dataSource = {}
-            this.isSymmetry = symmetryTypeList[0].type
-            this.curBufferTemp = {}
+            this.dataSource = {};
+            this.isSymmetry = symmetryTypeList[0].type;
+            this.curBufferTemp = {};
         },
 
         // 点击删除，删除选中项
@@ -179,6 +179,7 @@ export default {
         onClickSaveData() {
             // 如果是自定义，则输入用户名；否则，覆盖已选数据
             if (this.isDiy) {
+                if (!this.getFetchData()) return;
                 this.nameDialogVisible = true;
                 return;
             }
@@ -190,7 +191,7 @@ export default {
             this.nameDialogVisible = false;
         },
 
-        saveData(name) {
+        getFetchData() {
             let params = {};
 
             // 神一样对数据格式
@@ -238,6 +239,48 @@ export default {
                 params.pointAllotDataYs = dataLs.pointAllotData;
                 params.pointDataYs = dataLs.pointData;
             }
+
+            let verifyMsg = this.verifyPointData(params.pointDataYs);
+            if (verifyMsg) {
+                this.$message({
+                    message: verifyMsg
+                });
+                return;
+            }
+
+            verifyMsg = this.verifyPointData(params.pointDataLs);
+            if (verifyMsg) {
+                this.$message({
+                    message: verifyMsg
+                });
+                return;
+            }
+
+            return params;
+        },
+
+        verifyPointData(datas = []) {
+            let cache = [];
+
+            for (let i = 0; i < datas.length; i++) {
+                const item = datas[i];
+                if (isNil(item.x) || isNil(item.f)) {
+                    return "请将数据填写完整";
+                }
+
+                if (cache.indexOf(`${item.x},${item.f}`) !== -1) {
+                    return "不能有两个相同的点";
+                }
+
+                cache.push(`${item.x},${item.f}`);
+            }
+            return false;
+        },
+
+        saveData(name) {
+            let params = this.getFetchData();
+            if (!params) return;
+
             this.hideNameDialog();
 
             const { userId, userTypeCode } = getUserIdAndType();

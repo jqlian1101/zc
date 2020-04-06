@@ -519,8 +519,16 @@ export default {
     },
     mounted() {
         this.initData();
+        const cache = window.sessionStorage.getItem("_crrc_calc_result_");
+        if (cache) {
+            this.searchForm = JSON.parse(cache);
+        }
     },
     beforeDestroy() {
+        window.sessionStorage.setItem(
+            "_crrc_calc_result_",
+            JSON.stringify(this.searchForm)
+        );
         this.clearCalcTimer();
     }
 };

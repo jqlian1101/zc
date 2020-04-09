@@ -374,6 +374,7 @@ export default {
             report.deleteRecordById({ recordId: record.id }).then(res => {
                 if (!res || res.code !== "200") return;
                 this.$message("操作成功");
+                this.getCalcList();
             });
         },
 

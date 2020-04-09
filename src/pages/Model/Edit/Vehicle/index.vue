@@ -46,7 +46,11 @@
                     <el-col :span="10">
                         <el-form-item label="车体强度:" prop="qcar">
                             <input-number-wrap suffix="N">
-                                <el-input-number :controls="false" v-model="formData.qcar" clearable></el-input-number>
+                                <el-input-number
+                                    :controls="false"
+                                    v-model="formData.qcar"
+                                    clearable
+                                ></el-input-number>
                             </input-number-wrap>
                         </el-form-item>
                     </el-col>
@@ -177,7 +181,10 @@ export default {
     },
     data() {
         return {
-            formData: {},
+            formData: {
+                kcar: 80000000,
+                qcar: 1180000
+            },
             diyData: {},
 
             formKey: _util.randomString("vehicleForm_"),
@@ -323,6 +330,13 @@ export default {
                 l: this.formData.length,
                 length: this.formData.length
             };
+
+            if (veParams.m === 0) {
+                return this.$message({
+                    message: "质量不能为0",
+                    type: "error"
+                });
+            }
 
             const diyParams = { ...this.diyData };
 

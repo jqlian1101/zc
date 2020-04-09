@@ -151,6 +151,8 @@
                     class="cursor-p"
                     v-for="item in calcResultList"
                     :key="item.id"
+                    closable
+                    @close="deleteRecordById(item)"
                     @click="openCalculate(item)"
                 >{{item.name}}</el-tag>
             </ul>
@@ -366,6 +368,13 @@ export default {
                         this.calculatingPer = 0;
                     }, 500);
                 });
+        },
+
+        deleteRecordById(record) {
+            report.deleteRecordById({ recordId: record.id }).then(res => {
+                if (!res || res.code !== "200") return;
+                this.$message("操作成功");
+            });
         },
 
         openCalculate(record) {

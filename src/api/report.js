@@ -1,33 +1,53 @@
-import { request } from 'utils/request';
-import config from './config';
+import { request } from "utils/request";
+import config from "./config";
 
 // 获取参数列表
-const getArgsList = (params) => request(`${config.baseUrl}/resultrecord/getParamList`, { ...params });
+const getArgsList = params =>
+    request(`${config.baseUrl}/resultrecord/getParamList`, { ...params });
 
 // 根据参数获取车辆列表
-const getCaListBYCode = (params) => request(`${config.baseUrl}/resultrecord/getCaListBYCode`, { ...params });
+const getCaListBYCode = params =>
+    request(`${config.baseUrl}/resultrecord/getCaListBYCode`, { ...params });
 
 // 计算
-const getCalculateResults = (params) => request(`${config.baseUrl}/resultrecord/getCalculateResults`, { ...params }, { showLoading: false });
+const getCalculateResults = params =>
+    request(
+        `${config.baseUrl}/resultrecord/getCalculateResults`,
+        { ...params },
+        { showLoading: false }
+    );
 
 // 获取计算结果详情
-const getResultInfo = (params) => request(`${config.baseUrl}/resultrecord/getResultInfo`, { ...params });
+const getResultInfo = params =>
+    request(`${config.baseUrl}/resultrecord/getResultInfo`, { ...params });
 
 // 保存计算结果
-const saveResultRecord = (params) => request(`${config.baseUrl}/resultRecord/saveResultRecord`, { ...params });
+const saveResultRecord = params =>
+    request(`${config.baseUrl}/resultRecord/saveResultRecord`, { ...params });
 
 // 获取记录列表
-const getRecordList = (params) => request(`${config.baseUrl}/resultRecord/getRecordList`, { ...params });
+const getRecordList = params =>
+    request(`${config.baseUrl}/resultRecord/getRecordList`, { ...params });
 
 // 获取记录详情
-const getRecordInfo = (params) => request(`${config.baseUrl}/resultRecord/getRecordInfo`, { ...params });
+const getRecordInfo = params =>
+    request(`${config.baseUrl}/resultRecord/getRecordInfo`, { ...params });
 
 // 获取报告模板列表
-const getReportTempList = (params) => request(`${config.baseUrl}/resultrecord/getReportTempList`, { ...params });
-
+const getReportTempList = params =>
+    request(`${config.baseUrl}/resultrecord/getReportTempList`, { ...params });
 
 // 后端生成图片，保存计算结果成功后调用
-const generateEChartIMG = (params) => request(`${config.baseUrl}/resultrecord/generateEChartIMG`, { ...params }, { showLoading: false });
+const generateEChartIMG = params =>
+    request(
+        `${config.baseUrl}/resultrecord/generateEChartIMG`,
+        { ...params },
+        { showLoading: false }
+    );
+
+// 删除已保存的计算结果
+const deleteRecordById = params =>
+    request(`${config.baseUrl}/resultRecord/deleteRecordById`, { ...params });
 
 export default {
     getArgsList,
@@ -39,5 +59,6 @@ export default {
     getRecordList,
     getRecordInfo,
     getReportTempList,
-    generateEChartIMG
-}
+    generateEChartIMG,
+    deleteRecordById
+};

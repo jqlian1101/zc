@@ -36,6 +36,9 @@
                             ></el-option>
                         </el-select>
                     </el-form-item>
+                    <el-form-item label="备注">
+                        <el-input :disabled="true" v-model="remarks"></el-input>
+                    </el-form-item>
                     <el-form-item label="行程">
                         <input-number-wrap suffix="m" :disabled="formData.coupdef!==1">
                             <el-input-number
@@ -151,7 +154,8 @@ export default {
             curveList: [], // 描点list
             piecewiseLsit: [], // 分段函数list
 
-            checkedValue: ""
+            checkedValue: "",
+            remarks: ""
         };
     },
     components: {
@@ -161,6 +165,10 @@ export default {
         dataSource() {
             this.formData = { coupdef: "", ...this.dataSource };
             this.cacheFormData = { coupdef: "", ...this.dataSource };
+        },
+        "formData.couMdfId"(val) {
+            const cur = this.curveList.find(item => item.id === val);
+            this.remarks = cur ? cur.remarks || "" : "";
         }
     },
     computed: {},

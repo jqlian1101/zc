@@ -24,6 +24,10 @@
                     ></el-option>
                 </el-select>
             </el-row>
+            <el-row class="listWrap">
+                <label for>备注</label>
+                <el-input :disabled="true" v-model="remarks"></el-input>
+            </el-row>
         </div>
     </DropDown>
 </template>
@@ -36,24 +40,30 @@ import mixinData from "./mixin/mixinData";
 import { getUserIdAndType } from "utils/util";
 import watchHaveDataMixin from "common/watchHaveDataMixin";
 
-
 export default {
     name: "FoldedCollapse",
     mixins: [mixin, mixinData, watchHaveDataMixin],
     components: {},
     data() {
         return {
-            options: []
+            options: [],
+            remarks: ""
         };
     },
     methods: {
         getYKGTempList() {
             const { userId, userTypeCode } = getUserIdAndType();
 
-            argConfig.getYKGTempList({ userId, type: userTypeCode }).then(res => {
-                if (!res) return;
-                this.options = res.data;
-            });
+            argConfig
+                .getYKGTempList({ userId, type: userTypeCode })
+                .then(res => {
+                    if (!res) return;
+                    this.options = res.data;
+                });
+        },
+        "formData.ykgTempId"(val) {
+            const cur = this.options.find(item => item.id === val);
+            this.remarks = cur ? cur.remarks || "" : "";
         }
     },
     mounted() {

@@ -64,12 +64,13 @@
             :visible="nameDialogVisible"
             :onSaveData="saveData"
             :onCancel="()=>nameDialogVisible = false"
+            :dataSource="formData"
         />
     </div>
 </template>
 
 <script>
-import NameDialog from "components/NameDialog";
+import NameDialog from "../BufferCurve/NameDialog";
 import { argConfig } from "api";
 import { getUserIdAndType } from "utils/util";
 
@@ -83,7 +84,12 @@ export default {
             // 当前的缓冲器型号
             ykgList: [],
             curYKGType: "",
-            formData: {},
+            formData: {
+                fYkg11: 0,
+                fYkg12: 0,
+                fYkg21: 0,
+                fYkg22: 0
+            },
 
             isDiy: false,
 
@@ -93,6 +99,12 @@ export default {
     props: {},
     computed: {},
     watch: {
+        "formData.fYkg11"(val) {
+            if (!this.formData.fYkg12) this.formData.fYkg12 = val;
+        },
+        "formData.fYkg21"(val) {
+            if (!this.formData.fYkg22) this.formData.fYkg22 = val;
+        },
         curYKGType() {
             let list = this.ykgList || [];
             let curKey = this.curYKGType;
@@ -138,14 +150,14 @@ export default {
         },
 
         //  保存数据
-        saveData(name) {
+        saveData(args = {}) {
             const { userId, userTypeCode } = getUserIdAndType();
 
             let params = {
                 ...this.formData,
                 userId,
                 type: userTypeCode,
-                name
+                ...args
             };
 
             if (this.isDiy || !this.curYKGType) {

@@ -38,12 +38,17 @@
             </div>
         </div>
 
-        <NameDialog :visible="nameDialogVisible" :onSaveData="saveData" :onCancel="hideNameDialog" />
+        <NameDialog
+            :visible="nameDialogVisible"
+            :onSaveData="saveData"
+            :onCancel="hideNameDialog"
+            :dataSource="dataSource"
+        />
     </div>
 </template>
 
 <script>
-import NameDialog from "components/NameDialog";
+import NameDialog from "./NameDialog";
 import { argConfig } from "api";
 import { getUserIdAndType, getObjFromStr, isNil } from "utils/util";
 
@@ -178,13 +183,13 @@ export default {
 
         onClickSaveData() {
             // 如果是自定义，则输入用户名；否则，覆盖已选数据
-            if (this.isDiy) {
-                if (!this.getFetchData()) return;
-                this.nameDialogVisible = true;
-                return;
-            }
+            // if (this.isDiy) {
+            if (!this.getFetchData()) return;
+            this.nameDialogVisible = true;
+            // return;
+            // }
 
-            this.saveData();
+            // this.saveData();
         },
 
         hideNameDialog() {
@@ -277,7 +282,7 @@ export default {
             return false;
         },
 
-        saveData(name) {
+        saveData(args = {}) {
             let params = this.getFetchData();
             if (!params) return;
 
@@ -288,9 +293,9 @@ export default {
             let fetchParams = {
                 userId,
                 type: userTypeCode,
-                name,
                 isSymmetry: this.isSymmetry,
-                ...params
+                ...params,
+                ...args
             };
 
             if (!this.isDiy && this.curTempId) {

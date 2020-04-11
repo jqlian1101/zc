@@ -227,6 +227,8 @@ import { GLOBAL_MSG_CENTER_TOKEN } from "common/constants";
 
 import { model } from "api";
 
+import resetChartTypeMixin from "common/resetChartTypeMixin";
+
 import Traction from "./Traction";
 
 import Legend from "../../Open/Legend";
@@ -278,6 +280,7 @@ export default {
             // }
         };
     },
+    mixins: [resetChartTypeMixin],
     props: {},
     computed: {
         ...mapState("models", ["curModelId"])

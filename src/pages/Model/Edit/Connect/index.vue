@@ -245,6 +245,7 @@ import msgCenter from "utils/msgCenter";
 
 // import { filterJson } from "utils/util";
 import { model } from "api";
+import resetChartTypeMixin from "common/resetChartTypeMixin";
 
 import Foldedcollapse from "./FoldedCollapse";
 
@@ -260,6 +261,7 @@ import Legend from "../../Open/Legend";
 
 export default {
     name: "Connect",
+    mixins: [resetChartTypeMixin],
     components: {
         RubberBearing,
         Foldedcollapse,

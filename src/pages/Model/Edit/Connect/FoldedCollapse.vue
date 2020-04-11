@@ -26,7 +26,7 @@
             </el-row>
             <el-row class="listWrap">
                 <label for>备注</label>
-                <el-input :disabled="true" v-model="remarks"></el-input>
+                <el-input :class="$style.sel" class="flr" :disabled="true" v-model="remarks"></el-input>
             </el-row>
         </div>
     </DropDown>
@@ -50,6 +50,11 @@ export default {
             remarks: ""
         };
     },
+    watch: {
+        "formData.ykgTempId"(val) {
+            this.setRemark(val);
+        }
+    },
     methods: {
         getYKGTempList() {
             const { userId, userTypeCode } = getUserIdAndType();
@@ -59,10 +64,14 @@ export default {
                 .then(res => {
                     if (!res) return;
                     this.options = res.data;
+                    this.setRemark();
                 });
         },
-        "formData.ykgTempId"(val) {
-            const cur = this.options.find(item => item.id === val);
+        setRemark(ykgTempId) {
+            ykgTempId = ykgTempId || this.formData.ykgTempId || "";
+            if (!ykgTempId) return;
+
+            const cur = this.options.find(item => item.id === ykgTempId);
             this.remarks = cur ? cur.remarks || "" : "";
         }
     },

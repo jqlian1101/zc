@@ -141,6 +141,7 @@ import { mapGetters } from "vuex";
 import _util from "utils/util";
 import { MODEL_TREE_TYPE, GLOBAL_MSG_CENTER_TOKEN } from "common/constants";
 import msgCenter from "utils/msgCenter";
+import resetChartTypeMixin from "common/resetChartTypeMixin";
 
 import { carArg } from "api";
 
@@ -197,6 +198,7 @@ export default {
             // }
         };
     },
+    mixins: [resetChartTypeMixin],
     props: {},
     computed: {
         ...mapGetters("models", ["getTreeNodeByType", "curTreeNodeInfo"]),

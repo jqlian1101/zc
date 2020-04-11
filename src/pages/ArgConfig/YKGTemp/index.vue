@@ -182,12 +182,12 @@ export default {
             });
         },
         save() {
-            if (this.isDiy || !this.curYKGType) {
-                this.nameDialogVisible = true;
-                return;
-            }
+            // if (this.isDiy || !this.curYKGType) {
+            this.nameDialogVisible = true;
+            // return;
+            // }
 
-            this.saveData(this.formData.name);
+            // this.saveData(this.formData.name);
         },
         resetData() {
             this.curYKGType = "";

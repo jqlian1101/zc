@@ -222,6 +222,9 @@ export default {
                 if (!res) return;
                 const data = res.data || {};
 
+                if (!data.kcar) data.kcar = 80000000;
+                if (!data.qcar) data.qcar = 1180000;
+
                 this.formData = { ...data };
                 this.cacheFromData = { ...data };
             });

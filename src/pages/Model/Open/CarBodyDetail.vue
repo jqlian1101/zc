@@ -494,10 +494,11 @@ export default {
     },
 
     mounted() {
-        // this.getAllCoupTypeByModelId();
-        // this.getVehicleDiy();
-        // this.getBrakesView();
-        // this.getTractionView();
+        // console.log(this.$route);
+        this.getAllCoupTypeByModelId();
+        this.getVehicleDiy();
+        this.getBrakesView();
+        this.getTractionView();
     }
 };
 </script>

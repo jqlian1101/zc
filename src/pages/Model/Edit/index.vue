@@ -9,6 +9,9 @@
             <Connect v-if="curTreeNodeType === modelTreetype.connect" :key="curTreeNodeId" />
             <Circuit v-if="curTreeNodeType === modelTreetype.circuit" :key="curTreeNodeId" />
             <Args v-if="curTreeNodeType === modelTreetype.args" :key="curTreeNodeId" />
+            <div :class="$style.sketchWrap" v-if="showLegend">
+                <Legend />
+            </div>
         </div>
     </div>
 </template>
@@ -25,6 +28,8 @@ import Connect from "./Connect";
 import Circuit from "./Circuit";
 import Args from "./Args";
 
+import Legend from "../Open/Legend";
+
 export default {
     name: "Home",
     components: {
@@ -32,7 +37,8 @@ export default {
         Vehicle,
         Connect,
         Circuit,
-        Args
+        Args,
+        Legend
     },
     data() {
         return {
@@ -60,6 +66,13 @@ export default {
     computed: {
         ...mapGetters("models", ["curTreeNodeInfo", "getCarDataByNum"]),
         ...mapState("models", ["curModelId", "curTreeNodeId"]),
+
+        showLegend() {
+            return (
+                this.curTreeNodeType === this.modelTreetype.vehicle ||
+                this.curTreeNodeType === this.modelTreetype.connect
+            );
+        },
 
         curTreeNodeType() {
             return this.curTreeNodeInfo.type;
@@ -90,6 +103,12 @@ export default {
         top: 20px;
         right: 20px;
     }
+}
+
+.sketchWrap {
+    background: #fff;
+    margin-top: 20px;
+    padding: 30px 20px;
 }
 </style>
 

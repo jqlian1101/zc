@@ -129,9 +129,9 @@
                 </el-col>
             </el-row>
         </div>
-        <div :class="$style.sketchWrap">
+        <!-- <div :class="$style.sketchWrap">
             <Legend />
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -150,7 +150,7 @@ import Brakes from "./Brakes";
 import Diy from "./Diy";
 // import Traction from "./Traction";
 
-import Legend from "../../Open/Legend";
+// import Legend from "../../Open/Legend";
 
 // 自定义验证规则
 // const rules = {
@@ -177,8 +177,7 @@ export default {
     components: {
         Traction,
         Brakes,
-        Diy,
-        Legend
+        Diy
     },
     data() {
         return {

@@ -46,7 +46,7 @@ export const MODEL_TREE_TYPE = {
     args: 'MXCSB'            // 模型参数
 }
 
-export const MODEL_TYPE_LINK_LIST = ['LCCS', 'VE', 'CA', 'CJLJXT', 'XLCS', 'MXCSB'];
+export const MODEL_TYPE_LINK_LIST = ['VE', 'CA', 'CJLJXT', 'XLCS', 'MXCSB'];
 
 export const CONNECT_ELE_DICT = {
     hcq: 'hcq',         // 缓冲器

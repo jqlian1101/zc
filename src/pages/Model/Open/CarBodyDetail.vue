@@ -125,35 +125,37 @@
                     title="车间减震-后端"
                     :class="[$style.backCJJZ,$style.cjjz,$style.connectEle]"
                 />
-                <img
-                    @dblclick.stop="onDblclick('vehicle')"
-                    :src="Img['qy']"
-                    title="牵引系统"
-                    :class="[$style.qy,$style.btmEle]"
-                    v-if="isShowEle(infoKey, vehicleEleDict.qyxt)"
-                />
-                <img
-                    @dblclick.stop="onDblclick('vehicle')"
-                    :src="Img['zd']"
-                    title="制动系统"
-                    :class="[$style.zd,$style.btmEle]"
-                    v-if="isShowEle(infoKey, vehicleEleDict.zdxt)"
-                />
-                <div
-                    @dblclick.stop="onDblclick('vehicle')"
-                    :class="[$style.diy,$style.carDiy,$style.btmDIY1,$style.btmEle]"
-                    v-if="isShowEle(infoKey, vehicleEleDict.diy1)"
-                >diy1</div>
-                <div
-                    @dblclick.stop="onDblclick('vehicle')"
-                    :class="[$style.diy,$style.carDiy,$style.btmDIY2,$style.btmEle]"
-                    v-if="isShowEle(infoKey, vehicleEleDict.diy2)"
-                >diy2</div>
-                <div
-                    @dblclick.stop="onDblclick('vehicle')"
-                    :class="[$style.diy,$style.carDiy,$style.btmDIY3,$style.btmEle]"
-                    v-if="isShowEle(infoKey, vehicleEleDict.diy3)"
-                >diy3</div>
+                <div :class="$style.btmEleWrap">
+                    <img
+                        @dblclick.stop="onDblclick('vehicle')"
+                        :src="Img['qy']"
+                        title="牵引系统"
+                        :class="[$style.qy]"
+                        v-if="isShowEle(infoKey, vehicleEleDict.qyxt)"
+                    />
+                    <img
+                        @dblclick.stop="onDblclick('vehicle')"
+                        :src="Img['zd']"
+                        title="制动系统"
+                        :class="[$style.zd]"
+                        v-if="isShowEle(infoKey, vehicleEleDict.zdxt)"
+                    />
+                    <div
+                        @dblclick.stop="onDblclick('vehicle')"
+                        :class="[$style.diy]"
+                        v-if="isShowEle(infoKey, vehicleEleDict.diy1)"
+                    >diy1</div>
+                    <div
+                        @dblclick.stop="onDblclick('vehicle')"
+                        :class="[$style.diy]"
+                        v-if="isShowEle(infoKey, vehicleEleDict.diy2)"
+                    >diy2</div>
+                    <div
+                        @dblclick.stop="onDblclick('vehicle')"
+                        :class="[$style.diy]"
+                        v-if="isShowEle(infoKey, vehicleEleDict.diy3)"
+                    >diy3</div>
+                </div>
             </div>
         </div>
     </div>
@@ -613,36 +615,53 @@ export default {
         right: 58px;
     }
 
-    .btmEle {
+    .btmEleWrap {
+        width: 40px;
         position: absolute;
         left: 50%;
+        top: 240px;
+        margin-left: -20px;
+
+        & > img,
+        & > div {
+            margin-bottom: 10px;
+        }
+
+        & > .diy {
+            margin-left: 10px;
+        }
     }
+
+    // .btmEle {
+    // position: absolute;
+    // left: 50%;
+    // }
     .qy {
         width: 40px;
         height: 20px;
-        margin-left: -20px;
-        bottom: -10px;
+        // margin-left: -20px;
+        // bottom: -10px;
     }
 
     .zd {
         width: 40px;
         height: 30px;
-        margin-left: -20px;
-        bottom: -50px;
+        // margin-left: -20px;
+        // bottom: -50px;
     }
 
-    .carDiy {
-        margin-left: -14px;
-    }
-    .btmDIY1 {
-        bottom: -78px;
-    }
-    .btmDIY2 {
-        bottom: -106px;
-    }
-    .btmDIY3 {
-        bottom: -134px;
-    }
+    // .carDiy {
+    //     margin-left: -14px;
+    // }
+    // .btmDIY1 {
+    //     bottom: -78px;
+    // }
+    // .btmDIY2 {
+    //     bottom: -106px;
+    // }
+    // .btmDIY3 {
+    //     bottom: -134px;
+    // }
 }
 </style>
 

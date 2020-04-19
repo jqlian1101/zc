@@ -199,6 +199,21 @@ export default {
     },
     mixins: [switchLJXTId],
     props: {},
+    watch: {
+        curModelId(val) {
+            this.getAllCoupTypeByModelId(val);
+        },
+        carDetail(detail = {}) {
+            let { row, cal } = detail;
+            if (row && cal) {
+                this.getAllCoupTypeByModelId(false, `${row}-${cal}`);
+            }
+
+            this.getVehicleDiy(detail.vehicleId);
+            this.getBrakesView(detail.vehicleId);
+            this.getTractionView(detail.vehicleId);
+        }
+    },
 
     computed: {
         ...mapState("uiState", ["carDetail", "carDetailInfo"]),
@@ -344,9 +359,13 @@ export default {
         },
 
         // 获取连接系统列表
-        getAllCoupTypeByModelId() {
+        getAllCoupTypeByModelId(modelId, num) {
             let { curModelId } = this;
-            const carNum = this.getCarNum();
+            let carNum = this.getCarNum();
+
+            curModelId = modelId || curModelId;
+            carNum = num || carNum;
+
             if (!carNum) return;
 
             model
@@ -390,8 +409,9 @@ export default {
         },
 
         // 获取车辆参数diy数据
-        getVehicleDiy() {
-            let { vehicleId } = this.carDetail || {};
+        getVehicleDiy(id) {
+            // let { vehicleId } = this.carDetail || {};
+            let vehicleId = id || this.carDetail.vehicleId;
             if (!vehicleId) return;
             return carArg.diyView({ caId: vehicleId }).then(res => {
                 if (!res) return;
@@ -416,8 +436,9 @@ export default {
         },
 
         // 获取车辆参数 制动系统数据
-        getBrakesView() {
-            let { vehicleId } = this.carDetail || {};
+        getBrakesView(id) {
+            // let { vehicleId } = this.carDetail || {};
+            let vehicleId = id || this.carDetail.vehicleId;
             if (!vehicleId) return;
             return carArg.brakesView({ caId: vehicleId }).then(res => {
                 if (!res) return;
@@ -438,8 +459,9 @@ export default {
         },
 
         // 获取车辆参数 牵引系统数据
-        getTractionView() {
-            let { vehicleId } = this.carDetail || {};
+        getTractionView(id) {
+            // let { vehicleId } = this.carDetail || {};
+            let vehicleId = id || this.carDetail.vehicleId;
             if (!vehicleId) return;
             return carArg.tractionView({ caId: vehicleId }).then(res => {
                 if (!res) return;
@@ -474,6 +496,7 @@ export default {
     },
 
     mounted() {
+        // console.log(this.$route);
         this.getAllCoupTypeByModelId();
         this.getVehicleDiy();
         this.getBrakesView();

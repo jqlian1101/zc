@@ -224,9 +224,9 @@
                 </el-col>
             </el-row>
         </div>
-        <div :class="$style.sketchWrap">
+        <!-- <div :class="$style.sketchWrap">
             <Legend />
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -257,7 +257,7 @@ import Anticreeper from "./Anticreeper";
 import OverloadProtection from "./OverloadProtection";
 import Windshield from "./Windshield";
 
-import Legend from "../../Open/Legend";
+// import Legend from "../../Open/Legend";
 
 export default {
     name: "Connect",
@@ -270,8 +270,7 @@ export default {
         OverloadProtection,
         Windshield,
         Diy,
-        Buffer,
-        Legend
+        Buffer
     },
     data() {
         return {

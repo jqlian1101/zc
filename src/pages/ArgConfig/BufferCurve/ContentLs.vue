@@ -67,16 +67,15 @@ import EditTable from "components/EditTable";
 import LineCharts from "components/Charts";
 
 let chartsOptions = {
-    xAxis: {
-    },
-    yAxis: {
-    },
+    color: ["#ff69b4", "#ba55d3", "#cd5c5c", "#ffa500", "#40e0d0"],
+    xAxis: {},
+    yAxis: {},
     series: [
-        {
-            data: [],
-            type: "line"
-            // smooth: true
-        }
+        // {
+        //     data: [],
+        //     type: "line"
+        //     // smooth: true
+        // }
     ]
 };
 
@@ -91,13 +90,13 @@ const interList = [{ id: "line", name: "line" }];
 // ];
 let defaultInterId = interList[0].id;
 
-const getDefaultPointData = () => ([
+const getDefaultPointData = () => [
     { name: "预加载", value: "", key: "preMount" },
     { name: "开始加载", value: "", key: "beforeMount" },
     { name: "加载", value: "", key: "mount" },
     { name: "开始卸载", value: "", key: "beforeDestory" },
     { name: "卸载", value: "", key: "destory" }
-]);
+];
 
 export default {
     name: "BufferCurve",
@@ -169,26 +168,57 @@ export default {
             this.fxProportion = fxProportionLs || 1;
 
             this.interpolationMethod = interpolationMethodLs || defaultInterId;
-            this.charTableChange(this.pointData);
+            this.charTableChange(this.pointData, this.pointAllotData);
         }
     },
     methods: {
-        charTableChange(data) {
-            // let xAxisData = [];
-            // let yAxisData = [];
-            // data.map(item => {
-            //     if (!isNil(item.x)) xAxisData.push(item.x);
-            //     if (!isNil(item.f)) yAxisData.push(item.f);
-            // });
-            // this.chartsOptions.xAxis.data = arrSortAndUnique(xAxisData);
-            // this.chartsOptions.series[0].data = yAxisData;
-            let seriesData = [];
+        charTableChange(data, pointAllotData) {
+            // console.log(data, pointAllotData);
+
+            data = data || this.pointData;
+            pointAllotData = pointAllotData || this.pointAllotData;
+
+            const dataKV = {};
             data.map(item => {
-                if (!isNil(item.x) && !isNil(item.f)) {
-                    seriesData.push([item.x, item.f]);
-                }
+                dataKV[String(item.number)] = item;
             });
-            this.chartsOptions.series[0].data = seriesData;
+
+            const relation = [];
+            pointAllotData.map(item => {
+                let value = item.value || "";
+                let newVal = [];
+                if (value) {
+                    newVal = value.split(",");
+                }
+                relation.push({ ...item, value: newVal });
+            });
+
+            // console.log(dataKV, relation);
+
+            this.chartsOptions.series = [];
+            relation.map(item => {
+                let seriesData = {
+                    data: [],
+                    type: "line"
+                };
+                item.value.map(key => {
+                    let point = dataKV[key];
+
+                    if (point && !isNil(point.x) && !isNil(point.f)) {
+                        seriesData.data.push([point.x, point.f]);
+                    }
+                });
+
+                this.chartsOptions.series.push(seriesData);
+            });
+
+            // let seriesData = [];
+            // data.map(item => {
+            //     if (!isNil(item.x) && !isNil(item.f)) {
+            //         seriesData.push([item.x, item.f]);
+            //     }
+            // });
+            // this.chartsOptions.series[0].data = seriesData;
 
             this.pointData = [...data];
         },
@@ -215,7 +245,7 @@ export default {
         }
     },
     mounted() {
-        this.charTableChange(this.pointData);
+        this.charTableChange(this.pointData, this.pointAllotData);
     }
 };
 </script>

@@ -512,8 +512,11 @@ export default {
 
         sureDownReport() {
             const { type, recordId } = this.reportTypeFrom;
+
             if (!type) return this.$message("请先选择模版类型");
-            if (!recordId) return this.$message("请先选择计算结果");
+            if (!recordId || recordId.length === 0) {
+                return this.$message("请先选择计算结果");
+            }
 
             const { userId } = getUserIdAndType();
 

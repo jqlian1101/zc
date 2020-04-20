@@ -7,10 +7,8 @@
             ref="reference"
             @click="toggleVisible(true)"
         >
-            <span
-                :class="{[$style.haveData]:isHaveData, [$style.noData]:!isHaveData}"
-            >{{isHaveData ? '参数设置（已设置）' : '参数设置（未设置）'}}</span>
-            <span class="triangle-down-6 downIcon"></span>
+            <span :class="{[$style.haveData]:isHaveData, [$style.noData]:!isHaveData}">{{boxTxt}}</span>
+            <span v-if="showArrow" class="triangle-down-6 downIcon"></span>
         </div>
         <el-drawer
             :visible.sync="visible"
@@ -49,6 +47,10 @@ export default {
             type: Boolean,
             default: false
         },
+        showArrow: {
+            type: Boolean,
+            default: true
+        },
         title: {
             type: String,
             default: ""
@@ -72,6 +74,14 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        }
+    },
+    computed: {
+        boxTxt() {
+            if (this.placeholder) return this.placeholder;
+            return this.isHaveData
+                ? "参数设置（已设置）"
+                : "参数设置（未设置）";
         }
     },
     methods: {

@@ -371,11 +371,19 @@ export default {
         },
 
         deleteRecordById(record) {
-            report.deleteRecordById({ recordId: record.id }).then(res => {
-                if (!res || res.code !== "200") return;
-                this.$message("操作成功");
-                this.getCalcList();
-            });
+            const { userId, userType } = getUserIdAndType();
+            report
+                .deleteRecordById({
+                    recordId: record.id,
+                    modelId: this.curModelId,
+                    userId,
+                    roleCode: userType
+                })
+                .then(res => {
+                    if (!res || res.code !== "200") return;
+                    this.$message("操作成功");
+                    this.getCalcList();
+                });
         },
 
         openCalculate(record) {

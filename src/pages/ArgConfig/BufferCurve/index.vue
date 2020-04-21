@@ -29,8 +29,8 @@
                 <ContentYs ref="contentYs" :dataSource="dataSource" />
             </div>
             <div :class="$style.contWrap" v-else>
-                <ContentLs :type="1" typeName="拉伸" ref="contentLs" :dataSource="dataSource" />
                 <ContentYs :type="2" typeName="压缩" ref="contentYs" :dataSource="dataSource" />
+                <ContentLs :type="1" typeName="拉伸" ref="contentLs" :dataSource="dataSource" />
             </div>
             <div :class="$style.footer">
                 <el-button class="btn-xl" type="primary" @click="onClickSaveData">保存</el-button>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import NameDialog from "./NameDialog";
+import NameDialog from "components/NameDialog";
 import { argConfig } from "api";
 import { getUserIdAndType, getObjFromStr, isNil } from "utils/util";
 
@@ -183,13 +183,13 @@ export default {
 
         onClickSaveData() {
             // 如果是自定义，则输入用户名；否则，覆盖已选数据
-            // if (this.isDiy) {
-            if (!this.getFetchData()) return;
-            this.nameDialogVisible = true;
-            // return;
-            // }
+            if (this.isDiy) {
+                if (!this.getFetchData()) return;
+                this.nameDialogVisible = true;
+                return;
+            }
 
-            // this.saveData();
+            this.saveData();
         },
 
         hideNameDialog() {
@@ -216,6 +216,9 @@ export default {
 
                 params.pointDataYs = params.pointDataLs = data.pointData;
 
+                // TODO remarks
+                params.remarks = data.remarks;
+
                 // params.xProportionLs = params.xProportionYs = data.xProportion;
 
                 // params.fxProportionLs = params.fxProportionYs =
@@ -236,6 +239,9 @@ export default {
                 params.interpolationMethodLs = dataYs.interpolationMethod;
                 params.pointAllotDataLs = dataYs.pointAllotData;
                 params.pointDataLs = dataYs.pointData;
+
+                // TODO remarks;
+                params.remarks = dataYs.remarks;
 
                 let dataLs = this.$refs.contentYs.saveData();
                 params.xProportionYs = dataLs.xProportion;

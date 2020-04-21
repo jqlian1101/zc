@@ -233,22 +233,22 @@ export default {
                 // params.pointDataLs = params.pointDataYs = data.pointData;
             } else {
                 // 非对称曲线
-                let dataYs = this.$refs.contentLs.saveData();
-                params.xProportionLs = dataYs.xProportion;
-                params.fxProportionLs = dataYs.fxProportion;
-                params.interpolationMethodLs = dataYs.interpolationMethod;
-                params.pointAllotDataLs = dataYs.pointAllotData;
-                params.pointDataLs = dataYs.pointData;
+                let dataYs = this.$refs.contentYs.saveData();
+                params.xProportionYs = dataYs.xProportion;
+                params.fxProportionYs = dataYs.fxProportion;
+                params.interpolationMethodYs = dataYs.interpolationMethod;
+                params.pointAllotDataYs = dataYs.pointAllotData;
+                params.pointDataYs = dataYs.pointData;
 
                 // TODO remarks;
                 params.remarks = dataYs.remarks;
 
-                let dataLs = this.$refs.contentYs.saveData();
-                params.xProportionYs = dataLs.xProportion;
-                params.fxProportionYs = dataLs.fxProportion;
-                params.interpolationMethodYs = dataLs.interpolationMethod;
-                params.pointAllotDataYs = dataLs.pointAllotData;
-                params.pointDataYs = dataLs.pointData;
+                let dataLs = this.$refs.contentLs.saveData();
+                params.xProportionLs = dataLs.xProportion;
+                params.fxProportionLs = dataLs.fxProportion;
+                params.interpolationMethodLs = dataLs.interpolationMethod;
+                params.pointAllotDataLs = dataLs.pointAllotData;
+                params.pointDataLs = dataLs.pointData;
             }
 
             let verifyMsg = this.verifyPointData(params.pointDataYs);
@@ -288,7 +288,7 @@ export default {
             return false;
         },
 
-        saveData(args = {}) {
+        saveData(name = "") {
             let params = this.getFetchData();
             if (!params) return;
 
@@ -301,7 +301,7 @@ export default {
                 type: userTypeCode,
                 isSymmetry: this.isSymmetry,
                 ...params,
-                ...args
+                name
             };
 
             if (!this.isDiy && this.curTempId) {

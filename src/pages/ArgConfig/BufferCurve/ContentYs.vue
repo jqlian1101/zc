@@ -2,6 +2,12 @@
     <div :class="$style.root" class="clearfix">
         <div :class="$style.chartWrap" class="fll">
             <LineCharts :options="chartsOptions" />
+            <div :class="$style.remark">
+                <label>备注</label>
+                <div :class="$style.inp">
+                    <el-input placeholder="请输入备注信息" v-model="remarks" />
+                </div>
+            </div>
         </div>
         <div :class="$style.rightWrap" class="flr">
             <div :class="$style.typeWrap" v-if="type">{{typeName}}</div>
@@ -116,7 +122,8 @@ export default {
             pointDataYs,
             xProportionYs,
             fxProportionYs,
-            interpolationMethodYs
+            interpolationMethodYs,
+            remarks = ""
         } = dataSource;
 
         return {
@@ -133,7 +140,8 @@ export default {
             interList,
             interpolationMethod: interpolationMethodYs || defaultInterId,
 
-            chartsOptions: { ...chartsOptions }
+            chartsOptions: { ...chartsOptions },
+            remarks
         };
     },
     props: {
@@ -160,7 +168,8 @@ export default {
                 pointDataYs,
                 xProportionYs,
                 fxProportionYs,
-                interpolationMethodYs
+                interpolationMethodYs,
+                remarks = ""
             } = newData;
 
             this.pointAllotData = pointAllotDataYs || getDefaultPointData();
@@ -170,6 +179,8 @@ export default {
             // 比例
             this.xProportion = xProportionYs || 1;
             this.fxProportion = fxProportionYs || 1;
+
+            this.remarks = remarks;
 
             this.interpolationMethod = interpolationMethodYs || defaultInterId;
             this.charTableChange(this.pointData, this.pointAllotData);
@@ -232,7 +243,8 @@ export default {
                 pointData,
                 xProportion,
                 fxProportion,
-                interpolationMethod
+                interpolationMethod,
+                remarks
             } = this;
 
             let result = {
@@ -240,7 +252,8 @@ export default {
                 pointData: [...pointData],
                 xProportion,
                 fxProportion,
-                interpolationMethod
+                interpolationMethod,
+                remarks
             };
 
             if (this.type) result.curveType = this.type;
@@ -298,6 +311,13 @@ export default {
         .el-input__icon {
             line-height: 30px;
         }
+    }
+}
+
+.remark {
+    .inp {
+        display: inline-block;
+        width: 200px;
     }
 }
 </style>

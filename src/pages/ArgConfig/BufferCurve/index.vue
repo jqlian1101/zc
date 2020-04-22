@@ -29,8 +29,8 @@
                 <ContentYs ref="contentYs" :dataSource="dataSource" />
             </div>
             <div :class="$style.contWrap" v-else>
-                <ContentLs :type="1" typeName="拉伸" ref="contentLs" :dataSource="dataSource" />
                 <ContentYs :type="2" typeName="压缩" ref="contentYs" :dataSource="dataSource" />
+                <ContentLs :type="1" typeName="拉伸" ref="contentLs" :dataSource="dataSource" />
             </div>
             <div :class="$style.footer">
                 <el-button class="btn-xl" type="primary" @click="onClickSaveData">保存</el-button>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import NameDialog from "./NameDialog";
+import NameDialog from "components/NameDialog";
 import { argConfig } from "api";
 import { getUserIdAndType, getObjFromStr, isNil } from "utils/util";
 
@@ -183,13 +183,13 @@ export default {
 
         onClickSaveData() {
             // 如果是自定义，则输入用户名；否则，覆盖已选数据
-            // if (this.isDiy) {
-            if (!this.getFetchData()) return;
-            this.nameDialogVisible = true;
-            // return;
-            // }
+            if (this.isDiy) {
+                if (!this.getFetchData()) return;
+                this.nameDialogVisible = true;
+                return;
+            }
 
-            // this.saveData();
+            this.saveData();
         },
 
         hideNameDialog() {
@@ -216,6 +216,9 @@ export default {
 
                 params.pointDataYs = params.pointDataLs = data.pointData;
 
+                // TODO remarks
+                params.remarks = data.remarks;
+
                 // params.xProportionLs = params.xProportionYs = data.xProportion;
 
                 // params.fxProportionLs = params.fxProportionYs =
@@ -230,19 +233,22 @@ export default {
                 // params.pointDataLs = params.pointDataYs = data.pointData;
             } else {
                 // 非对称曲线
-                let dataYs = this.$refs.contentLs.saveData();
-                params.xProportionLs = dataYs.xProportion;
-                params.fxProportionLs = dataYs.fxProportion;
-                params.interpolationMethodLs = dataYs.interpolationMethod;
-                params.pointAllotDataLs = dataYs.pointAllotData;
-                params.pointDataLs = dataYs.pointData;
+                let dataYs = this.$refs.contentYs.saveData();
+                params.xProportionYs = dataYs.xProportion;
+                params.fxProportionYs = dataYs.fxProportion;
+                params.interpolationMethodYs = dataYs.interpolationMethod;
+                params.pointAllotDataYs = dataYs.pointAllotData;
+                params.pointDataYs = dataYs.pointData;
 
-                let dataLs = this.$refs.contentYs.saveData();
-                params.xProportionYs = dataLs.xProportion;
-                params.fxProportionYs = dataLs.fxProportion;
-                params.interpolationMethodYs = dataLs.interpolationMethod;
-                params.pointAllotDataYs = dataLs.pointAllotData;
-                params.pointDataYs = dataLs.pointData;
+                // TODO remarks;
+                params.remarks = dataYs.remarks;
+
+                let dataLs = this.$refs.contentLs.saveData();
+                params.xProportionLs = dataLs.xProportion;
+                params.fxProportionLs = dataLs.fxProportion;
+                params.interpolationMethodLs = dataLs.interpolationMethod;
+                params.pointAllotDataLs = dataLs.pointAllotData;
+                params.pointDataLs = dataLs.pointData;
             }
 
             let verifyMsg = this.verifyPointData(params.pointDataYs);
@@ -282,7 +288,7 @@ export default {
             return false;
         },
 
-        saveData(args = {}) {
+        saveData(name = "") {
             let params = this.getFetchData();
             if (!params) return;
 
@@ -295,7 +301,7 @@ export default {
                 type: userTypeCode,
                 isSymmetry: this.isSymmetry,
                 ...params,
-                ...args
+                name
             };
 
             if (!this.isDiy && this.curTempId) {

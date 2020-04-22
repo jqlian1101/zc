@@ -151,8 +151,10 @@ export const userTypeCodeDict = {
 
 export const getUserIdAndType = () => {
     let userInfo = getUserInfo();
-    let { id, roleCode } = userInfo;
-    return { userId: id, userType: roleCode, userTypeCode: userTypeCodeDict[roleCode].code }
+    let { id = "", roleCode = "" } = userInfo;
+    let userTypeCode = "";
+    if (!isNil(roleCode) && userTypeCodeDict[roleCode]) userTypeCode = userTypeCodeDict[roleCode].code;
+    return { userId: id, userType: roleCode, userTypeCode }
 }
 
 export const getObjFromStr = (str) => {

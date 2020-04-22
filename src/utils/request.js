@@ -2,6 +2,8 @@ import axios from 'axios'
 // import { Message } from 'element-ui';
 import loading from 'utils/loading';
 
+// import { getUserIdAndType } from './util';
+
 
 const instance = axios.create({
     timeout: 0,
@@ -49,14 +51,19 @@ instance.interceptors.response.use(function (response) {
 
 
 // 跳转到登陆页面
-export function openLogin() {
+export function openLogin () {
     window.location.href = '/';
 }
 
-export function request(url, data = {}, { method = 'post', showLoading = true, ...otherCfg } = {}) {
+export function request (url, data = {}, { method = 'post', showLoading = true, ...otherCfg } = {}) {
     showLoading && loading.show();
+
+    // const { userId, userType: roleCode } = getUserIdAndType();
     // 通用参数
-    let common = {};
+    let common = {
+        // userId,
+        // roleCode
+    };
 
     // 生成请求数据
     let requestData = Object.assign({}, common, data);

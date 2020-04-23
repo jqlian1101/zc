@@ -2,7 +2,7 @@ import axios from 'axios'
 // import { Message } from 'element-ui';
 import loading from 'utils/loading';
 
-// import { getUserIdAndType } from './util';
+import { getUserIdAndType } from './util';
 
 
 const instance = axios.create({
@@ -55,18 +55,20 @@ export function openLogin () {
     window.location.href = '/';
 }
 
-export function request (url, data = {}, { method = 'post', showLoading = true, ...otherCfg } = {}) {
+export function request (url, data = {}, { method = 'post', showLoading = true, needUserInfo = false, ...otherCfg } = {}) {
     showLoading && loading.show();
 
-    // const { userId, userType: roleCode } = getUserIdAndType();
+    const { userId, userType: roleCode } = getUserIdAndType();
     // 通用参数
     let common = {
-        // userId,
-        // roleCode
     };
 
     // 生成请求数据
     let requestData = Object.assign({}, common, data);
+
+    if (needUserInfo) {
+        requestData = { userId, roleCode, ...requestData }
+    }
 
     // axios配置
     const config = {

@@ -184,6 +184,12 @@ export default {
 
             this.interpolationMethod = interpolationMethodYs || defaultInterId;
             this.charTableChange(this.pointData, this.pointAllotData);
+        },
+        pointAllotData: {
+            handler: function(val) {
+                this.charTableChange(this.pointData, val);
+            },
+            deep: true
         }
     },
     methods: {

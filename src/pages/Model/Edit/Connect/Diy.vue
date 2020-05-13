@@ -259,6 +259,12 @@ export default {
             //     return false;
             // }
 
+            if (this.tableData.length <= 1) {
+                this.$message.error("数据定义不合理");
+                // eslint-disable-next-line prefer-promise-reject-errors
+                return Promise.reject();
+            }
+
             if (!this.isSaved && this.tableData && this.tableData.length > 0) {
                 if (!this.xType) {
                     this.$message.error("请先选择横坐标");

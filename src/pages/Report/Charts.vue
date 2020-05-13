@@ -12,7 +12,8 @@
             </div>
         </div>
         <div :class="$style.chartWrap">
-            <Charts :options="chartsOptions" @datazoom="datazoomChange" />
+            <!-- <Charts :options="chartsOptions" @datazoom="datazoomChange" /> -->
+            <Charts :options="chartsOptions" />
         </div>
         <div
             v-show="contextmenuShow"

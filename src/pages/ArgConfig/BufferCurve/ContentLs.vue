@@ -178,11 +178,65 @@ export default {
         }
     },
     methods: {
+        verifyTableData(data) {
+            for (let i = 0; i < data.length; i++) {
+                for (let j = i + 1; j < data.length; j++) {
+                    if (
+                        !isNil(data[i].x) &&
+                        !isNil(data[j].x) &&
+                        data[i].x === data[j].x &&
+                        !isNil(data[i].f) &&
+                        !isNil(data[j].f) &&
+                        data[i].f === data[j].f
+                    ) {
+                        return this.$message.error("坐标点不能相同");
+                    }
+                }
+            }
+        },
+
+        verifyPointAllotData(tableData, data) {
+            // 所有加载点序号的x轴要比前一个点的x轴大，卸载点序号要比前一个小
+            for (let i = 0; i < data.length; i++) {
+                const valList = data[i].value ? data[i].value.split(",") : [];
+                let isAsc = true;
+                if (data[i].name === "卸载") isAsc = false;
+
+                let prev;
+                for (let j = 0; j < valList.length; j++) {
+                    if (!isNil(prev) && !isNil(valList[j])) {
+                        const prevData = tableData.find(
+                            // eslint-disable-next-line eqeqeq
+                            item => item.number == prev
+                        );
+                        const curData = tableData.find(
+                            // eslint-disable-next-line eqeqeq
+                            item => item.number == valList[j]
+                        );
+
+                        if (prevData && curData) {
+                            if (
+                                (isAsc && prevData.x >= curData.x) ||
+                                (!isAsc && prevData.x <= curData.x)
+                            ) {
+                                this.$message.error("数据异常");
+                                return false;
+                            }
+                        }
+                    }
+                    prev = valList[j];
+                }
+            }
+            return true;
+        },
         charTableChange(data, pointAllotData) {
             // console.log(data, pointAllotData);
 
             data = data || this.pointData;
             pointAllotData = pointAllotData || this.pointAllotData;
+
+            this.verifyTableData(data);
+            const isShowChart = this.verifyPointAllotData(data, pointAllotData);
 
             const dataKV = {};
             data.map(item => {
@@ -190,14 +244,15 @@ export default {
             });
 
             const relation = [];
-            pointAllotData.map(item => {
-                let value = item.value || "";
-                let newVal = [];
-                if (value) {
-                    newVal = value.split(",");
-                }
-                relation.push({ ...item, value: newVal });
-            });
+            isShowChart &&
+                pointAllotData.map(item => {
+                    let value = item.value || "";
+                    let newVal = [];
+                    if (value) {
+                        newVal = value.split(",");
+                    }
+                    relation.push({ ...item, value: newVal });
+                });
 
             // console.log(dataKV, relation);
 

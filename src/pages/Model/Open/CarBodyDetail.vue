@@ -239,8 +239,7 @@ export default {
 
         isShowEle() {
             return (type, ele) => {
-                return true;
-                // return this.isDefinedEle(this.getCarNum(), type, ele);
+                return this.isDefinedEle(this.getCarNum(), type, ele);
             };
         }
     },
@@ -526,19 +525,19 @@ export default {
 
     .inRight,
     .inLeft {
-        width: 50%;
+        width: 186px;
         position: absolute;
-        top: 50%;
+        top: 138px;
         & > img,
         & > div {
             margin-right: 6px;
         }
     }
     .inLeft {
-        left: 0;
+        left: 108px;
     }
     .inRight {
-        right: 0;
+        right: 108px;
     }
 
     .diy {
@@ -571,7 +570,7 @@ export default {
     .xjth {
         width: 30px;
         height: 10px;
-        // margin-top: -20px;
+        margin-top: 4px;
     }
     // .frontXJTH {
     //     left: 146px;
@@ -583,7 +582,7 @@ export default {
     .yk {
         width: 20px;
         height: 30px;
-        // margin-top: -32px;
+        margin-top: -6px;
     }
     .frontYK {
         left: 180px;
@@ -595,7 +594,7 @@ export default {
     .gz {
         width: 10px;
         height: 30px;
-        // margin-top: -32px;
+        margin-top: -6px;
     }
     // .frontGZ {
     //     left: 208px;
@@ -641,13 +640,13 @@ export default {
         width: 20px;
         height: 20px;
         position: absolute;
-        top: 46%;
+        top: 135px;
     }
     .frontFP {
-        left: -20px;
+        left: -24px;
     }
     .backFP {
-        right: -20px;
+        right: -24px;
     }
 
     // 车间减震

@@ -171,30 +171,6 @@ import Chart from "./Charts";
 
 import Cascader from "./Cascader";
 
-// const varifyArgs = [
-//     { key: "initialLocation", msg: "请输入初始位置" },
-//     { key: "integralTimes", msg: "请输入积分时长" },
-//     { key: "integralStep", msg: "请输入积分步长" }
-//     // { key: "ve", msg: "请选择显示参数" },
-//     // { key: "ca", msg: "请选择显示参数" },
-//     // { key: "code", msg: "请选择显示参数" }
-// ];
-
-// const varifyArgsFns = (arg = {}, obj) => {
-//     const { key, msg } = arg;
-//     if (!key) return true;
-
-//     if (!obj[key]) {
-//         ELEMENT.Message({
-//             message: msg || "请输入正确的计算条件",
-//             type: "error"
-//         });
-//         return false;
-//     }
-
-//     return true;
-// };
-
 const verifyModelName = value => {
     let reg = /^[A-Za-z0-9\u4e00-\u9fa5_-]+$/;
     return reg.test(value);
@@ -227,8 +203,6 @@ export default {
 
             reportTempList: [],
             curCalcId: ""
-
-            // chartsLayout: testLayout
         };
     },
     props: {},

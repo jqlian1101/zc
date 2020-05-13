@@ -260,7 +260,7 @@ export default {
             // }
 
             if (this.tableData.length <= 1) {
-                this.$message.error("数据定义不合理");
+                this.$message.error("曲线定义不合理");
                 // eslint-disable-next-line prefer-promise-reject-errors
                 return Promise.reject();
             }

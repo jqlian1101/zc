@@ -1,49 +1,60 @@
 <template>
-    <el-form :class="$style.root">
+    <div :class="$style.root">
         <div :class="$style.title">压溃管自定义</div>
-        <div class="clearfix">
-            <div class="flr">
-                <Diy
-                    ref="diy11"
-                    placeholder="新建压溃管"
-                    title="压溃管曲线定义"
-                    eleKey="diy1"
-                    eleParentType="front"
-                    field="diy1"
-                    :type="2"
-                    :showCharts="true"
-                    :saveData="saveNewData"
-                />
-            </div>
-            <div :class="$style.contentLi" class="fll">
-                <div :class="$style.title">请选择压溃管型号</div>
-                <div :class="$style.rightList">
-                    <el-checkbox v-model="formData.ykg1Checked" :class="$style.checkbox"></el-checkbox>
-                    <label>压溃管1</label>
-                    <el-select v-model="formData.ykg1" placeholder="请选择" class="m-l-5">
-                        <el-option
-                            v-for="item in ykgList"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
-                        ></el-option>
-                    </el-select>
-                </div>
-                <div :class="$style.rightList">
-                    <el-checkbox v-model="formData.ykg2Checked" :class="$style.checkbox"></el-checkbox>
-                    <label>压溃管2</label>
-                    <el-select v-model="formData.ykg2" placeholder="请选择" class="m-l-5">
-                        <el-option
-                            v-for="item in ykgList"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
-                        ></el-option>
-                    </el-select>
-                </div>
-            </div>
-        </div>
+        <div :class="$style.curBuffer">
+            <label>请选择压溃管型号</label>
+            <el-select v-model="curYKGType" placeholder="请选择" class="m-l-5">
+                <el-option
+                    v-for="item in ykgList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                ></el-option>
+            </el-select>
+            <el-checkbox v-model="isDiy" :class="$style.isDiy">自定义</el-checkbox>
 
+            <div :class="$style.deleteBtn" class="cursor-p" @click="onClickDel">删除</div>
+        </div>
+        <div class="clearfix" :class="$style.formWrap">
+            <el-form ref="form" :inline="true" label-position="right" :model="formData">
+                <el-row :class="$style.row">压溃管1</el-row>
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item label="行程(m)">
+                            <el-input-number :controls="false" v-model="formData.sYkg1" :min="0"></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="作用力1(N)">
+                            <el-input-number :controls="false" v-model="formData.fYkg11" :min="0"></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="作用力2(N)">
+                            <el-input-number :controls="false" v-model="formData.fYkg12" :min="0"></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :class="$style.row">压溃管2</el-row>
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item label="行程(m)">
+                            <el-input-number :controls="false" v-model="formData.sYkg2" :min="0"></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="作用力1(N)">
+                            <el-input-number :controls="false" v-model="formData.fYkg21" :min="0"></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="作用力2(N)">
+                            <el-input-number :controls="false" v-model="formData.fYkg22" :min="0"></el-input-number>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </div>
         <div :class="$style.footer">
             <el-button class="btn-xl" type="primary" @click="save">保存</el-button>
             <el-button class="btn-xl" @click="resetData">清空</el-button>
@@ -55,12 +66,7 @@
             :onCancel="()=>nameDialogVisible = false"
             :dataSource="formData"
         />
-        <NameDialog2
-            :visible="nameDialog2Visible"
-            :onSaveData="saveCurveData"
-            :onCancel="()=>nameDialog2Visible = false"
-        />
-    </el-form>
+    </div>
 </template>
 
 <script>
@@ -68,16 +74,10 @@ import NameDialog from "../BufferCurve/NameDialog";
 import { argConfig } from "api";
 import { getUserIdAndType } from "utils/util";
 
-import NameDialog2 from "components/NameDialog";
-
-import Diy from "./Diy";
-
 export default {
     name: "YKGTemp",
     components: {
-        NameDialog,
-        Diy,
-        NameDialog2
+        NameDialog
     },
     data() {
         return {
@@ -85,26 +85,25 @@ export default {
             ykgList: [],
             curYKGType: "",
             formData: {
-                ykg1: "",
-                ykg1Checked: false,
-                ykg2: "",
-                ykg2Checked: false
+                fYkg11: 0,
+                fYkg12: 0,
+                fYkg21: 0,
+                fYkg22: 0
             },
 
-            // isDiy: false,
+            isDiy: false,
 
-            nameDialogVisible: false,
-            nameDialog2Visible: false
+            nameDialogVisible: false
         };
     },
     props: {},
     computed: {},
     watch: {
-        "formData.fYkg1"(val) {
-            if (val) this.formData.fYkg1Checked = true;
+        "formData.fYkg11"(val) {
+            if (!this.formData.fYkg12) this.formData.fYkg12 = val;
         },
-        "formData.fYkg2"(val) {
-            if (val) this.formData.fYkg2Checked = true;
+        "formData.fYkg21"(val) {
+            if (!this.formData.fYkg22) this.formData.fYkg22 = val;
         },
         curYKGType() {
             let list = this.ykgList || [];
@@ -161,7 +160,7 @@ export default {
                 ...args
             };
 
-            if (!this.curYKGType) {
+            if (this.isDiy || !this.curYKGType) {
                 delete params.id;
             }
 
@@ -183,28 +182,18 @@ export default {
             });
         },
         save() {
+            // if (this.isDiy || !this.curYKGType) {
             this.nameDialogVisible = true;
+            // return;
+            // }
+
+            // this.saveData(this.formData.name);
         },
         resetData() {
             this.curYKGType = "";
             this.formData = {};
-            // this.isDiy = false;
+            this.isDiy = false;
             this.nameDialogVisible = false;
-        },
-
-        /**
-         * 保存新建的压溃管数据
-         */
-        saveNewData(datas) {
-            this.nameDialog2Visible = true;
-            this.cacheCurveData = datas;
-        },
-
-        saveCurveData(name) {
-            console.log({ ...this.cacheCurveData.datas, name });
-            this.nameDialog2Visible = false;
-            this.$message.info("操作成功");
-            this.getYKGTempList();
         }
     },
     mounted() {
@@ -231,9 +220,9 @@ export default {
         padding: 0 30px;
     }
 
-    // .isDiy {
-    //     margin-left: 20px;
-    // }
+    .isDiy {
+        margin-left: 20px;
+    }
 
     .formWrap {
         margin: 30px 0;
@@ -245,7 +234,7 @@ export default {
 
     .footer {
         text-align: center;
-        margin: 20px 0;
+        margin-bottom: 20px;
     }
 
     .nameDialog {
@@ -265,22 +254,6 @@ export default {
         .el-form-item {
             margin-right: 30px;
         }
-    }
-}
-
-.contentLi {
-    width: 45%;
-    .title {
-        font-size: 14px;
-        text-align: left;
-    }
-
-    .checkbox {
-        margin-left: 0;
-    }
-
-    .rightList {
-        margin-bottom: 20px;
     }
 }
 </style>

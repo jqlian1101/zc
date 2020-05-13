@@ -30,9 +30,8 @@
                 <h4>曲线点设置</h4>
                 <EditTable
                     ref="editTable"
-                    :parentParams="{xType: xType}"
+                    :parentParams="{xType: xType, tcsdName: tcsdName}"
                     :type="type"
-                    :onSaveCb="onSaveCb"
                     :showCharts="$attrs.showCharts"
                     :onOpenCurveCb="onOpenCurveCb"
                     :tcsdData="tcsdData"
@@ -41,6 +40,11 @@
                 />
             </div>
         </div>
+        <NameDialog2
+            :visible="nameDialogVisible"
+            :onSaveData="saveName"
+            :onCancel="()=>nameDialogVisible = false"
+        />
     </DropDown>
 </template>
 
@@ -54,6 +58,8 @@ import { getObjFromStr } from "utils/util";
 import mixinSaveFunc from "common/editTableMixin";
 
 import watchHaveDataMixin from "common/watchHaveDataMixin";
+
+import NameDialog2 from "components/NameDialog";
 
 const options = [
     { label: "位移(m)", value: "1" },
@@ -69,12 +75,15 @@ export default {
             options,
             xType: "",
             tcsdData: {},
-            isHaveData: false
+            isHaveData: false,
+            nameDialogVisible: false,
+            tcsdName: ""
         };
     },
     components: {
         DropDown,
-        EditTable
+        EditTable,
+        NameDialog2
     },
     props: {
         size: {
@@ -157,7 +166,9 @@ export default {
 
         setTcsdData(data) {
             this.tcsdData = { ...data };
+            this.tableData = data.tcsdData;
             this.cacheTcsdData = { ...data };
+            this.tcsdName = data.tcsdName;
         },
 
         clearData() {
@@ -166,6 +177,7 @@ export default {
 
             this.tcsdData = {};
             this.tableData = null;
+            this.tcsdName = "";
 
             this.curveId = "";
             this.isSaved = true;
@@ -201,6 +213,7 @@ export default {
             const openCurveDataCache = this.openCurveDataCache || {};
 
             let datas = {
+                tcsdName: this.tcsdName,
                 xType: this.xType,
                 tcsdId: this.curveId,
                 tcsdData: {
@@ -220,11 +233,30 @@ export default {
             this.saveData({ datas });
         },
 
+        saveName(name) {
+            this.tcsdName = name;
+            this.nameDialogVisible = false;
+            setTimeout(() => {
+                this.save();
+            }, 50);
+        },
+
         // 保存数据
         async save() {
+            if (this.tableData.length <= 1) {
+                this.$message.error("曲线定义不合理");
+                // eslint-disable-next-line prefer-promise-reject-errors
+                return false;
+            }
+
             if (!this.isSaved && this.tableData && this.tableData.length > 0) {
                 if (!this.xType) {
                     this.$message.error("请先选择横坐标");
+                    return false;
+                }
+
+                if (!this.tcsdName) {
+                    this.nameDialogVisible = true;
                     return false;
                 }
                 await this.$refs.editTable.tractionLiSave();

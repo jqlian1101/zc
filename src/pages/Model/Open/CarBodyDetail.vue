@@ -6,156 +6,173 @@
             :style="bodyBGImg"
             @dblclick.stop="onDblclickBody"
         >
-            <div>
+            <div :class="$style.inLeft" class="clearfix">
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(frontKey, connectEleDict.hcq)"
                     :src="Img['hc']"
                     title="缓冲器-前端"
-                    :class="[$style.frontHC,$style.hc,$style.connectEle]"
-                />
-                <img
-                    @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(backKey, connectEleDict.hcq)"
-                    :src="Img['hc']"
-                    title="缓冲器-后端"
-                    :class="[$style.backHC,$style.hc,$style.connectEle]"
+                    :class="[$style.frontHC,$style.hc]"
+                    class="fll"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(frontKey, connectEleDict.xjzc)"
                     :src="Img['xjth']"
                     title="橡胶弹簧-前端"
-                    :class="[$style.frontXJTH,$style.xjth,$style.connectEle]"
-                />
-                <img
-                    @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(backKey, connectEleDict.xjzc)"
-                    :src="Img['xjth']"
-                    title="橡胶弹簧-后端"
-                    :class="[$style.backXJTH,$style.xjth,$style.connectEle]"
+                    :class="[$style.frontXJTH,$style.xjth]"
+                    class="fll"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(frontKey, connectEleDict.ykg)"
                     :src="Img['yk']"
                     title="压馈管-前端"
-                    :class="[$style.frontYK,$style.yk,$style.connectEle]"
-                />
-                <img
-                    @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(backKey, connectEleDict.ykg)"
-                    :src="Img['yk']"
-                    title="压馈管-后端"
-                    :class="[$style.backYK,$style.yk,$style.connectEle]"
+                    :class="[$style.frontYK,$style.yk]"
+                    class="fll"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(frontKey, connectEleDict.gzbh)"
                     :src="Img['gz']"
                     title="过载保护-前端"
-                    :class="[$style.frontGZ,$style.gz,$style.connectEle]"
+                    :class="[$style.frontGZ,$style.gz]"
+                    class="fll"
+                />
+                <div
+                    @dblclick.stop="onDblclick('connect')"
+                    v-if="isShowEle(frontKey, connectEleDict.diy1)"
+                    :class="[$style.diy,$style.connectDiy,$style.frontDIY1]"
+                    class="fll"
+                >diy1</div>
+                <div
+                    @dblclick.stop="onDblclick('connect')"
+                    v-if="isShowEle(frontKey, connectEleDict.diy2)"
+                    :class="[$style.diy,$style.connectDiy,$style.frontDIY2]"
+                    class="fll"
+                >diy2</div>
+            </div>
+            <div :class="$style.inRight" class="clearfix">
+                <img
+                    @dblclick.stop="onDblclick('connect')"
+                    v-if="isShowEle(backKey, connectEleDict.hcq)"
+                    :src="Img['hc']"
+                    title="缓冲器-后端"
+                    :class="[$style.backHC,$style.hc]"
+                    class="flr"
+                />
+                <img
+                    @dblclick.stop="onDblclick('connect')"
+                    v-if="isShowEle(backKey, connectEleDict.xjzc)"
+                    :src="Img['xjth']"
+                    title="橡胶弹簧-后端"
+                    :class="[$style.backXJTH,$style.xjth]"
+                    class="flr"
+                />
+                <img
+                    @dblclick.stop="onDblclick('connect')"
+                    v-if="isShowEle(backKey, connectEleDict.ykg)"
+                    :src="Img['yk']"
+                    title="压馈管-后端"
+                    :class="[$style.backYK,$style.yk]"
+                    class="flr"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(backKey, connectEleDict.gzbh)"
                     :src="Img['gz']"
                     title="过载保护-后端"
-                    :class="[$style.backGZ,$style.gz,$style.connectEle]"
+                    :class="[$style.backGZ,$style.gz]"
+                    class="flr"
                 />
+                <div
+                    @dblclick.stop="onDblclick('connect')"
+                    v-if="isShowEle(backKey, connectEleDict.diy1)"
+                    :class="[$style.diy,$style.connectDiy,$style.backDIY1]"
+                    class="flr"
+                >diy1</div>
+                <div
+                    @dblclick.stop="onDblclick('connect')"
+                    v-if="isShowEle(backKey, connectEleDict.diy2)"
+                    :class="[$style.diy,$style.connectDiy,$style.backDIY2]"
+                    class="flr"
+                >diy2</div>
+            </div>
+            <div :class="$style.other">
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(frontKey, connectEleDict.fpq)"
                     :src="Img['fp']"
                     title="防爬-前端"
-                    :class="[$style.frontFP,$style.fp,$style.connectEle]"
+                    :class="[$style.frontFP,$style.fp]"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(backKey, connectEleDict.fpq)"
                     :src="Img['fp']"
                     title="防爬-后端"
-                    :class="[$style.backFP,$style.fp,$style.connectEle]"
+                    :class="[$style.backFP,$style.fp]"
                 />
-                <div
-                    @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(frontKey, connectEleDict.diy1)"
-                    :class="[$style.diy,$style.connectDiy,$style.frontDIY1,$style.connectEle]"
-                >diy1</div>
-                <div
-                    @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(frontKey, connectEleDict.diy2)"
-                    :class="[$style.diy,$style.connectDiy,$style.frontDIY2,$style.connectEle]"
-                >diy2</div>
-                <div
-                    @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(backKey, connectEleDict.diy1)"
-                    :class="[$style.diy,$style.connectDiy,$style.backDIY1,$style.connectEle]"
-                >diy1</div>
-                <div
-                    @dblclick.stop="onDblclick('connect')"
-                    v-if="isShowEle(backKey, connectEleDict.diy2)"
-                    :class="[$style.diy,$style.connectDiy,$style.backDIY2,$style.connectEle]"
-                >diy2</div>
+
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(frontKey, connectEleDict.fd)"
                     :src="Img['fd']"
                     title="风挡-前端"
-                    :class="[$style.frontFD,$style.fd,$style.connectEle]"
+                    :class="[$style.frontFD,$style.fd]"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(backKey, connectEleDict.fd)"
                     :src="Img['fd']"
                     title="风挡-后端"
-                    :class="[$style.backFD,$style.fd,$style.connectEle]"
+                    :class="[$style.backFD,$style.fd]"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(frontKey, connectEleDict.cjjz)"
                     :src="Img['cjjz']"
                     title="车间减震-前端"
-                    :class="[$style.frontCJJZ,$style.cjjz,$style.connectEle]"
+                    :class="[$style.frontCJJZ,$style.cjjz]"
                 />
                 <img
                     @dblclick.stop="onDblclick('connect')"
                     v-if="isShowEle(backKey, connectEleDict.cjjz)"
                     :src="Img['cjjz']"
                     title="车间减震-后端"
-                    :class="[$style.backCJJZ,$style.cjjz,$style.connectEle]"
+                    :class="[$style.backCJJZ,$style.cjjz]"
                 />
-                <div :class="$style.btmEleWrap">
-                    <img
-                        @dblclick.stop="onDblclick('vehicle')"
-                        :src="Img['qy']"
-                        title="牵引系统"
-                        :class="[$style.qy]"
-                        v-if="isShowEle(infoKey, vehicleEleDict.qyxt)"
-                    />
-                    <img
-                        @dblclick.stop="onDblclick('vehicle')"
-                        :src="Img['zd']"
-                        title="制动系统"
-                        :class="[$style.zd]"
-                        v-if="isShowEle(infoKey, vehicleEleDict.zdxt)"
-                    />
-                    <div
-                        @dblclick.stop="onDblclick('vehicle')"
-                        :class="[$style.diy]"
-                        v-if="isShowEle(infoKey, vehicleEleDict.diy1)"
-                    >diy1</div>
-                    <div
-                        @dblclick.stop="onDblclick('vehicle')"
-                        :class="[$style.diy]"
-                        v-if="isShowEle(infoKey, vehicleEleDict.diy2)"
-                    >diy2</div>
-                    <div
-                        @dblclick.stop="onDblclick('vehicle')"
-                        :class="[$style.diy]"
-                        v-if="isShowEle(infoKey, vehicleEleDict.diy3)"
-                    >diy3</div>
-                </div>
+            </div>
+            <div :class="$style.btmEleWrap">
+                <img
+                    @dblclick.stop="onDblclick('vehicle')"
+                    :src="Img['qy']"
+                    title="牵引系统"
+                    :class="[$style.qy]"
+                    v-if="isShowEle(infoKey, vehicleEleDict.qyxt)"
+                />
+                <img
+                    @dblclick.stop="onDblclick('vehicle')"
+                    :src="Img['zd']"
+                    title="制动系统"
+                    :class="[$style.zd]"
+                    v-if="isShowEle(infoKey, vehicleEleDict.zdxt)"
+                />
+                <div
+                    @dblclick.stop="onDblclick('vehicle')"
+                    :class="[$style.diy]"
+                    v-if="isShowEle(infoKey, vehicleEleDict.diy1)"
+                >diy1</div>
+                <div
+                    @dblclick.stop="onDblclick('vehicle')"
+                    :class="[$style.diy]"
+                    v-if="isShowEle(infoKey, vehicleEleDict.diy2)"
+                >diy2</div>
+                <div
+                    @dblclick.stop="onDblclick('vehicle')"
+                    :class="[$style.diy]"
+                    v-if="isShowEle(infoKey, vehicleEleDict.diy3)"
+                >diy3</div>
             </div>
         </div>
     </div>
@@ -222,24 +239,8 @@ export default {
 
         isShowEle() {
             return (type, ele) => {
-                return this.isDefinedEle(this.getCarNum(), type, ele);
-                // const { carDetailInfo } = this;
-                // const curCarInfo = carDetailInfo[this.getCarNum()];
-
-                // if (!curCarInfo) return false;
-
-                // // console.log(
-                // //     type,
-                // //     curCarInfo,
-                // //     curCarInfo[type],
-                // //     curCarInfo[type].indexOf(ele) !== -1
-                // // );
-
-                // return curCarInfo[type].indexOf(ele) !== -1;
-                // // if (type === this.infoKey) {
-                // //     return this.vehicleEleIsShow(type, ele);
-                // // }
-                // // return this.connectEleIsShow(type, ele);
+                return true;
+                // return this.isDefinedEle(this.getCarNum(), type, ele);
             };
         }
     },
@@ -522,6 +523,24 @@ export default {
         background-repeat: no-repeat;
         background-size: 100%;
     }
+
+    .inRight,
+    .inLeft {
+        width: 50%;
+        position: absolute;
+        top: 50%;
+        & > img,
+        & > div {
+            margin-right: 6px;
+        }
+    }
+    .inLeft {
+        left: 0;
+    }
+    .inRight {
+        right: 0;
+    }
+
     .diy {
         width: 28px;
         height: 18px;
@@ -538,33 +557,33 @@ export default {
     .hc {
         width: 20px;
         height: 16px;
-        margin-top: -24px;
+        // margin-top: -24px;
     }
 
-    .frontHC {
-        left: 120px;
-    }
+    // .frontHC {
+    //     left: 120px;
+    // }
 
-    .backHC {
-        right: 120px;
-    }
+    // .backHC {
+    //     right: 120px;
+    // }
 
     .xjth {
         width: 30px;
         height: 10px;
-        margin-top: -20px;
+        // margin-top: -20px;
     }
-    .frontXJTH {
-        left: 146px;
-    }
-    .backXJTH {
-        right: 146px;
-    }
+    // .frontXJTH {
+    //     left: 146px;
+    // }
+    // .backXJTH {
+    //     right: 146px;
+    // }
 
     .yk {
         width: 20px;
         height: 30px;
-        margin-top: -32px;
+        // margin-top: -32px;
     }
     .frontYK {
         left: 180px;
@@ -576,36 +595,39 @@ export default {
     .gz {
         width: 10px;
         height: 30px;
-        margin-top: -32px;
+        // margin-top: -32px;
     }
-    .frontGZ {
-        left: 208px;
-    }
-    .backGZ {
-        right: 208px;
-    }
+    // .frontGZ {
+    //     left: 208px;
+    // }
+    // .backGZ {
+    //     right: 208px;
+    // }
 
-    .connectDiy {
-        margin-top: -25px;
-    }
-    .frontDIY1 {
-        left: 224px;
-    }
-    .backDIY1 {
-        right: 224px;
-    }
-    .frontDIY2 {
-        left: 260px;
-    }
-    .backDIY2 {
-        right: 260px;
-    }
+    // .connectDiy {
+    //     margin-top: -25px;
+    // }
+    // .frontDIY1 {
+    //     left: 224px;
+    // }
+    // .backDIY1 {
+    //     right: 224px;
+    // }
+    // .frontDIY2 {
+    //     left: 260px;
+    // }
+    // .backDIY2 {
+    //     right: 260px;
+    // }
 
+    // 风挡
     .fd {
+        position: absolute;
+        top: 68%;
         width: 20px;
         height: 25px;
         bottom: 68px;
-        top: auto;
+        // top: auto;
     }
     .frontFD {
         left: 68px;
@@ -614,22 +636,26 @@ export default {
         right: 68px;
     }
 
+    // 防爬
     .fp {
         width: 20px;
         height: 20px;
-        margin-top: -25px;
+        position: absolute;
+        top: 46%;
     }
     .frontFP {
-        left: -30px;
+        left: -20px;
     }
     .backFP {
-        right: -30px;
+        right: -20px;
     }
 
+    // 车间减震
     .cjjz {
         width: 40px;
         height: 10px;
         top: 10px;
+        position: absolute;
     }
     .frontCJJZ {
         left: 58px;
@@ -655,36 +681,15 @@ export default {
         }
     }
 
-    // .btmEle {
-    // position: absolute;
-    // left: 50%;
-    // }
     .qy {
         width: 40px;
         height: 20px;
-        // margin-left: -20px;
-        // bottom: -10px;
     }
 
     .zd {
         width: 40px;
         height: 30px;
-        // margin-left: -20px;
-        // bottom: -50px;
     }
-
-    // .carDiy {
-    //     margin-left: -14px;
-    // }
-    // .btmDIY1 {
-    //     bottom: -78px;
-    // }
-    // .btmDIY2 {
-    //     bottom: -106px;
-    // }
-    // .btmDIY3 {
-    //     bottom: -134px;
-    // }
 }
 </style>
 

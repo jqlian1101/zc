@@ -42,6 +42,8 @@ import Img from "assets/icon";
 
 import Drawer from "./ChartsDiy";
 
+// import testData from "./testData";
+
 const initChartsOptions = params => {
     const {
         name,
@@ -132,22 +134,22 @@ export default {
             // 点击完成后因此contextmenu
             this.hideContextmenu();
         },
-        datazoomChange(params) {
-            const { xAxis } = this.chartsData;
+        // datazoomChange(params) {
+        //     const { xAxis } = this.chartsData;
 
-            const start = xAxis[0];
-            const end = xAxis[xAxis.length - 1];
-            const xAValue = end - start;
+        //     const start = xAxis[0];
+        //     const end = xAxis[xAxis.length - 1];
+        //     const xAValue = end - start;
 
-            if (params.end === 100) {
-                this.datazoom = {
-                    ...params,
-                    endValue: (xAValue * params.end) / 100,
-                    startValue: (xAValue * params.start) / 100
-                };
-                this.reloardChartData();
-            }
-        },
+        //     if (params.end === 100) {
+        //         this.datazoom = {
+        //             ...params,
+        //             endValue: (xAValue * params.end) / 100,
+        //             startValue: (xAValue * params.start) / 100
+        //         };
+        //         this.reloardChartData();
+        //     }
+        // },
 
         getResultInfo(params = {}) {
             const { curCalc } = this.$attrs;
@@ -198,22 +200,22 @@ export default {
                         series: chartsData.series.concat(series)
                     };
 
-                    const start = newData.xAxis[0];
-                    const end = newData.xAxis[newData.xAxis.length - 1];
-                    const xAValue = end - start;
+                    // const start = newData.xAxis[0];
+                    // const end = newData.xAxis[newData.xAxis.length - 1];
+                    // const xAValue = end - start;
 
-                    let dataZoomStart = 0;
-                    let dataZoomEnd = 30;
-                    if (this.datazoom) {
-                        const { startValue, endValue } = this.datazoom;
-                        dataZoomStart = (startValue / xAValue) * 100;
-                        dataZoomEnd = (endValue / xAValue) * 100;
-                    }
+                    // let dataZoomStart = 0;
+                    // let dataZoomEnd = 30;
+                    // if (this.datazoom) {
+                    //     const { startValue, endValue } = this.datazoom;
+                    //     dataZoomStart = (startValue / xAValue) * 100;
+                    //     dataZoomEnd = (endValue / xAValue) * 100;
+                    // }
 
                     this.chartsOptions = initChartsOptions({
                         ...newData,
-                        dataZoomStart,
-                        dataZoomEnd
+                        dataZoomStart: 0,
+                        dataZoomEnd: 100
                     });
                     this.chartsData = newData;
                 });

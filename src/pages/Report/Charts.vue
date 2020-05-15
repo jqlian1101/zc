@@ -68,7 +68,8 @@ const initChartsOptions = params => {
             // splitLine: { show: false },
             data: xAxis,
             axisLabel: {
-                interval: 100 // 代表显示所有x轴标签显示
+                interval: 100, // 代表显示所有x轴标签显示
+                showMaxLabel: true
             }
         },
         yAxis: {

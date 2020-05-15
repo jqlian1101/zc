@@ -66,7 +66,10 @@ const initChartsOptions = params => {
             type: "category",
             name: xAxisUnit,
             // splitLine: { show: false },
-            data: xAxis
+            data: xAxis,
+            axisLabel: {
+                interval: 100 // 代表显示所有x轴标签显示
+            }
         },
         yAxis: {
             name: `${name}(${seriesUnit})`,
@@ -149,6 +152,42 @@ export default {
         //         };
         //         this.reloardChartData();
         //     }
+        // },
+
+        // // TODO 测试
+        // getResultInfo(params = {}) {
+        //     const res = testData;
+        //     if (!res || res.code !== "200") return;
+
+        //     if (!res.data || res.data.xAxis.length === 0) {
+        //         this.noData = true;
+        //     }
+
+        //     const data = res.data || {};
+        //     const { chartsData } = this;
+
+        //     let {
+        //         seriesUnit = "",
+        //         xAxis = [],
+        //         series = [],
+        //         name = "",
+        //         xAxisUnit = ""
+        //     } = data;
+
+        //     const newData = {
+        //         name: chartsData.name || name,
+        //         seriesUnit: chartsData.seriesUnit || seriesUnit,
+        //         xAxisUnit: chartsData.nxAxisUnitame || xAxisUnit,
+        //         xAxis: chartsData.xAxis.concat(xAxis),
+        //         series: chartsData.series.concat(series)
+        //     };
+
+        //     this.chartsOptions = initChartsOptions({
+        //         ...newData,
+        //         dataZoomStart: 0,
+        //         dataZoomEnd: 100
+        //     });
+        //     this.chartsData = newData;
         // },
 
         getResultInfo(params = {}) {

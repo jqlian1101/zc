@@ -89,6 +89,7 @@
             <span :class="[$style.btn, $style.saveBtn]" @click="createChartsList">生成图表</span>
         </div>
         <div :class="$style.charts">
+            <!-- <Chart :chartInfo="{}" :curCalc="curCalcId" @onClose="onCloseCharts" /> -->
             <div :class="$style.chartsCont">
                 <Chart
                     v-for="item in chartsData"

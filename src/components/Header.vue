@@ -122,7 +122,7 @@ export default {
             };
 
             login.updatePwd(params).then(res => {
-                if (res.code !== "200") return;
+                if (!res || res.code !== "200") return;
 
                 this.$message.success("操作成功，请重新登录");
                 setTimeout(() => {

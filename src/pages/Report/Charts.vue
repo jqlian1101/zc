@@ -12,8 +12,8 @@
             </div>
         </div>
         <div :class="$style.chartWrap">
-            <!-- <Charts :options="chartsOptions" @datazoom="datazoomChange" /> -->
-            <Charts :options="chartsOptions" />
+            <Charts :options="chartsOptions" @datazoom="datazoomChange" />
+            <!-- <Charts :options="chartsOptions" /> -->
         </div>
         <div
             v-show="contextmenuShow"
@@ -44,6 +44,25 @@ import Drawer from "./ChartsDiy";
 
 // import testData from "./testData";
 
+const getXcfg = (xAxis, xAxisUnit) => {
+    // const interval = parseInt(xAxis.length / 10);
+    // const newX = [];
+    // for (let i = 0; i < xAxis.length; i = i + interval) {
+    //     newX.push(xAxis[i]);
+    // }
+
+    return {
+        type: "category",
+        name: xAxisUnit,
+        splitNumber: 8,
+        data: xAxis,
+        axisLabel: {
+            // interval: parseInt(xAxis.length / 10), // 代表显示所有x轴标签显示
+            showMaxLabel: true
+        }
+    };
+};
+
 const initChartsOptions = params => {
     const {
         name,
@@ -55,6 +74,10 @@ const initChartsOptions = params => {
         dataZoomEnd
     } = params;
 
+    // console.log(params);
+
+    // console.log(getXcfg(xAxis, xAxisUnit));
+
     return {
         tooltip: {
             trigger: "axis"
@@ -62,16 +85,7 @@ const initChartsOptions = params => {
         legend: {
             data: [name]
         },
-        xAxis: {
-            type: "category",
-            name: xAxisUnit,
-            // splitLine: { show: false },
-            data: xAxis,
-            axisLabel: {
-                interval: 100, // 代表显示所有x轴标签显示
-                showMaxLabel: true
-            }
-        },
+        xAxis: getXcfg(xAxis, xAxisUnit),
         yAxis: {
             name: `${name}(${seriesUnit})`,
             type: "value",
@@ -138,22 +152,47 @@ export default {
             // 点击完成后因此contextmenu
             this.hideContextmenu();
         },
-        // datazoomChange(params) {
-        //     const { xAxis } = this.chartsData;
 
-        //     const start = xAxis[0];
-        //     const end = xAxis[xAxis.length - 1];
-        //     const xAValue = end - start;
+        datazoomChange(params) {
+            const { xAxis } = this._cacheChartsData;
 
-        //     if (params.end === 100) {
-        //         this.datazoom = {
-        //             ...params,
-        //             endValue: (xAValue * params.end) / 100,
-        //             startValue: (xAValue * params.start) / 100
-        //         };
-        //         this.reloardChartData();
-        //     }
-        // },
+            const len = xAxis.length;
+
+            let start = params.start;
+            let end = params.end;
+
+            let startIdx = (len * start) / 100;
+            let endIdx = (len * end) / 100;
+
+            startIdx = parseInt(startIdx);
+            endIdx = parseInt(endIdx);
+
+            // start = xAxis[startIdx];
+            // end = xAxis[endIdx];
+
+            const newX = xAxis.slice(startIdx, endIdx);
+
+            this.chartsOptions = initChartsOptions({
+                ...this._cacheChartsData,
+                xAxis: newX,
+                dataZoomStart: params.start,
+                dataZoomEnd: params.end
+            });
+            // console.log(startIdx, endIdx);
+
+            // const start = xAxis[0];
+            // const end = xAxis[xAxis.length - 1];
+            // const xAValue = end - start;
+
+            // if (params.end === 100) {
+            //     this.datazoom = {
+            //         ...params,
+            //         endValue: (xAValue * params.end) / 100,
+            //         startValue: (xAValue * params.start) / 100
+            //     };
+            //     this.reloardChartData();
+            // }
+        },
 
         // // TODO 测试
         // getResultInfo(params = {}) {
@@ -182,6 +221,8 @@ export default {
         //         xAxis: chartsData.xAxis.concat(xAxis),
         //         series: chartsData.series.concat(series)
         //     };
+
+        //     this._cacheChartsData = { ...newData };
 
         //     this.chartsOptions = initChartsOptions({
         //         ...newData,

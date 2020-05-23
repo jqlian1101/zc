@@ -22,10 +22,36 @@
                     <div :class="$style.username" class="flr">{{username}}</div>
                 </div>
                 <el-dropdown-menu slot="dropdown" :class="$style.dropdownMenu">
+                    <el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
                     <el-dropdown-item command="logout">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
+        <el-dialog
+            title="修改密码"
+            :visible.sync="updatePwdDialog"
+            :modal="false"
+            @close="updatePwdDialog = false"
+            :append-to-body="true"
+            width="550px"
+        >
+            <div :class="$style.pwdInp">
+                请输入原始密码：
+                <el-input type="password" v-model="pwd.oldPassWord"></el-input>
+            </div>
+            <div :class="$style.pwdInp">
+                请输入新密码：
+                <el-input type="password" v-model="pwd.newPassWord"></el-input>
+            </div>
+            <div :class="$style.pwdInp">
+                请再次输入新密码：
+                <el-input type="password" v-model="pwd.repPwd"></el-input>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="updatePwdDialog = false">取 消</el-button>
+                <el-button type="primary" @click="onUpdatePwd">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -35,12 +61,17 @@ import defaultUser from "assets/images/logo2.png";
 
 import { getUserInfo } from "utils/util";
 
+import { login } from "api";
+
 export default {
     name: "Header",
     data() {
         return {
             logoImg,
-            username: ""
+            username: "",
+
+            updatePwdDialog: false,
+            pwd: { oldPassWord: "", newPassWord: "", repPwd: "" }
             // userAvatar: logoImg
         };
     },
@@ -63,7 +94,41 @@ export default {
         handleCommand(command) {
             if (command === "logout") {
                 this.$router.push("/login");
+            } else if (command === "changePwd") {
+                this.updatePwdDialog = true;
             }
+        },
+
+        onUpdatePwd() {
+            console.log("changePwd", this.pwd);
+            const { oldPassWord, newPassWord, repPwd } = this.pwd;
+
+            if (!oldPassWord) {
+                return this.$message.error("请输入原密码");
+            }
+
+            if (newPassWord && repPwd !== newPassWord) {
+                return this.$message.error("两次输入的密码不相同");
+            }
+
+            if (newPassWord.length < 6) {
+                return this.$message.error("新密码长度至少六位");
+            }
+
+            const params = {
+                userName: this.username,
+                oldPassWord,
+                newPassWord
+            };
+
+            login.updatePwd(params).then(res => {
+                if (res.code !== "200") return;
+
+                this.$message.success("操作成功，请重新登录");
+                setTimeout(() => {
+                    this.$router.push("/login");
+                }, 1500);
+            });
         }
     }
 };
@@ -137,5 +202,11 @@ $font-color: #fff;
 .dropdownMenu {
     width: 150px;
     text-align: center;
+}
+
+.pwdInp {
+    &:not(:last-child) {
+        margin-bottom: 16px;
+    }
 }
 </style>

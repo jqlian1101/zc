@@ -1,11 +1,26 @@
-import { request } from 'utils/request';
-import config from './config';
+import { request } from "utils/request";
+import config from "./config";
 
 // 登录
-const signIn = (params) => request(`${config.baseUrl}/userLoginController/userLogin`, { ...params }, {
-    method: 'post'
-});
+const signIn = params =>
+    request(
+        `${config.baseUrl}/userLoginController/userLogin`,
+        { ...params },
+        {
+            method: "post"
+        }
+    );
+
+const updatePwd = params =>
+    request(
+        `${config.baseUrl}/userLoginController/updatePassword`,
+        { ...params },
+        {
+            method: "post"
+        }
+    );
 
 export default {
-    signIn
-}
+    signIn,
+    updatePwd
+};

@@ -100,7 +100,8 @@ export default {
         },
 
         onUpdatePwd() {
-            console.log("changePwd", this.pwd);
+            // console.log("changePwd", this.pwd);
+            const userInfo = getUserInfo();
             const { oldPassWord, newPassWord, repPwd } = this.pwd;
 
             if (!oldPassWord) {
@@ -116,7 +117,7 @@ export default {
             }
 
             const params = {
-                userName: this.username,
+                userName: userInfo.loginCode,
                 oldPassWord,
                 newPassWord
             };

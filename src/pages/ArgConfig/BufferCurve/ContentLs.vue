@@ -172,6 +172,7 @@ export default {
         },
         pointAllotData: {
             handler: function(val) {
+                if (!this.verifyPointAllotDataOrder(val)) return;
                 this.charTableChange(this.pointData, val);
             },
             deep: true
@@ -193,6 +194,49 @@ export default {
                     }
                 }
             }
+        },
+
+        verifyPointAllotDataOrder(datas) {
+            for (let i = 0; i < datas.length; i++) {
+                const curLi = datas[i];
+                const curName = curLi.name;
+                const valueStr = curLi.value;
+                if (!valueStr) continue;
+
+                let isAsc = true;
+                if (curName === "卸载") isAsc = false;
+
+                const valueArr = valueStr.split(",");
+                if (valueArr.length === 0) continue;
+
+                for (let j = 1; j < valueArr.length; j++) {
+                    if (valueArr[j] && valueArr[j - 1]) {
+                        if (
+                            (isAsc && valueArr[j] <= valueArr[j - 1]) ||
+                            (!isAsc && valueArr[j] >= valueArr[j - 1])
+                        ) {
+                            this.$message.error("点序列错误");
+                            return false;
+                        }
+                    }
+                }
+
+                if (i <= datas.length - 2) {
+                    const curEnd = valueArr[valueArr.length - 1];
+
+                    const nextValStr = datas[i + 1].value || "";
+                    const nextValArr = nextValStr.split(",");
+
+                    if (nextValArr.length > 0) {
+                        const nextStart = nextValArr[0];
+                        if (nextStart && curEnd && nextStart !== curEnd) {
+                            this.$message.error("折线段应当首尾相连");
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
         },
 
         verifyPointAllotData(tableData, data) {

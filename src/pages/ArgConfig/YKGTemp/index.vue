@@ -3,19 +3,31 @@
         <div :class="$style.title">压溃管自定义</div>
         <div class="clearfix">
             <div class="flr">
+                <span @click="onClickEdit()" class="edit-btn m-l-5">新建压溃管</span>
                 <Diy
                     placeholder="新建压溃管"
                     title="压溃管曲线定义"
-                    eleKey="diy1"
-                    eleParentType="front"
-                    field="diy1"
                     :type="5"
                     :showCharts="true"
                     :saveData="saveNewData"
+                    :dataSource="editDataSource"
+                    :visible="editVisible"
+                    :onCancel="onCancelEdit"
+                    :showToggleBtn="false"
                 />
             </div>
             <div :class="$style.contentLi" class="fll">
-                <div :class="$style.title">请选择压溃管型号</div>
+                <div :class="$style.mainWrap" class="clearfix">
+                    <div :class="$style.title" class="fll">请选择压溃管型号</div>
+                    <el-select v-model="mainYKG" placeholder="请选择" class="m-l-5 fll">
+                        <el-option
+                            v-for="item in ykgMainList"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                        ></el-option>
+                    </el-select>
+                </div>
                 <div :class="$style.rightList">
                     <el-checkbox v-model="formData.ykg1Checked" :class="$style.checkbox"></el-checkbox>
                     <label>压溃管1</label>
@@ -27,6 +39,7 @@
                             :value="item.id"
                         ></el-option>
                     </el-select>
+                    <span @click="onClickEdit(formData.ykg1)" class="edit-btn m-l-5">编辑</span>
                 </div>
                 <div :class="$style.rightList">
                     <el-checkbox v-model="formData.ykg2Checked" :class="$style.checkbox"></el-checkbox>
@@ -39,6 +52,7 @@
                             :value="item.id"
                         ></el-option>
                     </el-select>
+                    <span @click="onClickEdit(formData.ykg2)" class="edit-btn m-l-5">编辑</span>
                 </div>
                 <div :class="$style.rightList">
                     <label>备注</label>
@@ -84,7 +98,12 @@ export default {
     },
     data() {
         return {
+            editDataSource: {},
+            editVisible: false,
+
             // 当前的缓冲器型号
+            ykgMainList: [],
+            mainYKG: "",
             ykgList: [],
             curYKGType: "",
             formData: {
@@ -104,6 +123,27 @@ export default {
     props: {},
     computed: {},
     watch: {
+        async mainYKG(val) {
+            if (!val) return;
+            const res = await argConfig.getYKGTempView({ id: val });
+            if (!res || res.code !== "200") return;
+
+            const [ykg1, ykg2] = res.data || [];
+            if (ykg1 && ykg1.id) {
+                this.formData.ykg1 = ykg1.id;
+                this.formData.ykg1Checked = true;
+            } else {
+                this.formData.ykg1 = "";
+                this.formData.ykg1Checked = false;
+            }
+            if (ykg2 && ykg2.id) {
+                this.formData.ykg2 = ykg2.id;
+                this.formData.ykg2Checked = true;
+            } else {
+                this.formData.ykg2 = "";
+                this.formData.ykg2Checked = false;
+            }
+        },
         "formData.ykg1"(val) {
             if (val) this.formData.ykg1Checked = true;
         },
@@ -130,12 +170,12 @@ export default {
                 });
 
             // // TODO type 根据用户身份确定，管理员：1(公用)，普通用户：2(私有)
-            // argConfig
-            //     .getYKGTempList({ userId, type: userTypeCode })
-            //     .then(res => {
-            //         if (!res) return;
-            //         this.ykgList = res.data;
-            //     });
+            argConfig
+                .getYKGTempList({ userId, roleCode: userTypeCode })
+                .then(res => {
+                    if (!res) return;
+                    this.ykgMainList = res.data;
+                });
         },
 
         // 点击删除，删除选中项
@@ -225,6 +265,27 @@ export default {
             this.saveData({ name });
             // this.$message.info("操作成功");
             // this.getYKGTempList();
+        },
+
+        onClickEdit(id) {
+            if (!id) {
+                this.editDataSource = {};
+                this.editVisible = true;
+                return;
+            }
+
+            const curDatas = this.ykgList.find(item => item.id === id);
+            let tcsdData = curDatas.tcsdData;
+            if (tcsdData) tcsdData = JSON.parse(tcsdData);
+            this.editVisible = true;
+            this.editDataSource = {
+                ...curDatas,
+                tcsdId: curDatas.id,
+                tcsdData: tcsdData || []
+            };
+        },
+        onCancelEdit() {
+            this.editVisible = false;
         }
     },
     mounted() {
@@ -238,7 +299,11 @@ export default {
     .title {
         font-size: 20px;
         text-align: center;
-        margin-bottom: 30px;
+        margin-right: 20px;
+    }
+
+    .mainWrap {
+        margin-bottom: 14px;
     }
 
     label {

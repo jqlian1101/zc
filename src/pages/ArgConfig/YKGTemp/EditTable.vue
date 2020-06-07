@@ -237,6 +237,7 @@ export default {
     watch: {
         dataSource() {
             this.tableData = [...this.dataSource];
+            this.charTableChange();
         },
 
         tcsdData() {
@@ -419,6 +420,7 @@ export default {
         // 保存talbe对数据
         tractionLiSave(cb) {
             let params = this.getSaveDataParmas();
+            const { userTypeCode } = getUserIdAndType();
 
             if (this.tcsdName) {
                 params.tcsdName = this.tcsdName;
@@ -426,23 +428,25 @@ export default {
 
             if (!params.tcsdName && params.tcsdData.length === 0) return;
 
-            return model.tractionLiSave(params).then(res => {
-                if (!res) return;
-                this.nameDialogVisible = false;
+            return model
+                .tractionLiSave({ ...params, roleCode: userTypeCode })
+                .then(res => {
+                    if (!res) return;
+                    this.nameDialogVisible = false;
 
-                // this.$message({
-                //     message: "操作成功",
-                //     type: "success"
-                // });
+                    // this.$message({
+                    //     message: "操作成功",
+                    //     type: "success"
+                    // });
 
-                this.tcsdId = res.data.id;
+                    this.tcsdId = res.data.id;
 
-                // 保存数据后，将id返回给父组件
-                this.onSaveCb(res.data.id);
+                    // 保存数据后，将id返回给父组件
+                    this.onSaveCb(res.data.id);
 
-                typeof cb === "function" && cb();
-                return res;
-            });
+                    typeof cb === "function" && cb();
+                    return res;
+                });
         },
 
         // 图表联动

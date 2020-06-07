@@ -1,38 +1,43 @@
 .clearfix:after,
 .clearfix:before {
-  content: "";
-  display: table;
+    content: "";
+    display: table;
 }
 
 .clearfix:after {
-  clear: both;
+    clear: both;
 }
 
 .fll {
-  float: left;
+    float: left;
 }
 
 .flr {
-  float: right;
+    float: right;
 }
 
 .scroll-touch {
-  -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
 }
 
 .cursor-p {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .inp-border {
-  border: 1px solid $border-color_1;
+    border: 1px solid $border-color_1;
 }
 
 // 三角icon 向下
 .triangle-down-6 {
-  @include triangle-down(6);
+    @include triangle-down(6);
 }
 
 .edit-btn {
-  color: #4baed0;
+    color: #4baed0;
+    cursor: pointer;
+}
+
+.m-l-5 {
+    margin-left: 5px;
 }

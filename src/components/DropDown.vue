@@ -1,6 +1,7 @@
 <template>
     <div :class="{[$style.root]: true, [$style.disabled]: disabled}" class="cursor-p" ref="root">
         <div
+            v-if="showToggleBtn"
             slot="reference"
             :class="$style.box"
             class="link inp-border"
@@ -39,6 +40,10 @@ export default {
         };
     },
     props: {
+        showToggleBtn: {
+            type: Boolean,
+            default: true
+        },
         size: {
             type: String,
             default: "default"
@@ -74,6 +79,11 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        }
+    },
+    watch: {
+        "$attrs.visible"(val, oldVal) {
+            if (val !== oldVal && val !== this.visible) this.visible = val;
         }
     },
     computed: {

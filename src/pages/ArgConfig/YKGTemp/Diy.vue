@@ -8,6 +8,8 @@
         :cancel="cancel"
         :disabled="disabled"
         :showArrow="false"
+        :visible="$attrs.visible"
+        :showToggleBtn="$attrs.showToggleBtn"
     >
         <div :class="$style.root">
             <div :class="$style.axis" class="listWrap">
@@ -94,10 +96,10 @@ export default {
             type: Number,
             required: true
         },
-        field: {
-            type: String,
-            required: true
-        },
+        // field: {
+        //     type: String,
+        //     required: true
+        // },
         saveData: {
             type: Function,
             default: () => {}
@@ -116,22 +118,30 @@ export default {
         }
     },
     watch: {
-        "dataSource.xType"(val) {
-            if (val) this.isHaveData = true;
-            this.setXType(val);
-        },
-        "dataSource.tcsdId"(tcsdId, oldId) {
+        // "dataSource.xType"(val) {
+        //     if (val) this.isHaveData = true;
+        //     this.setXType(val);
+        // },
+        // dataSource(data, oldData) {
+        //     console.log(data, oldData);
+        // },
+        "dataSource.id"(tcsdId, oldId) {
             const haveTcsd = tcsdId && tcsdId !== "0";
+            if (!tcsdId) {
+                this.setXType("");
+                this.setTcsdData({});
+                return;
+            }
 
             if (haveTcsd) this.isHaveData = true;
 
             if (haveTcsd && tcsdId !== oldId && tcsdId !== this.curveId) {
                 this.getTcsdDataById(tcsdId);
             }
-        },
-        "dataSource.tcsdData"(tcsdData) {
-            this.setTcsdData(tcsdData);
         }
+        // "dataSource.tcsdData"(tcsdData) {
+        //     this.setTcsdData(tcsdData);
+        // }
         // xType(val) {
         //     if (val !== this.cacheXType) {
         //         this.isSaved = false;
@@ -197,6 +207,7 @@ export default {
             if (tcsdId || xType) {
                 this.isHaveData = true;
             }
+            this.$attrs.onCancel && this.$attrs.onCancel();
         },
 
         onOpenCurveCb(data) {
@@ -207,8 +218,8 @@ export default {
         },
 
         onSaveData() {
-            let field = this.field;
-            if (!field) return;
+            // let field = this.field;
+            // if (!field) return;
 
             const openCurveDataCache = this.openCurveDataCache || {};
 

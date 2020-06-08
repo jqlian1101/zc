@@ -39,7 +39,11 @@
                             :value="item.id"
                         ></el-option>
                     </el-select>
-                    <span @click="onClickEdit(formData.ykg1)" class="edit-btn m-l-5">编辑</span>
+                    <span
+                        v-if="!!formData.ykg1"
+                        @click="onClickEdit(formData.ykg1)"
+                        class="edit-btn m-l-5"
+                    >编辑</span>
                 </div>
                 <div :class="$style.rightList">
                     <el-checkbox v-model="formData.ykg2Checked" :class="$style.checkbox"></el-checkbox>
@@ -52,7 +56,11 @@
                             :value="item.id"
                         ></el-option>
                     </el-select>
-                    <span @click="onClickEdit(formData.ykg2)" class="edit-btn m-l-5">编辑</span>
+                    <span
+                        v-if="!!formData.ykg2"
+                        @click="onClickEdit(formData.ykg2)"
+                        class="edit-btn m-l-5"
+                    >编辑</span>
                 </div>
                 <div :class="$style.rightList">
                     <label>备注</label>

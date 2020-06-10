@@ -107,9 +107,9 @@ export default {
 
         // 请求模型树列表
         getModelsList() {
-            const { userId, userType } = getUserIdAndType();
+            const { userId, roleCode } = getUserIdAndType();
 
-            model.getModels({ userId, roleCode: userType }).then(res => {
+            model.getModels({ userId, roleCode }).then(res => {
                 if (!res) return;
                 let { data = [] } = res;
                 this.modelsList = data;
@@ -131,7 +131,7 @@ export default {
          * 设置模型名称
          */
         setModelName: function({ success }) {
-            const { userId, userType } = getUserIdAndType();
+            const { userId, roleCode } = getUserIdAndType();
 
             this.$prompt("请输入模型名称", {
                 confirmButtonText: "确定",
@@ -141,7 +141,7 @@ export default {
                 .then(({ value }) => {
                     // console.log(value)
                     model
-                        .createModel({ userId, roleCode: userType, name: value })
+                        .createModel({ userId, roleCode: roleCode, name: value })
                         .then(res => {
                             if (!res) return;
                             this.getModelTreeData(res.data.id);
@@ -199,7 +199,7 @@ export default {
         saveModelAs(params = {}) {
             // 是否包含计算结果，后端暂不支持
             // let { includeCalculate } = params;
-            const { userId, userType } = getUserIdAndType();
+            const { userId, roleCode } = getUserIdAndType();
             setTimeout(() => {
                 this.$prompt("请输入模型名称", {
                     confirmButtonText: "确定",
@@ -210,7 +210,7 @@ export default {
                         model
                             .saveModelAs({
                                 userId,
-                                roleCode: userType,
+                                roleCode: roleCode,
                                 name: value,
                                 id: this.curModelId
                             })
@@ -284,12 +284,12 @@ export default {
 
         // 删除tag
         onCloseTag(item) {
-            const { userId, userType } = getUserIdAndType();
+            const { userId, roleCode } = getUserIdAndType();
             if (!item.id) {
                 this.$message("模型id不存在");
                 return;
             }
-            model.delModal({ id: item.id, userId, roleCode: userType }).then(res => {
+            model.delModal({ id: item.id, userId, roleCode: roleCode }).then(res => {
                 if (!res || res.code !== "200") return;
                 this.$message(`删除成功`);
 

@@ -420,7 +420,7 @@ export default {
         // 保存talbe对数据
         tractionLiSave(cb) {
             let params = this.getSaveDataParmas();
-            const { userTypeCode } = getUserIdAndType();
+            const { roleCode } = getUserIdAndType();
 
             if (this.tcsdName) {
                 params.tcsdName = this.tcsdName;
@@ -429,7 +429,7 @@ export default {
             if (!params.tcsdName && params.tcsdData.length === 0) return;
 
             return model
-                .tractionLiSave({ ...params, roleCode: userTypeCode })
+                .tractionLiSave({ ...params, roleCode: roleCode })
                 .then(res => {
                     if (!res) return;
                     this.nameDialogVisible = false;

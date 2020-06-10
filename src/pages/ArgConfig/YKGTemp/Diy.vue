@@ -75,7 +75,7 @@ export default {
     data() {
         return {
             options,
-            xType: "",
+            xType: "1",
             tcsdData: {},
             isHaveData: false,
             nameDialogVisible: false,

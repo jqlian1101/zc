@@ -346,13 +346,13 @@ export default {
         },
 
         deleteRecordById(record) {
-            const { userId, userType } = getUserIdAndType();
+            const { userId, roleCode } = getUserIdAndType();
             report
                 .deleteRecordById({
                     recordId: record.id,
                     modelId: this.curModelId,
                     userId,
-                    roleCode: userType
+                    roleCode: roleCode
                 })
                 .then(res => {
                     if (!res || res.code !== "200") return;

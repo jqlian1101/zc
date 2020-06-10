@@ -57,10 +57,10 @@ export default {
     },
     methods: {
         getYKGTempList() {
-            const { userId, userTypeCode } = getUserIdAndType();
+            const { userId, userTypeCode, roleCode } = getUserIdAndType();
 
             argConfig
-                .getYKGTempList({ userId, type: userTypeCode })
+                .getYKGTempList({ userId, type: userTypeCode, roleCode })
                 .then(res => {
                     if (!res) return;
                     this.options = res.data;

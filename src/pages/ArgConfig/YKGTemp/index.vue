@@ -168,10 +168,10 @@ export default {
     methods: {
         // 获取压溃管模版列表
         getYKGTempList() {
-            const { userId, userTypeCode } = getUserIdAndType();
+            const { userId, roleCode } = getUserIdAndType();
 
             model
-                .tractionList({ userId, roleCode: userTypeCode, type: 5 })
+                .tractionList({ userId, roleCode: roleCode, type: 5 })
                 .then(res => {
                     if (!res) return;
                     this.ykgList = res.data;
@@ -179,7 +179,7 @@ export default {
 
             // // TODO type 根据用户身份确定，管理员：1(公用)，普通用户：2(私有)
             argConfig
-                .getYKGTempList({ userId, roleCode: userTypeCode })
+                .getYKGTempList({ userId, roleCode: roleCode })
                 .then(res => {
                     if (!res) return;
                     this.ykgMainList = res.data;
@@ -211,13 +211,13 @@ export default {
 
         //  保存数据
         saveData(args = {}) {
-            const { userId, userTypeCode } = getUserIdAndType();
+            const { userId, userTypeCode, roleCode } = getUserIdAndType();
             const { ykg1, ykg1Checked, ykg2, ykg2Checked } = this.formData;
 
             let params = {
                 userId,
                 type: userTypeCode,
-                roleCode: userTypeCode,
+                roleCode: roleCode,
                 ...args
             };
 

@@ -13,6 +13,8 @@
                     <el-button class="btn-xl" @click="saveModelBefore">保存模型</el-button>
                     <el-button class="btn-xl" @click="saveModelAsBefore">模型另存</el-button>
                     <el-button class="btn-xl" @click="delModel">删除模型</el-button>
+                    <el-button v-if="curModelId" class="btn-xl" @click="onShare">分享</el-button>
+                    <el-button v-if="curModelId" class="btn-xl" @click="onUnShare">取消分享</el-button>
                 </div>
                 <div class="rightCont">
                     <router-view></router-view>
@@ -141,7 +143,11 @@ export default {
                 .then(({ value }) => {
                     // console.log(value)
                     model
-                        .createModel({ userId, roleCode: roleCode, name: value })
+                        .createModel({
+                            userId,
+                            roleCode: roleCode,
+                            name: value
+                        })
                         .then(res => {
                             if (!res) return;
                             this.getModelTreeData(res.data.id);
@@ -289,19 +295,41 @@ export default {
                 this.$message("模型id不存在");
                 return;
             }
-            model.delModal({ id: item.id, userId, roleCode: roleCode }).then(res => {
-                if (!res || res.code !== "200") return;
-                this.$message(`删除成功`);
+            model
+                .delModal({ id: item.id, userId, roleCode: roleCode })
+                .then(res => {
+                    if (!res || res.code !== "200") return;
+                    this.$message(`删除成功`);
 
-                const delIdx = this.modelsList.findIndex(
-                    list => list.id === item.id
-                );
-                this.modelsList.splice(delIdx, 1);
+                    const delIdx = this.modelsList.findIndex(
+                        list => list.id === item.id
+                    );
+                    this.modelsList.splice(delIdx, 1);
 
-                if (item.id === this.curModelId) {
-                    this.clearAllDataModels();
-                }
+                    if (item.id === this.curModelId) {
+                        this.clearAllDataModels();
+                    }
+                });
+        },
+        async shareModal(modelType) {
+            const { userId, roleCode } = getUserIdAndType();
+
+            const res = await model.shareModal({
+                id: this.curModelId,
+                userId,
+                roleCode,
+                modelType
             });
+            if (!res || res.code !== "200") return;
+            this.$message.success("操作成功");
+        },
+        onShare() {
+            if (!this.curModelId) return;
+            this.shareModal(1);
+        },
+        onUnShare() {
+            if (!this.curModelId) return;
+            this.shareModal(0);
         }
     },
     mounted() {

@@ -41,6 +41,7 @@
                         :controls="false"
                         v-model="scope.row.x"
                         @change="dataChange"
+                        @blur="onXBlur"
                     ></el-input-number>
                 </template>
             </el-table-column>
@@ -50,6 +51,7 @@
                         v-model="scope.row.f"
                         :controls="false"
                         @change="dataChange"
+                        @blur="onFBlur"
                     ></el-input-number>
                 </template>
             </el-table-column>
@@ -180,6 +182,14 @@ export default {
             type: Function,
             default: () => {}
         },
+        onXBlur: {
+            type: Function,
+            default: () => {}
+        },
+        onFBlur: {
+            type: Function,
+            default: () => {}
+        },
         height: {
             type: String,
             default: "150"
@@ -273,7 +283,11 @@ export default {
         tableAdd(idx) {
             if (this.disabled) return;
             let { tableData } = this;
-            idx = idx || tableData.length - 1;
+
+            if (idx !== 0 && !idx) {
+                idx = tableData.length - 1;
+            }
+
             tableData.splice(idx + 1, 0, {
                 x: 0,
                 f: 0

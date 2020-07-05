@@ -21,6 +21,7 @@
                     :dataSource="pointData"
                     :tableDataChange="charTableChange"
                     height="200"
+                    :onXBlur="onInputBlur"
                 />
             </div>
             <!-- 曲线分段 -->
@@ -29,7 +30,12 @@
                     <el-table-column prop="name" label="曲线分段" align="center" />
                     <el-table-column prop="value" label="点序号" align="center">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.value" :controls="false" :min="0"></el-input>
+                            <el-input
+                                v-model="scope.row.value"
+                                :controls="false"
+                                :min="0"
+                                @blur="onInputBlur"
+                            ></el-input>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -73,7 +79,7 @@ import EditTable from "components/EditTable";
 import LineCharts from "components/Charts";
 
 let chartsOptions = {
-    color: ["#ff69b4", "#ba55d3", "#cd5c5c", "#ffa500", "#40e0d0"],
+    color: ["#0000FF", "#FF1493", "#CCCCFF", "#000000", "#40e0d0"],
     xAxis: {},
     yAxis: {},
     series: []
@@ -123,7 +129,9 @@ export default {
             interpolationMethod: interpolationMethodYs || defaultInterId,
 
             chartsOptions: { ...chartsOptions },
-            remarks
+            remarks,
+
+            isShowChart: true
         };
     },
     props: {
@@ -169,7 +177,7 @@ export default {
         },
         pointAllotData: {
             handler: function(val) {
-                if (!this.verifyPointAllotDataOrder(val)) return;
+                // if (!this.verifyPointAllotDataOrder(val)) return;
                 this.charTableChange(this.pointData, val);
             },
             deep: true
@@ -193,55 +201,58 @@ export default {
             }
         },
 
-        verifyPointAllotDataOrder(datas) {
-            for (let i = 0; i < datas.length; i++) {
-                const curLi = datas[i];
-                const curName = curLi.name;
-                const valueStr = curLi.value;
-                if (!valueStr) continue;
+        // verifyPointAllotDataOrder(datas) {
+        //     for (let i = 0; i < datas.length; i++) {
+        //         const curLi = datas[i];
+        //         const curName = curLi.name;
+        //         const valueStr = curLi.value;
+        //         if (!valueStr) continue;
 
-                let isAsc = true;
-                if (curName === "卸载") isAsc = false;
+        //         let isAsc = true;
+        //         if (curName === "卸载") isAsc = false;
 
-                const valueArr = valueStr.split(",");
-                if (valueArr.length === 0) continue;
+        //         const valueArr = valueStr.split(",");
+        //         // console.log(valueArr);
+        //         if (valueArr.length === 0) continue;
 
-                for (let j = 1; j < valueArr.length; j++) {
-                    if (valueArr[j] && valueArr[j - 1]) {
-                        if (
-                            (isAsc && valueArr[j] <= valueArr[j - 1]) ||
-                            (!isAsc && valueArr[j] >= valueArr[j - 1])
-                        ) {
-                            this.$message.error("点序列错误");
-                            return false;
-                        }
-                    }
-                }
+        //         for (let j = 1; j < valueArr.length; j++) {
+        //             if (valueArr[j] && valueArr[j - 1]) {
+        //                 const cur = Number(valueArr[j]);
+        //                 const prev = Number(valueArr[j - 1]);
+        //                 if ((isAsc && cur <= prev) || (!isAsc && cur >= prev)) {
+        //                     this.$message.error("点序列错误");
+        //                     return false;
+        //                 }
+        //             }
+        //         }
 
-                if (i <= datas.length - 2) {
-                    const curEnd = valueArr[valueArr.length - 1];
+        //         if (i <= datas.length - 2) {
+        //             const curEnd = valueArr[valueArr.length - 1];
 
-                    const nextValStr = datas[i + 1].value || "";
-                    const nextValArr = nextValStr.split(",");
+        //             const nextValStr = datas[i + 1].value || "";
+        //             const nextValArr = nextValStr.split(",");
 
-                    if (nextValArr.length > 0) {
-                        const nextStart = nextValArr[0];
-                        if (nextStart && curEnd && nextStart !== curEnd) {
-                            this.$message.error("折线段应当首尾相连");
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        },
+        //             if (nextValArr.length > 0) {
+        //                 const nextStart = nextValArr[0];
+        //                 if (nextStart && curEnd && nextStart !== curEnd) {
+        //                     this.$message.error("折线段应当首尾相连");
+        //                     return false;
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return true;
+        // },
 
-        verifyPointAllotData(tableData, data) {
+        verifyPointAllotData() {
+            const tableData = this.pointData || [];
+            const data = this.pointAllotData || [];
+
             // 所有加载点序号的x轴要比前一个点的x轴大，卸载点序号要比前一个小
             for (let i = 0; i < data.length; i++) {
                 const valList = data[i].value ? data[i].value.split(",") : [];
-                let isAsc = true;
-                if (data[i].name === "卸载") isAsc = false;
+                // let isAsc = true;
+                // if (data[i].name === "卸载") isAsc = false;
 
                 let prev;
                 for (let j = 0; j < valList.length; j++) {
@@ -256,11 +267,15 @@ export default {
                         );
 
                         if (prevData && curData) {
-                            if (
-                                (isAsc && prevData.x >= curData.x) ||
-                                (!isAsc && prevData.x <= curData.x)
-                            ) {
-                                this.$message.error("数据异常");
+                            // if (
+                            //     (isAsc && prevData.x >= curData.x) ||
+                            //     (!isAsc && prevData.x <= curData.x)
+                            // ) {
+                            if (prevData.x >= curData.x) {
+                                this.$message.error(
+                                    "曲线数据点横坐标应单调递增"
+                                );
+                                this.isShowChart = false;
                                 return false;
                             }
                         }
@@ -268,17 +283,22 @@ export default {
                     prev = valList[j];
                 }
             }
+            this.isShowChart = true;
             return true;
         },
 
-        charTableChange(data, pointAllotData) {
-            // console.log(data, pointAllotData);
+        onInputBlur() {
+            this.charTableChange(this.pointData, this.pointAllotData, true);
+        },
 
+        charTableChange(data, pointAllotData, isVerifyPointData) {
             data = data || this.pointData;
             pointAllotData = pointAllotData || this.pointAllotData;
 
             this.verifyTableData(data);
-            const isShowChart = this.verifyPointAllotData(data, pointAllotData);
+            if (isVerifyPointData) {
+                this.verifyPointAllotData(data, pointAllotData);
+            }
 
             const dataKV = {};
             data.map(item => {
@@ -286,7 +306,7 @@ export default {
             });
 
             const relation = [];
-            isShowChart &&
+            this.isShowChart &&
                 pointAllotData.map(item => {
                     let value = item.value || "";
                     let newVal = [];
@@ -343,6 +363,7 @@ export default {
     },
     mounted() {
         this.charTableChange(this.pointData, this.pointAllotData);
+        this.onInputBlur();
     }
 };
 </script>

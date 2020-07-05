@@ -115,7 +115,7 @@ export default {
     },
     methods: {
         // 获取模版列表
-        getCoupMdfTempList() {
+        getCoupMdfTempList(cb) {
             const { userId, userTypeCode } = getUserIdAndType();
 
             argConfig
@@ -131,6 +131,7 @@ export default {
                     });
 
                     this.bufferList = data;
+                    typeof cb === "function" && cb();
                 });
         },
 
@@ -138,9 +139,15 @@ export default {
         saveCoupMdfTemp(params) {
             argConfig.saveCoupMdfTemp(params).then(res => {
                 if (!res) return;
+                let { data } = res;
+                data = data || {};
+
+                const { id } = data;
 
                 // 保存成功后，刷新select数据
-                this.getCoupMdfTempList();
+                this.getCoupMdfTempList(() => {
+                    this.curTempId = id;
+                });
 
                 this.$message({
                     message: "操作成功",

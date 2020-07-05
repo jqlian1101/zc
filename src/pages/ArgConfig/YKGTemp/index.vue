@@ -3,9 +3,10 @@
         <div :class="$style.title">压溃管自定义</div>
         <div class="clearfix">
             <div class="flr">
-                <span @click="onClickEdit()" class="edit-btn m-l-5">新建压溃管</span>
+                <span @click="openModalVisible=true" class="edit-btn m-l-5">打开压溃管</span>
+                <span @click="onClickEdit()" class="edit-btn m-l-5">新建压溃管曲线</span>
                 <Diy
-                    placeholder="新建压溃管"
+                    placeholder="新建压溃管曲线"
                     title="压溃管曲线定义"
                     :type="5"
                     :showCharts="true"
@@ -27,6 +28,8 @@
                             :value="item.id"
                         ></el-option>
                     </el-select>
+                    <div :class="$style.deleteBtn" class="cursor-p fll" @click="resetData">新建</div>
+                    <div :class="$style.deleteBtn" class="cursor-p fll" @click="onClickDel">删除</div>
                 </div>
                 <div :class="$style.rightList">
                     <el-checkbox v-model="formData.ykg1Checked" :class="$style.checkbox"></el-checkbox>
@@ -74,12 +77,23 @@
             <el-button class="btn-xl" @click="resetData">清空</el-button>
         </div>
 
-        <!-- <NameDialog
-            :visible="nameDialogVisible"
-            :onSaveData="saveData"
-            :onCancel="()=>nameDialogVisible = false"
-            :dataSource="formData"
-        />-->
+        <el-dialog
+            title="请选择要打开的压溃管"
+            :visible.sync="openModalVisible"
+            :modal="false"
+            :append-to-body="true"
+        >
+            <ul :class="$style.tractionList" class="clearfix">
+                <el-tag
+                    class="cursor-p"
+                    v-for="item in ykgMainList"
+                    :key="item.id"
+                    closable
+                    @close="onClickDel(item.id)"
+                    @click="onClickOpenItem(item)"
+                >{{item.name}}</el-tag>
+            </ul>
+        </el-dialog>
         <NameDialog2
             :visible="nameDialog2Visible"
             :onSaveData="saveCurveData"
@@ -113,7 +127,7 @@ export default {
             ykgMainList: [],
             mainYKG: "",
             ykgList: [],
-            curYKGType: "",
+            // curYKGType: "",
             formData: {
                 ykg1: "",
                 ykg1Checked: false,
@@ -125,6 +139,9 @@ export default {
 
             // nameDialogVisible: false,
             nameDialog2Visible: false,
+
+            openModalVisible: false,
+
             remarks: ""
         };
     },
@@ -158,16 +175,22 @@ export default {
         "formData.ykg2"(val) {
             if (val) this.formData.ykg2Checked = true;
         },
-        curYKGType() {
-            let list = this.ykgList || [];
-            let curKey = this.curYKGType;
-            if (!curKey) return;
-            this.formData = list.find(item => item.id === curKey);
+        "formData.ykg1Checked"(val) {
+            if (!val) this.formData.ykg1 = "";
+        },
+        "formData.ykg2Checked"(val) {
+            if (!val) this.formData.ykg2 = "";
         }
+        // curYKGType() {
+        //     let list = this.ykgList || [];
+        //     let curKey = this.curYKGType;
+        //     if (!curKey) return;
+        //     this.formData = list.find(item => item.id === curKey);
+        // }
     },
     methods: {
         // 获取压溃管模版列表
-        getYKGTempList() {
+        getYKGTempList(cb) {
             const { userId, roleCode } = getUserIdAndType();
 
             model
@@ -183,24 +206,34 @@ export default {
                 .then(res => {
                     if (!res) return;
                     this.ykgMainList = res.data;
+
+                    typeof cb === "function" && cb();
                 });
         },
 
+        // 打开曲线
+        onClickOpenItem(item) {
+            this.mainYKG = item.id;
+            this.openModalVisible = false;
+        },
+
         // 点击删除，删除选中项
-        onClickDel() {
-            if (!this.curYKGType) {
+        onClickDel(id) {
+            id = id || this.mainYKG;
+            if (!id) {
                 this.$message({
-                    message: "请先选择型号",
+                    message: "请先选择要删除的压溃管",
                     type: "error"
                 });
                 return;
             }
-            argConfig.delYKGTemp({ id: this.curYKGType }).then(res => {
+
+            argConfig.delYKGTemp({ id }).then(res => {
                 if (!res) return;
 
                 // 保存成功后，刷新select数据，并清空选项
                 this.getYKGTempList();
-                this.curYKGType = "";
+                this.resetData();
 
                 this.$message({
                     message: "操作成功",
@@ -216,17 +249,25 @@ export default {
 
             let params = {
                 userId,
+                id: this.mainYKG,
                 type: userTypeCode,
                 roleCode: roleCode,
                 ...args
             };
 
+            if (params.id) {
+                const cur = this.ykgMainList.find(
+                    item => item.id === params.id
+                );
+                params.name = cur.name;
+            }
+
             if (ykg1Checked) params.ykg1TcsdId = ykg1;
             if (ykg2Checked) params.ykg2TcsdId = ykg2;
 
-            if (!this.curYKGType) {
-                delete params.id;
-            }
+            // if (!this.curYKGType) {
+            //     delete params.id;
+            // }
 
             for (let i in params) {
                 if (!params[i]) delete params[i];
@@ -238,6 +279,7 @@ export default {
 
                 // 保存成功后，刷新select数据
                 this.getYKGTempList();
+                this.mainYKG = res.data.id;
 
                 this.$message({
                     message: "操作成功",
@@ -248,23 +290,36 @@ export default {
 
         save() {
             if (!this.remarks) return this.$message.error("请输入备注");
-            this.nameDialog2Visible = true;
+            if (!this.mainYKG) {
+                this.nameDialog2Visible = true;
+            } else {
+                this.saveData();
+            }
         },
         resetData() {
             this.curYKGType = "";
-            this.formData = {};
-            // this.isDiy = false;
+            this.mainYKG = "";
+            this.formData = {
+                ykg1: "",
+                ykg1Checked: false,
+                ykg2: "",
+                ykg2Checked: false
+            };
             this.nameDialogVisible = false;
         },
 
         /**
          * 保存新建的压溃管数据
          */
-        saveNewData(datas) {
-            // console.log(datas);
-            // this.nameDialog2Visible = true;
-            // this.cacheCurveData = datas;
-            this.getYKGTempList();
+        saveNewData({ datas = {} }) {
+            const { tcsdData, tcsdId } = datas;
+            this.editVisible = false;
+            const id = tcsdId || tcsdData.id;
+            this.getYKGTempList(() => {
+                if (!id) return;
+                this.formData.ykg1 = id;
+                this.formData.ykg2 = id;
+            });
         },
 
         saveCurveData(name) {
@@ -322,6 +377,7 @@ export default {
     .deleteBtn {
         display: inline-block;
         padding: 0 30px;
+        line-height: 28px;
     }
 
     // .isDiy {
@@ -365,7 +421,7 @@ export default {
 }
 
 .contentLi {
-    width: 45%;
+    width: 600px;
     .title {
         font-size: 14px;
         text-align: left;
@@ -377,6 +433,25 @@ export default {
 
     .rightList {
         margin-bottom: 20px;
+    }
+}
+
+.tractionList {
+    max-height: 300px;
+    overflow: auto;
+    li {
+        height: 40px;
+        line-height: 40px;
+        padding: 0 20px;
+        margin: 0 5px;
+    }
+
+    :global {
+        .el-tag {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: transparent;
+        }
     }
 }
 </style>

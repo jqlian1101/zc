@@ -14,15 +14,7 @@
         <div :class="$style.root">
             <div :class="$style.axis" class="listWrap">
                 <div>
-                    <label>横坐标</label>
-                    <el-select v-model="xType" placeholder="请选择">
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        ></el-option>
-                    </el-select>
+                    <label>横坐标</label>位移 (m)
                 </div>
                 <div>
                     <label>纵坐标</label>力 (单位：N)
@@ -161,17 +153,17 @@ export default {
                     this.isHaveData = true;
                 }
 
-                const xType = data.xType || data.xtype || "";
+                // const xType = data.xType || data.xtype || "";
                 // this.xType = xType;
-                this.setXType(xType);
-                this.setTcsdData({ ...data, xType });
+                // this.setXType(xType);
+                this.setTcsdData({ ...data, xType: "1" });
                 // this.tcsdData = { ...data, xType };
             });
         },
 
         setXType(xType) {
-            this.xType = xType;
-            this.cacheXType = xType;
+            // this.xType = xType;
+            // this.cacheXType = xType;
         },
 
         setTcsdData(data) {
@@ -182,7 +174,7 @@ export default {
         },
 
         clearData() {
-            this.xType = "";
+            // this.xType = "";
             this.cacheXType = "";
 
             this.tcsdData = {};
@@ -199,20 +191,20 @@ export default {
         },
 
         cancel() {
-            const { tcsdId, xType } = this.dataSource;
+            const { tcsdId } = this.dataSource;
             this.formData = { ...this.dataSource };
 
             this.getTcsdDataById(this.dataSource.tcsdId);
 
-            if (tcsdId || xType) {
+            if (tcsdId) {
                 this.isHaveData = true;
             }
             this.$attrs.onCancel && this.$attrs.onCancel();
         },
 
         onOpenCurveCb(data) {
-            const xType = data.xType || data.xtype || "";
-            this.setXType(xType);
+            // const xType = data.xType || data.xtype || "";
+            // this.setXType(xType);
             this.setTcsdData(data);
             this.openCurveDataCache = { ...data };
         },
@@ -225,7 +217,7 @@ export default {
 
             let datas = {
                 tcsdName: this.tcsdName,
-                xType: this.xType,
+                xType: "1",
                 tcsdId: this.curveId,
                 tcsdData: {
                     ...this.tcsdData,
@@ -237,7 +229,7 @@ export default {
                 datas.tcsdData.tcsdData = this.tableData;
             }
 
-            if (this.xType || this.curveId) {
+            if (this.curveId) {
                 this.isHaveData = true;
             }
 
@@ -245,7 +237,7 @@ export default {
         },
 
         saveName(name) {
-            this.tcsdName = name;
+            this.tcsdName = `${name}.crv`;
             this.nameDialogVisible = false;
             setTimeout(() => {
                 this.save();
@@ -261,16 +253,20 @@ export default {
             }
 
             if (!this.isSaved && this.tableData && this.tableData.length > 0) {
-                if (!this.xType) {
-                    this.$message.error("请先选择横坐标");
-                    return false;
-                }
+                // if (!this.xType) {
+                //     this.$message.error("请先选择横坐标");
+                //     return false;
+                // }
 
                 if (!this.tcsdName) {
                     this.nameDialogVisible = true;
                     return false;
                 }
-                await this.$refs.editTable.tractionLiSave();
+                const res = await this.$refs.editTable.tractionLiSave(
+                    null,
+                    this.tcsdName
+                );
+                this.curveId = res.data.id;
             }
 
             return new Promise((resolve, reject) => {

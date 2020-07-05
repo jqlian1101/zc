@@ -25,6 +25,11 @@
                 :class="{[$style.disabled]: disabled}"
                 @click="onSaveCurve"
             >保存</el-button>
+            <el-button
+                class="btn-mini"
+                :class="{[$style.disabled]: !tcsd.id}"
+                @click="onSaveAsCurve"
+            >另存为</el-button>
         </div>
         <el-table
             :data="tableData"
@@ -106,7 +111,7 @@
         <NameDialog
             :visible="nameDialogVisible"
             :onSaveData="saveCurveName"
-            :onCancel="()=>toggleDialog('nameDialogVisible',false)"
+            :onCancel="onCancelSaveCurveName"
         />
     </div>
 </template>
@@ -279,7 +284,11 @@ export default {
         tableAdd(idx) {
             if (this.disabled) return;
             let { tableData } = this;
-            idx = idx || tableData.length - 1;
+
+            if (idx !== 0 && !idx) {
+                idx = tableData.length - 1;
+            }
+
             tableData.splice(idx + 1, 0, {
                 x: 0,
                 f: 0,
@@ -331,9 +340,9 @@ export default {
                 return;
             }
             let type = this.type;
-            const { userId } = getUserIdAndType();
+            const { userId, roleCode } = getUserIdAndType();
 
-            model.tractionList({ userId, type }).then(res => {
+            model.tractionList({ userId, type, roleCode }).then(res => {
                 if (!res) return;
                 let { data = [] } = res;
                 if (data.length === 0) {
@@ -399,10 +408,22 @@ export default {
             this.toggleDialog("nameDialogVisible", true);
         },
 
+        // 另存为
+        onSaveAsCurve() {
+            this.tcsd._id = this.tcsd.id;
+            delete this.tcsd.id;
+            this.onSaveCurve();
+        },
+
+        onCancelSaveCurveName() {
+            this.toggleDialog("nameDialogVisible", false);
+            this.tcsd.id = this.tcsd._id;
+            delete this.tcsd._id;
+        },
+
         getSaveDataParmas() {
             const { userId } = getUserIdAndType();
-
-            return {
+            const result = {
                 tcsdName: "",
                 ...this.tcsd,
                 userId,
@@ -410,20 +431,24 @@ export default {
                 type: this.type,
                 ...this.parentParams
             };
+
+            delete result._id;
+
+            return result;
         },
 
         saveCurveName(name) {
-            this.tcsdName = name;
+            this.tcsdName = `${name}.crv`;
             this.tractionLiSave();
         },
 
         // 保存talbe对数据
-        tractionLiSave(cb) {
+        tractionLiSave(cb, name) {
             let params = this.getSaveDataParmas();
             const { roleCode } = getUserIdAndType();
 
             if (this.tcsdName) {
-                params.tcsdName = this.tcsdName;
+                params.tcsdName = name || this.tcsdName;
             }
 
             if (!params.tcsdName && params.tcsdData.length === 0) return;
@@ -440,6 +465,11 @@ export default {
                     // });
 
                     this.tcsdId = res.data.id;
+
+                    this.tcsd = {
+                        ...this.tcsd,
+                        id: res.data.id
+                    };
 
                     // 保存数据后，将id返回给父组件
                     this.onSaveCb(res.data.id);

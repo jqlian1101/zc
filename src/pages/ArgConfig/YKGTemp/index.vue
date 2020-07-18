@@ -88,8 +88,6 @@
                     class="cursor-p"
                     v-for="item in ykgMainList"
                     :key="item.id"
-                    closable
-                    @close="onClickDel(item.id)"
                     @click="onClickOpenItem(item)"
                 >{{item.name}}</el-tag>
             </ul>
@@ -99,6 +97,18 @@
             :onSaveData="saveCurveData"
             :onCancel="()=>nameDialog2Visible = false"
         />
+        <el-dialog
+            title="请选择要打开的压溃管"
+            :visible.sync="sureModalVisible"
+            :modal="false"
+            :append-to-body="true"
+        >
+            <span>当前压溃管已被使用，是否确认删除？</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="sureModalVisible = false">取 消</el-button>
+                <el-button type="primary" @click="onSureDelYKG">确 定</el-button>
+            </span>
+        </el-dialog>
     </el-form>
 </template>
 
@@ -142,7 +152,9 @@ export default {
 
             openModalVisible: false,
 
-            remarks: ""
+            remarks: "",
+
+            sureModalVisible: false
         };
     },
     props: {},
@@ -218,7 +230,7 @@ export default {
         },
 
         // 点击删除，删除选中项
-        onClickDel(id) {
+        async onClickDel(id) {
             id = id || this.mainYKG;
             if (!id) {
                 this.$message({
@@ -228,6 +240,24 @@ export default {
                 return;
             }
 
+            const res = await argConfig.delYkgTempBfSearch({ id });
+            const data = res.data || {};
+            const { num } = data;
+            if (num && num > 0) {
+                this.planDelTempId = id;
+                this.sureModalVisible = true;
+            } else {
+                this.delYKGTempFn(id);
+            }
+        },
+
+        onSureDelYKG() {
+            this.delYKGTempFn(this.planDelTempId);
+            this.planDelTempId = "";
+            this.sureModalVisible = false;
+        },
+
+        delYKGTempFn(id) {
             argConfig.delYKGTemp({ id }).then(res => {
                 if (!res) return;
 

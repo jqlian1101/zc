@@ -267,6 +267,7 @@ export default {
                 // }
 
                 if (!this.tcsdName) {
+                    this._isNeedInputName = true;
                     this.nameDialogVisible = true;
                     return false;
                 }
@@ -274,6 +275,12 @@ export default {
                     null,
                     this.tcsdName
                 );
+                if ((!res || res.code !== "200") && this._isNeedInputName) {
+                    this.tcsdName = "";
+                    this._isNeedInputName = false;
+                    return;
+                }
+
                 this.curveId = res.data.id;
             }
 

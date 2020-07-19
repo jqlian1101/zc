@@ -19,12 +19,12 @@
                 :class="{[$style.disabled]: disabled}"
                 @click="onOpenCurve"
             >打开</el-button>
-            <el-button
+            <!-- <el-button
                 v-if="showSave"
                 class="btn-mini"
                 :class="{[$style.disabled]: disabled}"
                 @click="onSaveCurve"
-            >保存</el-button>
+            >保存</el-button> -->
             <el-button
                 class="btn-mini"
                 :class="{[$style.disabled]: !tcsd.id}"

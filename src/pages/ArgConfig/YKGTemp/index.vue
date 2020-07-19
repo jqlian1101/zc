@@ -15,6 +15,7 @@
                     :visible="editVisible"
                     :onCancel="onCancelEdit"
                     :showToggleBtn="false"
+                    :onRefresh="onRefresh"
                 />
             </div>
             <div :class="$style.contentLi" class="fll">
@@ -162,6 +163,10 @@ export default {
     watch: {
         async mainYKG(val) {
             if (!val) return;
+
+            const curLi = this.ykgMainList.find(item => item.id === val) || {};
+            this.remarks = curLi.remarks;
+
             const res = await argConfig.getYKGTempView({ id: val });
             if (!res || res.code !== "200") return;
 
@@ -282,6 +287,7 @@ export default {
                 id: this.mainYKG,
                 type: userTypeCode,
                 roleCode: roleCode,
+                remarks: this.remarks,
                 ...args
             };
 
@@ -292,16 +298,19 @@ export default {
                 params.name = cur.name;
             }
 
-            if (ykg1Checked) params.ykg1TcsdId = ykg1;
-            if (ykg2Checked) params.ykg2TcsdId = ykg2;
+            // if (ykg1Checked) params.ykg1TcsdId = ykg1;
+            // if (ykg2Checked) params.ykg2TcsdId = ykg2;
+
+            params.ykg1TcsdId = ykg1Checked ? ykg1 : "";
+            params.ykg2TcsdId = ykg2Checked ? ykg2 : "";
 
             // if (!this.curYKGType) {
             //     delete params.id;
             // }
 
-            for (let i in params) {
-                if (!params[i]) delete params[i];
-            }
+            // for (let i in params) {
+            //     if (!params[i]) delete params[i];
+            // }
 
             argConfig.saveYKGTemp(params).then(res => {
                 if (!res) return;
@@ -349,6 +358,8 @@ export default {
                 if (!id) return;
                 this.formData.ykg1 = id;
                 this.formData.ykg2 = id;
+                this.mainYKG = "";
+                this.remarks = "";
             });
         },
 
@@ -379,6 +390,9 @@ export default {
         },
         onCancelEdit() {
             this.editVisible = false;
+        },
+        onRefresh() {
+            this.getYKGTempList();
         }
     },
     mounted() {

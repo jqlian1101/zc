@@ -24,7 +24,7 @@
                 class="btn-mini"
                 :class="{[$style.disabled]: disabled}"
                 @click="onSaveCurve"
-            >保存</el-button> -->
+            >保存</el-button>-->
             <el-button
                 class="btn-mini"
                 :class="{[$style.disabled]: !tcsd.id}"
@@ -219,6 +219,10 @@ export default {
             default: () => {}
         },
         onOpenCurveCb: {
+            type: Function,
+            default: () => {}
+        },
+        onRefresh: {
             type: Function,
             default: () => {}
         },
@@ -474,6 +478,7 @@ export default {
                     // 保存数据后，将id返回给父组件
                     this.onSaveCb(res.data.id);
 
+                    this.onRefresh();
                     typeof cb === "function" && cb();
                     return res;
                 });

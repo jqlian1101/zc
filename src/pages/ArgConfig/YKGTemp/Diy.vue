@@ -31,6 +31,7 @@
                     :tcsdData="tcsdData"
                     :dataSource="tcsdData.tcsdData"
                     :tableDataChange="tableDataChange"
+                    :onRefresh="onRefresh"
                 />
             </div>
         </div>
@@ -107,6 +108,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        onRefresh: {
+            type: Function,
+            default: () => {}
         }
     },
     watch: {

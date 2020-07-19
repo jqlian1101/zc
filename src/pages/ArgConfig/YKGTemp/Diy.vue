@@ -233,6 +233,8 @@ export default {
                 this.isHaveData = true;
             }
 
+            this.clearData();
+
             this.saveData({ datas });
         },
 
@@ -246,6 +248,7 @@ export default {
 
         // 保存数据
         async save() {
+            if (!this.tableData) return;
             if (this.tableData.length <= 1) {
                 this.$message.error("曲线定义不合理");
                 // eslint-disable-next-line prefer-promise-reject-errors

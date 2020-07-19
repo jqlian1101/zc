@@ -230,8 +230,8 @@ export default {
         },
 
         // 点击删除，删除选中项
-        async onClickDel(id) {
-            id = id || this.mainYKG;
+        async onClickDel() {
+            const id = this.mainYKG;
             if (!id) {
                 this.$message({
                     message: "请先选择要删除的压溃管",

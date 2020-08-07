@@ -32,7 +32,7 @@ const getYKGTempView = params =>
         `${config.baseUrl}/ykgtemp/getYkgTempView`,
         { ...params },
         { needUserInfo: true }
-    );
+    )
 
 // 删除压溃管模版前校验是否应用
 const delYkgTempBfSearch = params =>

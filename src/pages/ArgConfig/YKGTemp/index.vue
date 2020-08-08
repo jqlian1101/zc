@@ -4,6 +4,7 @@
         <div class="clearfix">
             <div class="flr">
                 <span @click="openModalVisible=true" class="edit-btn m-l-5">打开压溃管</span>
+                <span @click="openCurveModalVisible = true" class="edit-btn m-l-5">查看曲线</span>
                 <span @click="onClickEdit()" class="edit-btn m-l-5">新建压溃管曲线</span>
                 <Diy
                     placeholder="新建压溃管曲线"
@@ -79,6 +80,22 @@
         </div>
 
         <el-dialog
+            title="请选择要查看的曲线"
+            :visible.sync="openCurveModalVisible"
+            :modal="false"
+            :append-to-body="true"
+        >
+            <ul :class="$style.tractionList" class="clearfix">
+                <el-tag
+                    class="cursor-p"
+                    v-for="item in ykgList"
+                    :key="item.id"
+                    @click="lookCurve(item.id)"
+                >{{item.tcsdName}}</el-tag>
+            </ul>
+        </el-dialog>
+
+        <el-dialog
             title="请选择要打开的压溃管"
             :visible.sync="openModalVisible"
             :modal="false"
@@ -152,6 +169,7 @@ export default {
             nameDialog2Visible: false,
 
             openModalVisible: false,
+            openCurveModalVisible: false,
 
             remarks: "",
 
@@ -393,6 +411,10 @@ export default {
         },
         onRefresh() {
             this.getYKGTempList();
+        },
+        lookCurve(id) {
+            this.openCurveModalVisible = false;
+            this.onClickEdit(id);
         }
     },
     mounted() {

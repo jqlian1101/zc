@@ -187,7 +187,7 @@ import {
     VEHICLE_ELE_DICT,
     CAR_ELE_DICT,
     CONNECT_ELE_FIELD_DICT,
-    VEHICLE_ELE_FIELD_DICT
+    VEHICLE_ELE_FIELD_DICT,
 } from "common/constants";
 import switchLJXTId from "common/switchLJXTIdMixin";
 
@@ -211,7 +211,7 @@ export default {
             connectBackData: {},
             diyData: {},
             brakesData: {},
-            tractionData: {}
+            tractionData: {},
         };
     },
     mixins: [switchLJXTId],
@@ -229,7 +229,7 @@ export default {
             this.getVehicleDiy(detail.vehicleId);
             this.getBrakesView(detail.vehicleId);
             this.getTractionView(detail.vehicleId);
-        }
+        },
     },
 
     computed: {
@@ -239,9 +239,10 @@ export default {
 
         isShowEle() {
             return (type, ele) => {
+                // return true;
                 return this.isDefinedEle(this.getCarNum(), type, ele);
             };
-        }
+        },
     },
     methods: {
         ...mapActions("models", ["setCurTreeNodeId"]),
@@ -279,7 +280,7 @@ export default {
 
             this.$router.push({
                 path: "/page/model/edit",
-                query: { type, id }
+                query: { type, id },
             });
         },
 
@@ -371,9 +372,9 @@ export default {
             model
                 .getAllCoupTypeByModelId({
                     modelId: curModelId,
-                    carNum
+                    carNum,
                 })
-                .then(res => {
+                .then((res) => {
                     if (!res) return;
                     let { data = [] } = res;
 
@@ -384,9 +385,9 @@ export default {
                     //     data.find(item => item.faceType === "2") || {};
 
                     const frontData =
-                        data.find(item => item.faceType === "1") || {};
+                        data.find((item) => item.faceType === "1") || {};
                     const backData =
-                        data.find(item => item.faceType === "2") || {};
+                        data.find((item) => item.faceType === "2") || {};
 
                     this.saveDefinedEleStatus({
                         id: carNum,
@@ -394,7 +395,7 @@ export default {
                         eleKey: this.getEleStatus(
                             frontData,
                             CONNECT_ELE_FIELD_DICT
-                        )
+                        ),
                     });
 
                     this.saveDefinedEleStatus({
@@ -403,7 +404,7 @@ export default {
                         eleKey: this.getEleStatus(
                             backData,
                             CONNECT_ELE_FIELD_DICT
-                        )
+                        ),
                     });
                 });
         },
@@ -413,7 +414,7 @@ export default {
             // let { vehicleId } = this.carDetail || {};
             let vehicleId = id || this.carDetail.vehicleId;
             if (!vehicleId) return;
-            return carArg.diyView({ caId: vehicleId }).then(res => {
+            return carArg.diyView({ caId: vehicleId }).then((res) => {
                 if (!res) return;
                 // this.diyData = res.data || {};
 
@@ -440,7 +441,7 @@ export default {
             // let { vehicleId } = this.carDetail || {};
             let vehicleId = id || this.carDetail.vehicleId;
             if (!vehicleId) return;
-            return carArg.brakesView({ caId: vehicleId }).then(res => {
+            return carArg.brakesView({ caId: vehicleId }).then((res) => {
                 if (!res) return;
                 // this.brakesData = res.data || {};
 
@@ -463,7 +464,7 @@ export default {
             // let { vehicleId } = this.carDetail || {};
             let vehicleId = id || this.carDetail.vehicleId;
             if (!vehicleId) return;
-            return carArg.tractionView({ caId: vehicleId }).then(res => {
+            return carArg.tractionView({ caId: vehicleId }).then((res) => {
                 if (!res) return;
                 this.tractionData = res.data || {};
 
@@ -490,9 +491,9 @@ export default {
                 id: carNum,
                 type: "info",
                 eleKey,
-                isDefined: true
+                isDefined: true,
             });
-        }
+        },
     },
 
     mounted() {
@@ -501,7 +502,7 @@ export default {
         this.getVehicleDiy();
         this.getBrakesView();
         this.getTractionView();
-    }
+    },
 };
 </script>
 
@@ -515,8 +516,8 @@ export default {
     }
 
     .train {
-        width: 600px;
-        height: 288px;
+        width: 700px;
+        height: 320px;
         margin: 50px 0 120px;
         position: relative;
         background-repeat: no-repeat;
@@ -525,19 +526,22 @@ export default {
 
     .inRight,
     .inLeft {
-        width: 186px;
+        width: 216px;
         position: absolute;
-        top: 138px;
+        top: 154px;
+        display: flex;
+        align-items: center;
         & > img,
         & > div {
             margin-right: 6px;
         }
     }
     .inLeft {
-        left: 108px;
+        left: 125px;
     }
     .inRight {
-        right: 108px;
+        right: 125px;
+        flex-direction: row-reverse;
     }
 
     .diy {
@@ -554,8 +558,8 @@ export default {
         top: 56%;
     }
     .hc {
-        width: 20px;
-        height: 16px;
+        width: 38px;
+        height: 26px;
         // margin-top: -24px;
     }
 
@@ -568,9 +572,9 @@ export default {
     // }
 
     .xjth {
-        width: 30px;
-        height: 10px;
-        margin-top: 4px;
+        width: 38px;
+        height: 18px;
+        // margin-top: 4px;
     }
     // .frontXJTH {
     //     left: 146px;
@@ -580,9 +584,9 @@ export default {
     // }
 
     .yk {
-        width: 20px;
-        height: 30px;
-        margin-top: -6px;
+        width: 30px;
+        height: 24px;
+        // margin-top: -4px;
     }
     .frontYK {
         left: 180px;
@@ -594,7 +598,7 @@ export default {
     .gz {
         width: 10px;
         height: 30px;
-        margin-top: -6px;
+        // margin-top: -6px;
     }
     // .frontGZ {
     //     left: 208px;
@@ -623,24 +627,24 @@ export default {
     .fd {
         position: absolute;
         top: 68%;
-        width: 20px;
-        height: 25px;
+        width: 50px;
+        height: 40px;
         bottom: 68px;
         // top: auto;
     }
     .frontFD {
-        left: 68px;
+        left: 56px;
     }
     .backFD {
-        right: 68px;
+        right: 56px;
     }
 
     // 防爬
     .fp {
         width: 20px;
-        height: 20px;
+        height: 42px;
         position: absolute;
-        top: 135px;
+        top: 147px;
     }
     .frontFP {
         left: -24px;
@@ -651,24 +655,27 @@ export default {
 
     // 车间减震
     .cjjz {
-        width: 40px;
-        height: 10px;
+        width: 100px;
+        height: 40px;
         top: 10px;
         position: absolute;
     }
     .frontCJJZ {
-        left: 58px;
+        left: 14px;
     }
     .backCJJZ {
-        right: 58px;
+        right: 14px;
     }
 
     .btmEleWrap {
-        width: 40px;
+        width: 100px;
         position: absolute;
         left: 50%;
-        top: 240px;
-        margin-left: -20px;
+        top: 256px;
+        margin-left: -50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         & > img,
         & > div {
@@ -681,13 +688,14 @@ export default {
     }
 
     .qy {
-        width: 40px;
-        height: 20px;
+        width: 100px;
+        height: 53px;
+        margin-bottom: 0 !important;
     }
 
     .zd {
-        width: 40px;
-        height: 30px;
+        width: 80px;
+        height: 53px;
     }
 }
 </style>

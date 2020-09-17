@@ -187,7 +187,7 @@ import {
     VEHICLE_ELE_DICT,
     CAR_ELE_DICT,
     CONNECT_ELE_FIELD_DICT,
-    VEHICLE_ELE_FIELD_DICT,
+    VEHICLE_ELE_FIELD_DICT
 } from "common/constants";
 import switchLJXTId from "common/switchLJXTIdMixin";
 
@@ -199,7 +199,7 @@ export default {
     data() {
         return {
             Img,
-            bodyBGImg: { backgroundImage: `url(${Img["ct01"]})` },
+            bodyBGImg: { backgroundImage: `url(${Img["ct"]})` },
             connectEleDict: CONNECT_ELE_DICT,
             vehicleEleDict: VEHICLE_ELE_DICT,
 
@@ -211,7 +211,7 @@ export default {
             connectBackData: {},
             diyData: {},
             brakesData: {},
-            tractionData: {},
+            tractionData: {}
         };
     },
     mixins: [switchLJXTId],
@@ -239,10 +239,10 @@ export default {
 
         isShowEle() {
             return (type, ele) => {
-                // return true;
-                return this.isDefinedEle(this.getCarNum(), type, ele);
+                return true;
+                // return this.isDefinedEle(this.getCarNum(), type, ele);
             };
-        },
+        }
     },
     methods: {
         ...mapActions("models", ["setCurTreeNodeId"]),
@@ -280,7 +280,7 @@ export default {
 
             this.$router.push({
                 path: "/page/model/edit",
-                query: { type, id },
+                query: { type, id }
             });
         },
 
@@ -372,7 +372,7 @@ export default {
             model
                 .getAllCoupTypeByModelId({
                     modelId: curModelId,
-                    carNum,
+                    carNum
                 })
                 .then((res) => {
                     if (!res) return;
@@ -395,7 +395,7 @@ export default {
                         eleKey: this.getEleStatus(
                             frontData,
                             CONNECT_ELE_FIELD_DICT
-                        ),
+                        )
                     });
 
                     this.saveDefinedEleStatus({
@@ -404,7 +404,7 @@ export default {
                         eleKey: this.getEleStatus(
                             backData,
                             CONNECT_ELE_FIELD_DICT
-                        ),
+                        )
                     });
                 });
         },
@@ -491,9 +491,9 @@ export default {
                 id: carNum,
                 type: "info",
                 eleKey,
-                isDefined: true,
+                isDefined: true
             });
-        },
+        }
     },
 
     mounted() {
@@ -502,7 +502,7 @@ export default {
         this.getVehicleDiy();
         this.getBrakesView();
         this.getTractionView();
-    },
+    }
 };
 </script>
 
@@ -528,7 +528,7 @@ export default {
     .inLeft {
         width: 216px;
         position: absolute;
-        top: 154px;
+        top: 104px;
         display: flex;
         align-items: center;
         & > img,
@@ -537,10 +537,10 @@ export default {
         }
     }
     .inLeft {
-        left: 125px;
+        left: 110px;
     }
     .inRight {
-        right: 125px;
+        right: 110px;
         flex-direction: row-reverse;
     }
 
@@ -626,17 +626,17 @@ export default {
     // 风挡
     .fd {
         position: absolute;
-        top: 68%;
+        top: 48%;
         width: 50px;
         height: 40px;
         bottom: 68px;
         // top: auto;
     }
     .frontFD {
-        left: 56px;
+        left: 44px;
     }
     .backFD {
-        right: 56px;
+        right: 44px;
     }
 
     // 防爬
@@ -644,7 +644,7 @@ export default {
         width: 20px;
         height: 42px;
         position: absolute;
-        top: 147px;
+        top: 98px;
     }
     .frontFP {
         left: -24px;
@@ -657,21 +657,21 @@ export default {
     .cjjz {
         width: 100px;
         height: 40px;
-        top: 10px;
+        top: -8px;
         position: absolute;
     }
     .frontCJJZ {
-        left: 14px;
+        left: 0px;
     }
     .backCJJZ {
-        right: 14px;
+        right: 0px;
     }
 
     .btmEleWrap {
         width: 100px;
         position: absolute;
         left: 50%;
-        top: 256px;
+        top: 195px;
         margin-left: -50px;
         display: flex;
         flex-direction: column;

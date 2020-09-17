@@ -239,8 +239,8 @@ export default {
 
         isShowEle() {
             return (type, ele) => {
-                return true;
-                // return this.isDefinedEle(this.getCarNum(), type, ele);
+                // return true;
+                return this.isDefinedEle(this.getCarNum(), type, ele);
             };
         }
     },

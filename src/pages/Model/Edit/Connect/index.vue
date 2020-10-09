@@ -84,6 +84,7 @@
                                 :type="2"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.diy1})"
                                 :dataSource="frontData.diy1"
+                                :showCharts="true"
                             />
                         </el-form-item>
                         <el-form-item label="用户自定义:">
@@ -96,6 +97,7 @@
                                 :type="3"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'frontData', ele:eleDict.diy2})"
                                 :dataSource="frontData.diy2"
+                                :showCharts="true"
                             />
                         </el-form-item>
                     </el-form>
@@ -185,6 +187,7 @@
                                 :type="2"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.diy1})"
                                 :dataSource="backData.diy1"
+                                :showCharts="true"
                             />
                         </el-form-item>
                         <el-form-item label="用户自定义:">
@@ -197,6 +200,7 @@
                                 :type="3"
                                 :saveData="(params)=>saveDropDownData({...params,parent:'backData', ele:eleDict.diy2})"
                                 :dataSource="backData.diy2"
+                                :showCharts="true"
                             />
                         </el-form-item>
                     </el-form>

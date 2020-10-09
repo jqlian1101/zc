@@ -29,6 +29,7 @@
                     :tcsdData="tcsdData"
                     :dataSource="tcsdData.tcsdData"
                     :tableDataChange="tableDataChange"
+                    :showCharts="true"
                 />
             </div>
         </div>

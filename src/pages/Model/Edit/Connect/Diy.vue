@@ -22,15 +22,13 @@
                         ></el-option>
                     </el-select>
                 </div>
-                <div>
-                    <label>纵坐标</label>力 (单位：N)
-                </div>
+                <div><label>纵坐标</label>力 (单位：N)</div>
             </div>
             <div :class="$style.tableWrap">
                 <h4>曲线点设置</h4>
                 <EditTable
                     ref="editTable"
-                    :parentParams="{xType: xType}"
+                    :parentParams="{ xType: xType }"
                     :type="type"
                     :onSaveCb="onSaveCb"
                     :showCharts="$attrs.showCharts"
@@ -58,7 +56,7 @@ import watchHaveDataMixin from "common/watchHaveDataMixin";
 const options = [
     { label: "位移(m)", value: "1" },
     { label: "速度(m/s)", value: "2" },
-    { label: "时间(s)", value: "3" }
+    { label: "时间(s)", value: "3" },
 ];
 
 export default {
@@ -69,42 +67,42 @@ export default {
             options,
             xType: "",
             tcsdData: {},
-            isHaveData: false
+            isHaveData: false,
         };
     },
     components: {
         DropDown,
-        EditTable
+        EditTable,
     },
     props: {
         size: {
             type: String,
-            default: ""
+            default: "",
         },
         type: {
             type: Number,
-            required: true
+            required: true,
         },
         field: {
             type: String,
-            required: true
+            required: true,
         },
         saveData: {
             type: Function,
-            default: () => {}
+            default: () => {},
         },
         placeholder: {
             type: String,
-            default: "参数设置"
+            default: "参数设置",
         },
         dataSource: {
             type: Object,
-            default: () => ({})
+            default: () => ({}),
         },
         disabled: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     watch: {
         "dataSource.xType"(val) {
@@ -122,7 +120,7 @@ export default {
         },
         "dataSource.tcsdData"(tcsdData) {
             this.setTcsdData(tcsdData);
-        }
+        },
         // xType(val) {
         //     if (val !== this.cacheXType) {
         //         this.isSaved = false;
@@ -132,7 +130,7 @@ export default {
     methods: {
         getTcsdDataById(id) {
             if (!id) return;
-            model.tractionLiView({ id }).then(res => {
+            model.tractionLiView({ id }).then((res) => {
                 let data = res.data || {};
                 if (data.tcsdData) {
                     data = { ...data, tcsdData: getObjFromStr(data.tcsdData) };
@@ -229,8 +227,8 @@ export default {
                 tcsdId: this.curveId,
                 tcsdData: {
                     ...this.tcsdData,
-                    ...openCurveDataCache
-                }
+                    ...openCurveDataCache,
+                },
                 // [`${field}X`]: this.xType,
                 // [`${field}TcsdId`]: this.curveId,
                 // [`${field}TcsdData`]: this.tcsdData
@@ -259,13 +257,15 @@ export default {
             //     return false;
             // }
 
-            if (this.tableData.length <= 1) {
+            if (!this.tableData) {
+                this.tableData = [];
+            } else if (this.tableData.length <= 1) {
                 this.$message.error("曲线定义不合理");
                 // eslint-disable-next-line prefer-promise-reject-errors
                 return Promise.reject();
             }
 
-            if (!this.isSaved && this.tableData && this.tableData.length > 0) {
+            if (!this.isSaved && this.tableData) {
                 if (!this.xType) {
                     this.$message.error("请先选择横坐标");
                     return false;
@@ -302,11 +302,11 @@ export default {
             // 数据编辑以后，将id清空，后续提示用户保存数据
             this.curveId = "";
             this.isSaved = false;
-        }
+        },
     },
     mounted() {
         // console.log("diy : ", this.disabled);
-    }
+    },
 };
 </script>
 

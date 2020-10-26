@@ -4,11 +4,14 @@
             <img :src="closeIcon" alt />
         </div>
         <div :class="$style.title">
-            <div :class="$style.carInfo">第{{chartInfo.ve}}列 第{{chartInfo.ca}}辆</div>
+            <div :class="$style.carInfo">
+                <span>第{{ chartInfo.ve }}列</span>
+                <span v-if="chartInfo.ca">第{{ chartInfo.ca }}辆</span>
+            </div>
             <div :class="$style.argInfo" class="clearfix">
-                <div>初始位置：{{chartInfo.initialLocation || ''}}</div>
-                <div>积分时长：{{chartInfo.integralTimes || ''}}</div>
-                <div>积分步长：{{chartInfo.integralStep || ''}}</div>
+                <div>初始位置：{{ chartInfo.initialLocation || "" }}</div>
+                <div>积分时长：{{ chartInfo.integralTimes || "" }}</div>
+                <div>积分步长：{{ chartInfo.integralStep || "" }}</div>
             </div>
         </div>
         <div :class="$style.chartWrap">
@@ -19,7 +22,7 @@
             v-show="contextmenuShow"
             :class="$style.contextmenu"
             ref="contextmenu"
-            @contextmenu.prevent.stop="()=>{}"
+            @contextmenu.prevent.stop="() => {}"
         >
             <ul>
                 <Drawer :dataSource="chartsData">
@@ -58,12 +61,12 @@ const getXcfg = (xAxis, xAxisUnit) => {
         data: xAxis,
         axisLabel: {
             // interval: parseInt(xAxis.length / 10), // 代表显示所有x轴标签显示
-            showMaxLabel: true
-        }
+            showMaxLabel: true,
+        },
     };
 };
 
-const initChartsOptions = params => {
+const initChartsOptions = (params) => {
     const {
         name,
         xAxis,
@@ -71,7 +74,7 @@ const initChartsOptions = params => {
         series,
         seriesUnit,
         dataZoomStart,
-        dataZoomEnd
+        dataZoomEnd,
     } = params;
 
     // console.log(params);
@@ -80,27 +83,27 @@ const initChartsOptions = params => {
 
     return {
         tooltip: {
-            trigger: "axis"
+            trigger: "axis",
         },
         legend: {
-            data: [name]
+            data: [name],
         },
         xAxis: getXcfg(xAxis, xAxisUnit),
         yAxis: {
             name: `${name}(${seriesUnit})`,
             type: "value",
-            nameLocation: "end"
+            nameLocation: "end",
         },
         dataZoom: [
             {
                 start: dataZoomStart,
-                end: dataZoomEnd
+                end: dataZoomEnd,
             },
             {
                 type: "inside",
                 start: dataZoomStart,
-                end: dataZoomEnd
-            }
+                end: dataZoomEnd,
+            },
         ],
         series: [
             {
@@ -109,10 +112,10 @@ const initChartsOptions = params => {
                 data: series,
                 showSymbol: false,
                 symbol: "circle", // 拐点样式
-                symbolSize: 2 // 拐点大小
+                symbolSize: 2, // 拐点大小
                 // smooth: true
-            }
-        ]
+            },
+        ],
     };
 };
 
@@ -120,7 +123,7 @@ export default {
     name: "Chart",
     components: {
         Charts,
-        Drawer
+        Drawer,
     },
     data() {
         return {
@@ -134,8 +137,8 @@ export default {
                 xAxis: [],
                 series: [],
                 name: "",
-                xAxisUnit: ""
-            }
+                xAxisUnit: "",
+            },
         };
     },
     props: ["chartInfo"],
@@ -176,7 +179,7 @@ export default {
                 ...this._cacheChartsData,
                 xAxis: newX,
                 dataZoomStart: params.start,
-                dataZoomEnd: params.end
+                dataZoomEnd: params.end,
             });
             // console.log(startIdx, endIdx);
 
@@ -247,15 +250,15 @@ export default {
             report
                 .getResultInfo({
                     ve,
-                    ca,
+                    ca: ca || "",
                     code,
                     modelId,
                     currentPage,
                     pageSize,
                     recordId: curCalc,
-                    userId
+                    userId,
                 })
-                .then(res => {
+                .then((res) => {
                     if (!res || res.code !== "200") return;
 
                     if (!res.data || res.data.xAxis.length === 0) {
@@ -270,7 +273,7 @@ export default {
                         xAxis = [],
                         series = [],
                         name = "",
-                        xAxisUnit = ""
+                        xAxisUnit = "",
                     } = data;
 
                     const newData = {
@@ -278,7 +281,7 @@ export default {
                         seriesUnit: chartsData.seriesUnit || seriesUnit,
                         xAxisUnit: chartsData.nxAxisUnitame || xAxisUnit,
                         xAxis: chartsData.xAxis.concat(xAxis),
-                        series: chartsData.series.concat(series)
+                        series: chartsData.series.concat(series),
                     };
 
                     // const start = newData.xAxis[0];
@@ -296,7 +299,7 @@ export default {
                     this.chartsOptions = initChartsOptions({
                         ...newData,
                         dataZoomStart: 0,
-                        dataZoomEnd: 100
+                        dataZoomEnd: 100,
                     });
                     this.chartsData = newData;
                 });
@@ -310,7 +313,7 @@ export default {
         // 关闭charts
         onClickClose() {
             this.$emit("onClose", this.chartInfo);
-        }
+        },
     },
     created() {
         this.chartsOptions = {};
@@ -318,7 +321,7 @@ export default {
     mounted() {
         DragResize.init({
             dragDom: this.$refs.dragDom,
-            resizeDom: this.$refs.root
+            resizeDom: this.$refs.root,
         });
         document.body.addEventListener("click", this.hideContextmenu);
 
@@ -326,7 +329,7 @@ export default {
     },
     beforeDestroy() {
         document.body.removeEventListener("click", this.hideContextmenu);
-    }
+    },
 };
 </script>
 

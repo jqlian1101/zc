@@ -394,11 +394,11 @@ export default {
 
                         this.getCalcList();
                         // 调用过后端生成图片接口
-                        this.generateEChartIMG({
-                            modelId: this.curModelId,
-                            userId,
-                            recordIds: this.curCalcId
-                        });
+                        // this.generateEChartIMG({
+                        //     modelId: this.curModelId,
+                        //     userId,
+                        //     recordIds: this.curCalcId
+                        // });
                     });
                 }
             });

@@ -101,7 +101,7 @@ export default {
                         //     leaf: true
                         // };
                         return {
-                            value: `${item.code}-${ve}-${ca}`,
+                            value: `${item.code}-${ve}-${ca}-${item.value}`,
                             label: item.value,
                             leaf: true
                         };

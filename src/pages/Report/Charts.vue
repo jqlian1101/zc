@@ -5,8 +5,7 @@
         </div>
         <div :class="$style.title">
             <div :class="$style.carInfo">
-                <span>第{{ chartInfo.ve }}列</span>
-                <span v-if="chartInfo.ca">第{{ chartInfo.ca }}辆</span>
+                <span>{{ chartInfo.argVal }}</span>
             </div>
             <div :class="$style.argInfo" class="clearfix">
                 <div>初始位置：{{ chartInfo.initialLocation || "" }}</div>

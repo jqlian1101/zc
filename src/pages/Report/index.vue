@@ -6,25 +6,41 @@
                 <el-row>
                     <el-col :span="8">
                         <el-form-item label="初始位置">
-                            <el-input v-model="searchForm.initialLocation"></el-input>
+                            <el-input
+                                v-model="searchForm.initialLocation"
+                            ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="积分条件">
                             <el-col :span="11">
-                                <el-input v-model="searchForm.integralTimes" placeholder="积分时长"></el-input>
+                                <el-input
+                                    v-model="searchForm.integralTimes"
+                                    placeholder="积分时长"
+                                ></el-input>
                             </el-col>
-                            <el-col :class="$style.division" :span="2">～</el-col>
+                            <el-col :class="$style.division" :span="2"
+                                >～</el-col
+                            >
                             <el-col :span="11">
-                                <el-input v-model="searchForm.integralStep" placeholder="积分步长"></el-input>
+                                <el-input
+                                    v-model="searchForm.integralStep"
+                                    placeholder="积分步长"
+                                ></el-input>
                             </el-col>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="计算方式">
                             <el-select v-model="searchForm.compute" placeholder>
-                                <el-option label="计算方法1" value="compute1"></el-option>
-                                <el-option label="计算方法2" value="compute2"></el-option>
+                                <el-option
+                                    label="计算方法1"
+                                    value="compute1"
+                                ></el-option>
+                                <el-option
+                                    label="计算方法2"
+                                    value="compute2"
+                                ></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -53,21 +69,28 @@
                 </el-row>
                 <el-form-item :class="$style.subForm">
                     <span
-                        :class="[$style.btn,$style.saveBtn]"
+                        :class="[$style.btn, $style.saveBtn]"
                         type="primary"
                         @click="getCalculateResults"
-                    >计算</span>
+                        >计算</span
+                    >
                     <span
-                        :class="[$style.btn,$style.saveBtn]"
+                        :class="[$style.btn, $style.saveBtn]"
                         type="primary"
                         @click="saveCalculate"
-                    >保存计算结果</span>
+                        >保存计算结果</span
+                    >
                     <span
-                        :class="[$style.btn,$style.saveBtn]"
+                        :class="[$style.btn, $style.saveBtn]"
                         type="primary"
                         @click="calcResultDialogVisible = true"
-                    >打开计算结果</span>
-                    <span :class="[$style.btn,$style.exportBtn]" @click="getReportExel">生成报告</span>
+                        >打开计算结果</span
+                    >
+                    <span
+                        :class="[$style.btn, $style.exportBtn]"
+                        @click="getReportExel"
+                        >生成报告</span
+                    >
                     <!-- <a
                         v-if="allowCreateCharts"
                         :class="[$style.btn,$style.exportBtn]"
@@ -86,7 +109,11 @@
             <div class="fll">
                 <Cascader @onChange="onArgsChange" :curCalc="curCalcId" />
             </div>
-            <span :class="[$style.btn, $style.saveBtn]" @click="createChartsList">生成图表</span>
+            <span
+                :class="[$style.btn, $style.saveBtn]"
+                @click="createChartsList"
+                >生成图表</span
+            >
         </div>
         <div :class="$style.charts">
             <!-- <Chart :chartInfo="{}" :curCalc="curCalcId" @onClose="onCloseCharts" /> -->
@@ -115,7 +142,10 @@
         >
             <el-form :model="reportTypeFrom" label-width="120px">
                 <el-form-item label="选择报告模版">
-                    <el-select v-model="reportTypeFrom.type" placeholder="选择报告模版">
+                    <el-select
+                        v-model="reportTypeFrom.type"
+                        placeholder="选择报告模版"
+                    >
                         <el-option
                             :key="item.type"
                             :label="item.name"
@@ -125,7 +155,11 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择计算结果">
-                    <el-select v-model="reportTypeFrom.recordId" placeholder="选择计算结果" multiple>
+                    <el-select
+                        v-model="reportTypeFrom.recordId"
+                        placeholder="选择计算结果"
+                        multiple
+                    >
                         <el-option
                             v-for="item in calcResultList"
                             :key="item.id"
@@ -137,8 +171,12 @@
             </el-form>
 
             <span slot="footer" class="dialog-footer">
-                <el-button @click="showDownReportModel = false">取 消</el-button>
-                <el-button type="primary" @click="sureDownReport">确 定</el-button>
+                <el-button @click="showDownReportModel = false"
+                    >取 消</el-button
+                >
+                <el-button type="primary" @click="sureDownReport"
+                    >确 定</el-button
+                >
             </span>
         </el-dialog>
 
@@ -147,7 +185,11 @@
             :visible.sync="calcResultDialogVisible"
             :append-to-body="true"
         >
-            <ul :class="$style.modelsContent" class="clearfix" v-if="calcResultList.length > 0">
+            <ul
+                :class="$style.modelsContent"
+                class="clearfix"
+                v-if="calcResultList.length > 0"
+            >
                 <el-tag
                     class="cursor-p"
                     v-for="item in calcResultList"
@@ -155,7 +197,8 @@
                     closable
                     @close="deleteRecordById(item)"
                     @click="openCalculate(item)"
-                >{{item.name}}</el-tag>
+                    >{{ item.name }}</el-tag
+                >
             </ul>
             <dir v-else class="noData">暂无数据</dir>
         </el-dialog>
@@ -172,7 +215,7 @@ import Chart from "./Charts";
 
 import Cascader from "./Cascader";
 
-const verifyModelName = value => {
+const verifyModelName = (value) => {
     let reg = /^[A-Za-z0-9\u4e00-\u9fa5_-]+$/;
     return reg.test(value);
 };
@@ -182,7 +225,7 @@ export default {
     components: {
         Cascader,
         // GridLayout,
-        Chart
+        Chart,
         // DragResize
     },
     data() {
@@ -203,12 +246,12 @@ export default {
             calcResultDialogVisible: false,
 
             reportTempList: [],
-            curCalcId: ""
+            curCalcId: "",
         };
     },
     props: {},
     computed: {
-        ...mapState("models", ["curModelId"])
+        ...mapState("models", ["curModelId"]),
     },
     methods: {
         initData() {
@@ -225,7 +268,7 @@ export default {
             // 获取计算结果列表
             report
                 .getRecordList({ userId, modelId: this.curModelId })
-                .then(res => {
+                .then((res) => {
                     if (!res || res.code !== "200") return;
                     this.calcResultList = res.data || [];
                 });
@@ -233,7 +276,7 @@ export default {
 
         // 获取报告模版列表
         getReportTempList() {
-            report.getReportTempList({}).then(res => {
+            report.getReportTempList({}).then((res) => {
                 if (!res || res.code !== "200") return;
                 this.reportTempList = res.data || [];
             });
@@ -244,13 +287,14 @@ export default {
                 this.searchForm = {
                     ...this.searchForm,
                     code: "",
+                    argVal: "",
                     ve: "",
-                    ca: ""
+                    ca: "",
                 };
                 return;
             }
 
-            const [code, ve, ca] = args[1].split("-");
+            const [code, ve, ca, argVal] = args[1].split("-");
 
             // const code = args[0];
             // const vc = args[1].split("-");
@@ -261,8 +305,9 @@ export default {
             this.searchForm = {
                 ...this.searchForm,
                 code,
+                argVal,
                 ve,
-                ca
+                ca,
             };
         },
 
@@ -309,7 +354,7 @@ export default {
                 integralTimes = "",
                 integralStep = "",
                 v1 = "",
-                v2 = ""
+                v2 = "",
             } = searchForm;
 
             this.showCalcProgress(integralTimes);
@@ -322,9 +367,9 @@ export default {
                     v1,
                     v2,
                     modelId: this.curModelId,
-                    userID: userId
+                    userID: userId,
                 })
-                .then(res => {
+                .then((res) => {
                     this.clearCalcTimer();
                     if (!res || res.code !== "200") {
                         this.showCalculating = false;
@@ -352,9 +397,9 @@ export default {
                     recordId: record.id,
                     modelId: this.curModelId,
                     userId,
-                    roleCode: roleCode
+                    roleCode: roleCode,
                 })
-                .then(res => {
+                .then((res) => {
                     if (!res || res.code !== "200") return;
                     this.$message("操作成功");
                     this.getCalcList();
@@ -364,14 +409,16 @@ export default {
         openCalculate(record) {
             if (!record.id) return;
             const { userId } = getUserIdAndType();
-            report.getRecordInfo({ recordId: record.id, userId }).then(res => {
-                if (!res || res.code !== "200") return;
-                const { data = {} } = res;
-                this.curCalcId = data.id || "";
-                this.allowCreateCharts = true;
-                this.calcResultDialogVisible = false;
-                this.$message("操作成功");
-            });
+            report
+                .getRecordInfo({ recordId: record.id, userId })
+                .then((res) => {
+                    if (!res || res.code !== "200") return;
+                    const { data = {} } = res;
+                    this.curCalcId = data.id || "";
+                    this.allowCreateCharts = true;
+                    this.calcResultDialogVisible = false;
+                    this.$message("操作成功");
+                });
         },
 
         /**
@@ -380,7 +427,7 @@ export default {
         saveCalculate() {
             if (!this.curCalcId) return this.$message("当前没有计算结果可保存");
             this.setModelName({
-                success: name => {
+                success: (name) => {
                     const { userId } = getUserIdAndType();
                     // this.$message(`保存为 ${name}`);
                     let params = { name, modelId: this.curModelId, userId };
@@ -388,7 +435,7 @@ export default {
                         params.id = this.curCalcId;
                     }
 
-                    report.saveResultRecord(params).then(res => {
+                    report.saveResultRecord(params).then((res) => {
                         if (!res || res.code !== "200") return;
                         this.$message(res.message || "保存成功");
 
@@ -400,7 +447,7 @@ export default {
                         //     recordIds: this.curCalcId
                         // });
                     });
-                }
+                },
             });
         },
 
@@ -408,30 +455,30 @@ export default {
             const { modelId, recordIds, userId } = params;
             report
                 .generateEChartIMG({ modelId, recordIds, userId })
-                .then(res => console.log(res));
+                .then((res) => console.log(res));
         },
 
         /**
          * 设置模型名称
          */
-        setModelName: function({ success }) {
+        setModelName: function ({ success }) {
             // const { userId } = getUserIdAndType();
 
             this.$prompt("请输入计算结果名称", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
-                inputValidator: this.validatorModelname
+                inputValidator: this.validatorModelname,
             })
                 .then(({ value }) => {
                     success(value);
                 })
-                .catch(e => {});
+                .catch((e) => {});
         },
 
         /**
          * 校验模型名称
          */
-        validatorModelname: function(value) {
+        validatorModelname: function (value) {
             if (!value) return "请输入名称";
             if (!verifyModelName(value)) {
                 return "名称为只能包含汉字、数字、字母、_、-";
@@ -452,7 +499,8 @@ export default {
                 integralStep = "",
                 ve = "",
                 ca = "",
-                code = ""
+                code = "",
+                argVal = "",
             } = searchForm;
 
             if (!ve || !ca || !code) {
@@ -461,15 +509,15 @@ export default {
             }
 
             const chartData = {
-                chartKey: `${this.curModelId}-${ve}-${ca}-${code}-${initialLocation}-${integralTimes}-${integralStep}`,
+                chartKey: `${this.curModelId}-${ve}-${ca}-${code}-${argVal}-${initialLocation}-${integralTimes}-${integralStep}`,
                 ...this.searchForm,
-                modelId: this.curModelId
+                modelId: this.curModelId,
             };
 
             // 所填参数已经生成一个图表
             // 将该图表删除，然后在第一位再插入
             const oldChartIdx = this.chartsData.findIndex(
-                item => item.chartKey === chartData.chartKey
+                (item) => item.chartKey === chartData.chartKey
             );
 
             if (oldChartIdx !== -1) {
@@ -481,7 +529,7 @@ export default {
         // 关闭单个图表
         onCloseCharts(chartInfo) {
             const closedChart = this.chartsData.findIndex(
-                item => item.chartKey === chartInfo.chartKey
+                (item) => item.chartKey === chartInfo.chartKey
             );
             if (closedChart !== -1) {
                 this.chartsData.splice(closedChart, 1);
@@ -511,7 +559,7 @@ export default {
             a.click();
 
             this.showDownReportModel = false;
-        }
+        },
     },
     mounted() {
         this.initData();
@@ -526,7 +574,7 @@ export default {
             JSON.stringify(this.searchForm)
         );
         this.clearCalcTimer();
-    }
+    },
 };
 </script>
 

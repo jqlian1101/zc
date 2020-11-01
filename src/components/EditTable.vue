@@ -432,16 +432,16 @@ export default {
                 params.tcsdName = this.tcsdName;
             }
 
-            if (!params.tcsdName && params.tcsdData.length === 0) return;
+            // if (!params.tcsdName && params.tcsdData.length === 0) return;
 
             return model.tractionLiSave(params).then(res => {
                 if (!res) return;
                 this.nameDialogVisible = false;
 
-                // this.$message({
-                //     message: "操作成功",
-                //     type: "success"
-                // });
+                this.$message({
+                    message: "操作成功",
+                    type: "success"
+                });
 
                 this.tcsdId = res.data.id;
 

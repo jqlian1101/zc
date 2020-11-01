@@ -242,7 +242,7 @@ export default {
                 this.isHaveData = true;
             }
 
-            this.saveData({ datas });
+            this.saveData({ datas, data: datas });
         },
 
         // 保存数据
@@ -271,7 +271,8 @@ export default {
                     this.$message.error("请先选择横坐标");
                     return false;
                 }
-                await this.$refs.editTable.tractionLiSave();
+                const res = await this.$refs.editTable.tractionLiSave();
+                this.curveId = res.data.id;
             }
 
             return new Promise((resolve, reject) => {

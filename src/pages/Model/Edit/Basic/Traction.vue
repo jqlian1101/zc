@@ -1,30 +1,55 @@
 <!-- 牵引力特征曲线参数设置 -->
 <template>
-    <DropDown :save="save" title="牵引力特征曲线" :isHaveData="isHaveData" :resetData="clearData">
+    <DropDown
+        :save="save"
+        title="牵引力特征曲线"
+        :isHaveData="isHaveData"
+        :resetData="clearData"
+    >
         <div :class="$style.root">
             <el-row class="listWrap">
-                <el-form ref="form" label-position="left" :model="datas" label-width="160px">
+                <el-form
+                    ref="form"
+                    label-position="left"
+                    :model="datas"
+                    label-width="160px"
+                >
                     <el-form-item label="整列最大载客工况总质量">
                         <input-number-wrap suffix="kg">
-                            <el-input-number :controls="false" v-model="datas.massMax"></el-input-number>
+                            <el-input-number
+                                :controls="false"
+                                v-model="datas.massMax"
+                            ></el-input-number>
                         </input-number-wrap>
                     </el-form-item>
                     <el-form-item label="整列车回转质量">
                         <input-number-wrap suffix="kg">
-                            <el-input-number :controls="false" v-model="datas.massRotating"></el-input-number>
+                            <el-input-number
+                                :controls="false"
+                                v-model="datas.massRotating"
+                            ></el-input-number>
                         </input-number-wrap>
                     </el-form-item>
                     <el-form-item label="整列车牵引电机数量">
-                        <el-input-number :controls="false" v-model="datas.motorNum"></el-input-number>
+                        <el-input-number
+                            :controls="false"
+                            v-model="datas.motorNum"
+                        ></el-input-number>
                     </el-form-item>
                     <el-form-item label="牵引指令下达后的延长时间">
                         <input-number-wrap suffix="s">
-                            <el-input-number :controls="false" v-model="datas.delayTime"></el-input-number>
+                            <el-input-number
+                                :controls="false"
+                                v-model="datas.delayTime"
+                            ></el-input-number>
                         </input-number-wrap>
                     </el-form-item>
                     <el-form-item label="冲击率">
                         <input-number-wrap suffix="m/s³">
-                            <el-input-number :controls="false" v-model="datas.rampFun"></el-input-number>
+                            <el-input-number
+                                :controls="false"
+                                v-model="datas.rampFun"
+                            ></el-input-number>
                         </input-number-wrap>
                     </el-form-item>
                 </el-form>
@@ -32,10 +57,11 @@
             <el-row class="listWrap">
                 <el-checkbox
                     class="radioWrap"
-                    :value="characteristics===1"
+                    :value="characteristics === 1"
                     :label="1"
-                    @change="()=>onCheckboxChange(1)"
-                >整列车牵引力曲线自定义1</el-checkbox>
+                    @change="() => onCheckboxChange(1)"
+                    >整列车牵引力曲线自定义1</el-checkbox
+                >
 
                 <ul :class="$style.curveInfo">
                     <el-form :model="datas">
@@ -45,18 +71,18 @@
                                 速度(km/h) 0-
                                 <el-form-item>
                                     <el-input-number
-                                        :disabled="characteristics!==1"
+                                        :disabled="characteristics !== 1"
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterV1"
                                     />
                                 </el-form-item>
                             </span>
-                            <span style="margin-left:10px">
+                            <span style="margin-left: 10px">
                                 F(N)
                                 <el-form-item>
                                     <el-input-number
-                                        :disabled="characteristics!==1"
+                                        :disabled="characteristics !== 1"
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterF"
@@ -74,11 +100,11 @@
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterV3"
-                                    />
-                                </el-form-item>-
+                                    /> </el-form-item
+                                >-
                                 <el-form-item>
                                     <el-input-number
-                                        :disabled="characteristics!==1"
+                                        :disabled="characteristics !== 1"
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterV2"
@@ -89,7 +115,7 @@
                                 F∙v(N∙(m/s))
                                 <el-form-item>
                                     <el-input-number
-                                        :disabled="characteristics!==1"
+                                        :disabled="characteristics !== 1"
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterFv"
@@ -107,11 +133,11 @@
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterV5"
-                                    />
-                                </el-form-item>-
+                                    /> </el-form-item
+                                >-
                                 <el-form-item>
                                     <el-input-number
-                                        :disabled="characteristics!==1"
+                                        :disabled="characteristics !== 1"
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterFvv"
@@ -122,7 +148,7 @@
                                 F∙v² (N∙(m/s)²)
                                 <el-form-item>
                                     <el-input-number
-                                        :disabled="characteristics!==1"
+                                        :disabled="characteristics !== 1"
                                         :controls="false"
                                         :class="$style.speedbox"
                                         v-model="datas.characterV4"
@@ -136,10 +162,11 @@
             <el-row class="listWrap">
                 <el-checkbox
                     class="radioWrap"
-                    :value="characteristics===2"
+                    :value="characteristics === 2"
                     :label="2"
-                    @change="()=>onCheckboxChange(2)"
-                >整列车牵引力曲线自定义2</el-checkbox>
+                    @change="() => onCheckboxChange(2)"
+                    >整列车牵引力曲线自定义2</el-checkbox
+                >
 
                 <div :class="$style.curveInfo">
                     <EditTable
@@ -147,7 +174,7 @@
                         :type="4"
                         xUnit="km/h"
                         fxUnit="N"
-                        :disabled="characteristics!==2"
+                        :disabled="characteristics !== 2"
                         :showCharts="true"
                         :onSaveCb="onSaveCb"
                         :tcsdData="tcsd"
@@ -159,10 +186,11 @@
             <el-row class="listWrap" :class="$style.tcuWrap">
                 <el-checkbox
                     class="radioWrap"
-                    :value="characteristics===3"
+                    :value="characteristics === 3"
                     :label="3"
-                    @change="()=>onCheckboxChange(3)"
-                >整列车牵引TCU控制</el-checkbox>
+                    @change="() => onCheckboxChange(3)"
+                    >整列车牵引TCU控制</el-checkbox
+                >
                 <div :class="$style.curveInfo">
                     <el-form
                         class="clearfix"
@@ -175,7 +203,7 @@
                             <el-select
                                 v-model="datas.tcu"
                                 placeholder="请选择"
-                                :disabled="characteristics!==3"
+                                :disabled="characteristics !== 3"
                             >
                                 <el-option
                                     v-for="item in TCUList"
@@ -211,7 +239,7 @@ const TCUList = [
     { id: "7", name: "TCU控制程序7" },
     { id: "8", name: "TCU控制程序8" },
     { id: "9", name: "TCU控制程序9" },
-    { id: "10", name: "TCU控制程序10" }
+    { id: "10", name: "TCU控制程序10" },
 ];
 
 export default {
@@ -230,25 +258,25 @@ export default {
             tractionList: [],
 
             isHaveData: false,
-            TCUList
+            TCUList,
         };
     },
     components: {
         DropDown,
-        EditTable
+        EditTable,
     },
     props: {
         type: {
             // 表示第几列车
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
     mounted() {
         this.initData();
     },
     computed: {
-        ...mapState("models", ["curModelId"])
+        ...mapState("models", ["curModelId"]),
     },
     watch: {
         "datas.characterV1"(val) {
@@ -256,7 +284,7 @@ export default {
         },
         "datas.characterV2"(val) {
             this.datas.characterV5 = val;
-        }
+        },
         // "datas.characterV3"(val) {
         //     this.datas.characterV1 = val;
         // },
@@ -268,7 +296,7 @@ export default {
         initData() {
             model
                 .tractionView({ modelId: this.curModelId, type: this.type })
-                .then(res => {
+                .then((res) => {
                     if (!res) return;
                     let { data = {} } = res;
 
@@ -323,10 +351,11 @@ export default {
             if (this.tableData && !this.tcsdId) {
                 // this.$message("请先保存表格数据");
                 // return resolve(false);
-                await this.$refs.editTable.tractionLiSave();
+                const res = await this.$refs.editTable.tractionLiSave();
+                this.tcsdId = res.data.id;
             }
 
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 // if (this.tableData && !this.tcsdId) {
                 //     this.$message("请先保存表格数据");
                 //     return resolve(false);
@@ -358,8 +387,8 @@ export default {
                 type: this.type,
                 vtrInfo: {
                     ...this.datas,
-                    modelId: this.curModelId
-                }
+                    modelId: this.curModelId,
+                },
             };
 
             if (this.characteristics) {
@@ -367,25 +396,32 @@ export default {
                 isNeedSave = true;
             }
 
+            if (!this.tcsdId) {
+                if (params.vtrInfo.tcsd && params.vtrInfo.tcsd.id) {
+                    this.tcsdId = params.vtrInfo.tcsd.id;
+                }
+            }
+
             this.tcsdId &&
                 (params.tcsdId = this.tcsdId) &&
                 (params.vtrInfo.tcsdId = this.tcsdId) &&
                 (isNeedSave = true);
 
+            console.log(params);
             return { params, isNeedSave };
         },
 
         saveDataToServe() {
             const { params, isNeedSave } = this.getSaveParams();
             if (!isNeedSave) return;
-            return model.tractionSave(params).then(res => {
+            return model.tractionSave(params).then((res) => {
                 if (res && res.code === 200) {
                     !this.datas.id && (this.datas.id = res.data.id);
                 }
                 return res;
             });
-        }
-    }
+        },
+    },
 };
 </script>
 
